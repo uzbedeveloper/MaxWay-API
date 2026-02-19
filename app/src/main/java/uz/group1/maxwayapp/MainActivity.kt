@@ -21,6 +21,10 @@ class MainActivity : AppCompatActivity() {
     fun testMethodMaruf() {
 
     }
+
+    fun testMethod(){
+
+    }
 }
 
 
