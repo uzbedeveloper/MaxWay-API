@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-kapt")
 }
 
 android {
@@ -22,7 +21,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://pledgeable-marly-hubert.ngrok-free.dev\"")
+            buildConfigField("String", "BASE_URL", "\"https://extramundane-arlo-stereospecific.ngrok-free.dev\"")
         }
         release {
             isMinifyEnabled = false
@@ -82,6 +81,8 @@ dependencies {
     // Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.2")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.2")
+
+    implementation("com.squareup.picasso:picasso:2.8")
 
     // Dots Indicator
     implementation("com.tbuonomo:dotsindicator:4.3")

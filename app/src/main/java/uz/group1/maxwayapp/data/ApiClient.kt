@@ -8,6 +8,7 @@ import uz.group1.maxwayapp.BuildConfig.BASE_URL
 import uz.group1.maxwayapp.app.MyApp
 import uz.group1.maxwayapp.data.sources.remote.api.AuthApi
 import uz.group1.maxwayapp.data.sources.remote.api.ProductApi
+import uz.group1.maxwayapp.data.sources.remote.api.StoriesApi
 
 object ApiClient {
 
@@ -24,4 +25,5 @@ object ApiClient {
     val authApi = retrofit.create<AuthApi>(AuthApi::class.java)
     val productApi = retrofit.create<ProductApi>(ProductApi::class.java)
 
+    val storiesApi = retrofit.create(StoriesApi::class.java)
 }
