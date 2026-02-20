@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">MaxWay APP</string>
+
+    <!-- Bottom navigation menu item text name -->
+    <string name="menu_item_home_txt">Главное</string>
+    <string name="menu_item_cart_txt">Мои заказы</string>
+    <string name="menu_item_profile_txt">Личное</string>
+
 </resources>

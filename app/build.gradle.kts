@@ -81,4 +81,13 @@ dependencies {
     // Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.2")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.2")
+
+    implementation("com.squareup.picasso:picasso:2.8")
+
+    // Dots Indicator
+    implementation("com.tbuonomo:dotsindicator:4.3")
+
+    //Glide
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    kapt("com.github.bumptech.glide:compiler:4.16.0")
 }

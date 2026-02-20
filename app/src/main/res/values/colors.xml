@@ -2,4 +2,12 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- bottom selected color -->
+    <color name="bottom_selected_color">#51267D</color>
+
+    <!-- product card color-->
+    <color name="cost_card_color">#E7E9E8</color>
 </resources>
+
+
