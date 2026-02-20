@@ -3,6 +3,7 @@ package uz.group1.maxwayapp.presentation.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.model.StoryUIData
@@ -14,10 +15,14 @@ class StoryAdapter(private val stories: List<StoryUIData>) :
 
     inner class StoryViewHolder(val binding: ItemStoryBinding) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(story: StoryUIData){
-            binding.storyImage.loadImage(story.imageUrl)
+            binding.imageLoader.isVisible = true
+            binding.storyImage.loadImage(story.imageUrl){
+                binding.imageLoader.isVisible = false
+            }
             binding.storyTitle.text = story.title
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryViewHolder {
         val view = ItemStoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
