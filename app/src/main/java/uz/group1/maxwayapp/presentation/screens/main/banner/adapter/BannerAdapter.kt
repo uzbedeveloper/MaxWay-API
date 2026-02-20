@@ -7,7 +7,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import uz.group1.maxwayapp.data.model.BannerUIData
 import uz.group1.maxwayapp.presentation.screens.main.banner.page.BannerPage
 class BannerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {
-
     private var list: List<BannerUIData> = emptyList()
 
     fun submitList(newList: List<BannerUIData>) {
@@ -15,9 +14,10 @@ class BannerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) : Fr
         notifyDataSetChanged()
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = if (list.isEmpty()) 0 else Int.MAX_VALUE
 
     override fun createFragment(position: Int): Fragment {
-        return BannerPage.newInstance(list[position])
+        val newPosition = position % list.size    // bu logika sheksiz infinite scrool qilish ushin, huddi carousel kabi
+        return BannerPage.newInstance(list[newPosition])
     }
 }

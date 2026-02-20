@@ -4,7 +4,7 @@ import retrofit2.http.GET
 import uz.group1.maxwayapp.data.sources.remote.response.AdsResponse
 
 interface ProductApi {
-    @GET("/ads")
+    @GET("ads")
     suspend fun getAllBanner(): AdsResponse
 }
 
