@@ -14,11 +14,13 @@ import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenMainBinding
 import uz.group1.maxwayapp.presentation.screens.main.banner.adapter.BannerAdapter
+import uz.group1.maxwayapp.presentation.screens.main.banner.adapter.CategoryAdapter
 
 class MainScreen: Fragment(R.layout.screen_main) {
     private val binding by viewBinding(ScreenMainBinding::bind)
     private val viewModel: MainViewModel by viewModels<MainViewModelImpl> { MainViewModelFactory() }
     private lateinit var bannerAdapter: BannerAdapter
+    private lateinit var categoryAdapter: CategoryAdapter
     private var autoScJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -26,20 +28,32 @@ class MainScreen: Fragment(R.layout.screen_main) {
         bannerAdapter = BannerAdapter(childFragmentManager, lifecycle)
         binding.viewPager.adapter = bannerAdapter
 
+        categoryAdapter = CategoryAdapter()
+        binding.categorysRecyclerView.adapter = categoryAdapter
+
         observe()
         viewModel.loadBanners()
+        viewModel.loadCategoriesWithProducts()
     }
 
 
     private fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.banners.collect { item ->
-                    if (item.isNotEmpty()){
-                        bannerAdapter.submitList(item)
-                        val newSize = (Int.MAX_VALUE / 2) - ((Int.MAX_VALUE / 2) % item.size)
-                        binding.viewPager.setCurrentItem(newSize, false)
-                        startAutoScrooll()
+                launch {
+                    viewModel.banners.collect { item ->
+                        if (item.isNotEmpty()){
+                            bannerAdapter.submitList(item)
+                            val newSize = (Int.MAX_VALUE / 2) - ((Int.MAX_VALUE / 2) % item.size)
+                            binding.viewPager.setCurrentItem(newSize, false)
+                            startAutoScrooll()
+                        }
+                    }
+                }
+
+                launch {
+                    viewModel.categories.collect { list ->
+                        categoryAdapter.submitList(list)
                     }
                 }
             }

@@ -1,6 +1,6 @@
-package uz.group1.maxwayapp.data.model
+package uz.group1.maxwayapp.data.sources.remote.response
 
-data class ProductUIData(
+data class ProductResponse(
     val id: Int,
     val categoryID: Int,
     val name: String,
