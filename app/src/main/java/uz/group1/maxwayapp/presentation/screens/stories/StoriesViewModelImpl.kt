@@ -1,13 +1,13 @@
 package uz.group1.maxwayapp.presentation.screens.stories
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
@@ -20,6 +20,7 @@ import uz.group1.maxwayapp.domain.usecase.GetStoriesUseCase
 class StoriesViewModelImpl(
     private val getStoriesUseCase: GetStoriesUseCase
 ): ViewModel(),StoriesViewModel {
+
     override val storiesLiveData = MutableLiveData<List<StoryUIData>>()
     override val errorLiveData = MutableLiveData<String>()
     override val progressLiveData = MutableLiveData<Boolean>()
@@ -27,12 +28,22 @@ class StoriesViewModelImpl(
     private val _storyTimerFlow = MutableStateFlow(0 to 0)
     override val storyTimerFlow = _storyTimerFlow.asStateFlow()
 
-    private var timerJob: Job? = null
+    private var currentJob: Job? = null
+    private val _currentStoryIndex = MutableStateFlow(-1)
+
+    private val _navigateToPage = MutableSharedFlow<Int>()
+    val navigateToPage = _navigateToPage.asSharedFlow()
+
     private val storyDuration = 5000L
     private val tickInterval = 50L
+    private var isPaused = false
 
     init {
         loadStories()
+    }
+
+    fun setPauseState(pause: Boolean) {
+        isPaused = pause
     }
 
     override fun loadStories() {
@@ -43,7 +54,7 @@ class StoriesViewModelImpl(
                 .onEach { result ->
                     result.onSuccess { list ->
                         storiesLiveData.postValue(list)
-                        startTimer(list.size)
+                        onPageSelected(0)
                     }
                     result.onFailure { errorLiveData.postValue(it.message ?: "Error") }
                 }
@@ -51,18 +62,31 @@ class StoriesViewModelImpl(
         }
     }
 
-    private fun startTimer(count: Int) {
-        timerJob?.cancel()
-        timerJob = viewModelScope.launch {
-            for (index in 0 until count) {
-                var progress = 0
-                while (progress <= 100) {
+    private fun startTimerForPage(index: Int) {
+        currentJob?.cancel()
+        currentJob = viewModelScope.launch {
+            var progress = 0
+            val totalTicks = (storyDuration / tickInterval).toInt()
+
+            while (progress <= 100) {
+                if (!isPaused) {
                     _storyTimerFlow.emit(index to progress)
-                    delay(tickInterval)
-                    progress += (100 / (storyDuration / tickInterval)).toInt()
+                    progress += (100 / totalTicks)
                 }
+                delay(tickInterval)
+            }
+
+            val nextIndex = index + 1
+            if (nextIndex < (storiesLiveData.value?.size ?: 0)) {
+                _navigateToPage.emit(nextIndex)
             }
         }
+    }
+
+    fun onPageSelected(index: Int) {
+        if (_currentStoryIndex.value == index) return
+        _currentStoryIndex.value = index
+        startTimerForPage(index)
     }
 
 }

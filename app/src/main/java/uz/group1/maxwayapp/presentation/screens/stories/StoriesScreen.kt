@@ -1,49 +1,103 @@
 package uz.group1.maxwayapp.presentation.screens.stories
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
+import android.view.MotionEvent
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import androidx.core.content.ContextCompat
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import uz.gita.leeson_network.utils.NetworkConnectionCallback
+import uz.gita.leeson_network.utils.NetworkMonitor
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.model.StoryUIData
 import uz.group1.maxwayapp.databinding.ScreenStoriesBinding
 import uz.group1.maxwayapp.presentation.adapters.StoryAdapter
-import uz.group1.maxwayapp.utils.loadImage
 import uz.group1.maxwayapp.utils.showNotification
 
 class StoriesScreen: Fragment(R.layout.screen_stories) {
 
     private val binding by viewBinding(ScreenStoriesBinding::bind)
     private val viewModel by viewModels<StoriesViewModelImpl> { StoriesViewModelFactory() }
+    private lateinit var networkMonitor: NetworkMonitor
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setUpObservers()
+        setupTouchListener()
 
+        networkMonitor = NetworkMonitor(requireContext().applicationContext)
+
+        networkMonitor.startMonitoring(object : NetworkConnectionCallback {
+            override fun onNetworkAvailable() {
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                    if (isAdded) {
+                        if (viewModel.storiesLiveData.value.isNullOrEmpty()){
+                            viewModel.loadStories()
+                        }else{
+                            viewModel.setPauseState(false)
+                        }
+                    }
+                }
+            }
+
+            override fun onNetworkLost() {
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                    if (isAdded) {
+                        showNotification("Internet mavjud emas!",false)
+                        viewModel.setPauseState(true)
+                    }
+                }
+            }
+
+            override fun onNetworkLosing() {
+                Log.d("TTT", "Internet yo'qolmoqda")
+            }
+
+            override fun onNetworkUnavailable() {
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                    if (isAdded) {
+                        showNotification("Offline",false)
+
+                    }
+                }
+            }
+        })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        networkMonitor.stopMonitoring()
     }
 
     private fun setUpObservers() {
         viewModel.storiesLiveData.observe(viewLifecycleOwner) { list ->
             if (list.isNotEmpty()) {
                 setupViewPager(list)
-                setupProgressBars(list.size)
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.storyTimerFlow.collect { (index, progress) ->
-                    updateUI(index, progress)
+                launch {
+                    viewModel.storyTimerFlow.collect { (index, progress) ->
+                        updateUI(index, progress)
+                    }
+                }
+                launch {
+                    viewModel.navigateToPage.collect { nextIndex ->
+                        binding.viewPager.setCurrentItem(nextIndex, true)
+                    }
                 }
             }
         }
@@ -55,34 +109,38 @@ class StoriesScreen: Fragment(R.layout.screen_stories) {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupTouchListener() {
+        val internalRecyclerView = binding.viewPager.getChildAt(0)
+
+        internalRecyclerView.setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    viewModel.setPauseState(true)
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    viewModel.setPauseState(false)
+                }
+            }
+            false
+        }
+    }
+
     private fun setupViewPager(list: List<StoryUIData>) {
         val storyAdapter = StoryAdapter(list)
         binding.viewPager.apply {
             adapter = storyAdapter
-            isUserInputEnabled = false
 
             setPageTransformer { page, position ->
                 page.alpha = 1 - Math.abs(position)
             }
-        }
-    }
-
-    private fun setupProgressBars(size: Int) {
-        binding.progressContainer.removeAllViews()
-        for (i in 0 until size) {
-            val progressView = ProgressBar(
-                context,
-                null,
-                android.R.attr.progressBarStyleHorizontal
-            ).apply {
-                layoutParams = LinearLayout.LayoutParams(0, 8, 1f).apply {
-                    setMargins(4, 0, 4, 0)
+            binding.viewPager.registerOnPageChangeCallback(object :
+                ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    viewModel.onPageSelected(position)
                 }
-                max = 100
-                progress = 0
-                progressDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.story_progress_bg)
-            }
-            binding.progressContainer.addView(progressView)
+            })
         }
     }
 
@@ -91,14 +149,8 @@ class StoriesScreen: Fragment(R.layout.screen_stories) {
             binding.viewPager.setCurrentItem(index, true)
         }
 
-        for (i in 0 until binding.progressContainer.childCount) {
-            val bar = binding.progressContainer.getChildAt(i) as ProgressBar
-            when {
-                i < index -> bar.progress = 100
-                i == index -> bar.progress = progress
-                else -> bar.progress = 0
-            }
-        }
+        val bar = binding.storyProgressBar
+        bar.progress = progress
     }
 
 }
