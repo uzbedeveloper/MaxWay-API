@@ -3,11 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/storiesScreen">
+    app:startDestination="@id/notificationScreen">
 
     <fragment
         android:id="@+id/storiesScreen"
         tools:layout="@layout/screen_stories"
         android:name="uz.group1.maxwayapp.presentation.screens.stories.StoriesScreen"
         android:label="StoriesScreen" />
+    <fragment
+        android:id="@+id/notificationScreen"
+        tools:layout="@layout/screen_notification"
+        android:name="uz.group1.maxwayapp.presentation.screens.notifications.NotificationScreen"
+        android:label="NotificationScreen" />
 </navigation>
