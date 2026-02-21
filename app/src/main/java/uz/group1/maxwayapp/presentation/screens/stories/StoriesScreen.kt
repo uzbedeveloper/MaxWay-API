@@ -61,7 +61,6 @@ class StoriesScreen: Fragment(R.layout.screen_stories) {
             }
 
             override fun onNetworkLosing() {
-                Log.d("TTT", "Internet yo'qolmoqda")
             }
 
             override fun onNetworkUnavailable() {
