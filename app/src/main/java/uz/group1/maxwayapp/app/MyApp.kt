@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import uz.group1.maxwayapp.data.repository_impl.AuthRepositoryImpl
+import uz.group1.maxwayapp.data.repository_impl.StoryRepositoryImpl
 
 class MyApp : Application() {
 
@@ -18,6 +19,7 @@ class MyApp : Application() {
         instance = this
 
         AuthRepositoryImpl.init()
+        StoryRepositoryImpl.init()
     }
 }
 
