@@ -1,8 +1,13 @@
 package uz.group1.maxwayapp.utils
 
+import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import uz.group1.maxwayapp.R
-import com.squareup.picasso.Picasso
 
 fun ImageView.loadImage(url: String, onLoadingFinished: () -> Unit) {
     if (url.isNullOrEmpty()) {
@@ -15,19 +20,31 @@ fun ImageView.loadImage(url: String, onLoadingFinished: () -> Unit) {
         R.drawable.placeholder_image_maxway_logo
     )
 
-    Picasso.get()
+    Glide.with(this.context)
         .load(url)
         .placeholder(placeholders.random())
         .error(R.drawable.ic_no_internet_connection)
-        .fit()
         .centerCrop()
-        .into(this, object : com.squareup.picasso.Callback {
-            override fun onSuccess() {
+        .listener(object : RequestListener<Drawable>{
+            override fun onLoadFailed(
+                e: GlideException?,
+                model: Any?,
+                target: Target<Drawable?>,
+                isFirstResource: Boolean
+            ): Boolean {
                 onLoadingFinished()
+                return false
             }
 
-            override fun onError(e: Exception?) {
+            override fun onResourceReady(
+                resource: Drawable,
+                model: Any,
+                target: Target<Drawable?>?,
+                dataSource: DataSource,
+                isFirstResource: Boolean
+            ): Boolean {
                 onLoadingFinished()
+                return false
             }
-        })
+        }).into(this)
 }

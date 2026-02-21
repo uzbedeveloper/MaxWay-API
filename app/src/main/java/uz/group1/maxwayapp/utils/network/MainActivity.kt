@@ -5,6 +5,12 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 
+/*
+*
+* bu kod maqsadi network connection ishlatishni ko'rsatish uchun
+*
+* */
+
 class MainActivity : ComponentActivity() {
     private lateinit var networkMonitor: NetworkMonitor
     

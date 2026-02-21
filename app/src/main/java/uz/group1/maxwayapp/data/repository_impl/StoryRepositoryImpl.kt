@@ -29,27 +29,15 @@ class StoryRepositoryImpl(
         return try {
             val response = storyApi.getStories()
 
-            Log.d("TTT", "getStories: apiRes-> $response")
-
             if (response.isSuccessful) {
-                Log.d("TTT", "getStories: success-> true")
-
                 val body = response.body()
-                Log.d("TTT", "getStories: body-> $body")
-
                 if (body != null) {
                     val uiList = body.data.map { it.toUiData() }
-                    Log.d("TTT", "getStories: list[0]-> ${uiList[0]}")
-
                     Result.success(uiList)
                 } else {
-                    Log.d("TTT", "getStories: sucess but error")
-
                     Result.failure(Throwable("Response body is null"))
                 }
             } else {
-                Log.d("TTT", "getStories: success-> failed")
-
                 Result.failure(Throwable("Error ${response.code()}: ${response.message()}"))
             }
         } catch (e: Exception) {
