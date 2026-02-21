@@ -8,26 +8,48 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.data.model.BannerUIData
 import uz.group1.maxwayapp.data.model.CategoryChipUI
+import uz.group1.maxwayapp.data.model.CategoryUIData
 import uz.group1.maxwayapp.domain.usecase.BannerUseCase
 import uz.group1.maxwayapp.domain.usecase.GetCategoriesUseCase
+import uz.group1.maxwayapp.domain.usecase.GetMenuUseCase
 
-class HomeViewModelImpl(private val bannerUseCase: BannerUseCase, private val categorysUseCase: GetCategoriesUseCase) : ViewModel(), HomeViewModel{
+
+class HomeViewModelImpl(
+    private val bannerUseCase: BannerUseCase,
+    private val categorysUseCase: GetCategoriesUseCase,
+    private val menuProductUseCase: GetMenuUseCase
+) : ViewModel(), HomeViewModel{
     private val _banners = MutableStateFlow<List<BannerUIData>>(emptyList())
     override val banners: StateFlow<List<BannerUIData>> = _banners
 
     private val _categorys = MutableStateFlow<List<CategoryChipUI>>(emptyList())
     override val categorys: StateFlow<List<CategoryChipUI>> = _categorys
 
+    private val _menu = MutableStateFlow<List<CategoryUIData>>(emptyList())
+    override val menu: StateFlow<List<CategoryUIData>> = _menu
+
+
 
     override fun loadHome() {
         loadBanners()
         loadCategories()
+        loadMenu()
     }
 
     override fun selectedCategory(categoryId: Int) {
         _categorys.update { curList->
             curList.map { chip ->
                 chip.copy(isSelected = chip.id == categoryId)
+            }
+        }
+    }
+
+    private fun loadMenu(){
+        viewModelScope.launch {
+            menuProductUseCase().collect { result ->
+                result.onSuccess { list->
+                    _menu.value = list
+                }
             }
         }
     }

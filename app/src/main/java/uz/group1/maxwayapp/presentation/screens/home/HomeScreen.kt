@@ -15,12 +15,14 @@ import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenHomeBinding
 import uz.group1.maxwayapp.presentation.screens.home.adapter.CategoryAdapter
 import uz.group1.maxwayapp.presentation.screens.home.banner.BannerAdapter
+import uz.group1.maxwayapp.presentation.screens.main.banner.adapter.ProductsAdapter
 
 class HomeScreen: Fragment(R.layout.screen_home) {
     private val binding by viewBinding(ScreenHomeBinding::bind)
     private val viewModel: HomeViewModel by viewModels<HomeViewModelImpl> { HomeViewModelFactory() }
     private lateinit var bannerAdapter: BannerAdapter
     private lateinit var categoryAdapter: CategoryAdapter
+    private lateinit var productsAdapter: ProductsAdapter
     private var autoScJob: Job? = null
 
 
@@ -32,6 +34,8 @@ class HomeScreen: Fragment(R.layout.screen_home) {
 
         categoryAdapter = CategoryAdapter()
         binding.categoriesRecyclerView.adapter = categoryAdapter
+        productsAdapter = ProductsAdapter()
+        binding.productsRecyclerVew.adapter = productsAdapter
 
         categoryAdapter.setOnItemClickListener {
             viewModel.selectedCategory(it.id)
@@ -56,6 +60,13 @@ class HomeScreen: Fragment(R.layout.screen_home) {
                     viewModel.categorys.collect {
                         if (it.isNotEmpty()){
                             categoryAdapter.submitList(it)
+                        }
+                    }
+                }
+                launch {
+                    viewModel.menu.collect {
+                        if(it.isNotEmpty()){
+                            productsAdapter.submitList(it)
                         }
                     }
                 }
