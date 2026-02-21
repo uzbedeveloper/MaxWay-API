@@ -10,4 +10,9 @@
         tools:layout="@layout/screen_stories"
         android:name="uz.group1.maxwayapp.presentation.screens.stories.StoriesScreen"
         android:label="StoriesScreen" />
+    <fragment
+        android:id="@+id/notificationScreen"
+        tools:layout="@layout/screen_notification"
+        android:name="uz.group1.maxwayapp.presentation.screens.notifications.NotificationScreen"
+        android:label="NotificationScreen" />
 </navigation>
