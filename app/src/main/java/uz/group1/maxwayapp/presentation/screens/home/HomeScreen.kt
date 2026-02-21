@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -14,12 +13,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenHomeBinding
+import uz.group1.maxwayapp.presentation.screens.home.adapter.CategoryAdapter
 import uz.group1.maxwayapp.presentation.screens.home.banner.BannerAdapter
 
 class HomeScreen: Fragment(R.layout.screen_home) {
     private val binding by viewBinding(ScreenHomeBinding::bind)
     private val viewModel: HomeViewModel by viewModels<HomeViewModelImpl> { HomeViewModelFactory() }
     private lateinit var bannerAdapter: BannerAdapter
+    private lateinit var categoryAdapter: CategoryAdapter
     private var autoScJob: Job? = null
 
 
@@ -28,8 +29,15 @@ class HomeScreen: Fragment(R.layout.screen_home) {
 
         bannerAdapter = BannerAdapter(childFragmentManager, lifecycle)
         binding.viewPager.adapter = bannerAdapter
+
+        categoryAdapter = CategoryAdapter()
+        binding.categoriesRecyclerView.adapter = categoryAdapter
+
+        categoryAdapter.setOnItemClickListener {
+            viewModel.selectedCategory(it.id)
+        }
         observe()
-        viewModel.loadBanners()
+        viewModel.loadHome()
     }
     private fun observe(){
         viewLifecycleOwner.lifecycleScope.launch {
@@ -41,6 +49,13 @@ class HomeScreen: Fragment(R.layout.screen_home) {
                             val newSize = (Int.MAX_VALUE / 2) - ((Int.MAX_VALUE/2) % item.size)
                             binding.viewPager.setCurrentItem(newSize, false)
                             startAutoScrooll()
+                        }
+                    }
+                }
+                launch {
+                    viewModel.categorys.collect {
+                        if (it.isNotEmpty()){
+                            categoryAdapter.submitList(it)
                         }
                     }
                 }
