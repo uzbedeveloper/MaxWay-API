@@ -3,6 +3,8 @@ package uz.group1.maxwayapp.app
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import com.yandex.mapkit.MapKitFactory
+import uz.group1.maxwayapp.data.RepositoryProvider
 import uz.group1.maxwayapp.data.repository_impl.AuthRepositoryImpl
 import uz.group1.maxwayapp.data.repository_impl.NotificationsRepositoryImpl
 import uz.group1.maxwayapp.data.repository_impl.StoryRepositoryImpl
@@ -20,8 +22,14 @@ class MyApp : Application() {
         super.onCreate()
         instance = this
 
+        MapKitFactory.setApiKey("f65ea3dc-63fd-411e-9043-cce7921a4695")
+        MapKitFactory.initialize(this)
+
         AuthRepositoryImpl.init()
         StoryRepositoryImpl.init()
+
+
+        RepositoryProvider.initAll()
         NotificationsRepositoryImpl.init()
     }
 }

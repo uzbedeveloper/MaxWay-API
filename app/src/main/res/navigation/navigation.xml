@@ -3,13 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/notificationScreen">
+    app:startDestination="@id/homeScreen">
 
     <fragment
         android:id="@+id/storiesScreen"
         tools:layout="@layout/screen_stories"
         android:name="uz.group1.maxwayapp.presentation.screens.stories.StoriesScreen"
         android:label="StoriesScreen" />
+    <fragment
+        android:id="@+id/homeScreen"
+        android:name="uz.group1.maxwayapp.presentation.screens.home.HomeScreen"
+        android:label="HomeScreen" >
+        <action
+            android:id="@+id/action_homeScreen_to_storiesScreen"
+            app:destination="@id/storiesScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/cartScreen"
+        android:name="uz.group1.maxwayapp.presentation.screens.cart.CartScreen"
+        android:label="CartScreen" />
+    <fragment
+        android:id="@+id/profileScreen"
+        android:name="uz.group1.maxwayapp.presentation.screens.profile.ProfileScreen"
+        android:label="ProfileScreen" >
+        <action
+            android:id="@+id/action_profileScreen_to_filialScreen"
+            app:destination="@id/filialScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/filialScreen"
+        android:name="uz.group1.maxwayapp.presentation.screens.profile.filial.FilialScreen"
+        android:label="FilialScreen" />
     <fragment
         android:id="@+id/notificationScreen"
         tools:layout="@layout/screen_notification"

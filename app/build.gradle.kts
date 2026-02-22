@@ -21,7 +21,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://extramundane-arlo-stereospecific.ngrok-free.dev\"")
+            buildConfigField("String", "BASE_URL", "\"https://pledgeable-marly-hubert.ngrok-free.dev\"")
         }
         release {
             isMinifyEnabled = false
@@ -83,4 +83,7 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.7.2")
 
     implementation("com.github.bumptech.glide:glide:4.16.0")
+
+    //yandex mapkit
+    implementation("com.yandex.android:maps.mobile:4.29.0-full")
 }

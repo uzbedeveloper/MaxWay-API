@@ -2,4 +2,8 @@
     <string name="app_name">MaxWay APP</string>
     <string name="notification">Уведомление</string>
     <string name="test_string_resourse">Club sandwich</string>
+
+    <string name="menu_item_home_txt">Главное</string>
+    <string name="menu_item_cart_txt">Мои заказы</string>
+    <string name="menu_item_profile_txt">Личное</string>
 </resources>
