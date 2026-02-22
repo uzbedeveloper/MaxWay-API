@@ -7,6 +7,11 @@
         android:id="@+id/homeScreen"
         />
     <item
+        android:title="@string/menu_cart_title_txt"
+        android:icon="@drawable/ic_cart_img"
+        android:id="@+id/cartDialog"
+        />
+    <item
         android:title="@string/menu_item_cart_txt"
         android:icon="@drawable/icon_cart_btn"
         android:id="@+id/cartScreen"

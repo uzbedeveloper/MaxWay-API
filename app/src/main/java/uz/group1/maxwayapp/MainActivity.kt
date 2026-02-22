@@ -1,20 +1,19 @@
 package uz.group1.maxwayapp
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import uz.gita.leeson_network.utils.NetworkConnectionCallback
 import uz.gita.leeson_network.utils.NetworkMonitor
 import uz.group1.maxwayapp.databinding.ActivityMainBinding
+import uz.group1.maxwayapp.presentation.screens.home.bottomsheet.CartBottomSheet
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
 
@@ -61,7 +60,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
-        bottomNav.setupWithNavController(navController)
+
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.cartDialog -> {
+                    val bottomSheet = CartBottomSheet()
+                    bottomSheet.show(supportFragmentManager, "CustomBottomSheet")
+                    false
+                }
+                else -> {
+                    NavigationUI.onNavDestinationSelected(item, navController)
+                    true
+                }
+            }
+        }
+
 
         networkMonitor.startMonitoring(object : NetworkConnectionCallback {
             override fun onNetworkAvailable() {

@@ -2,9 +2,6 @@ package uz.group1.maxwayapp.presentation.screens.home
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat.enableEdgeToEdge
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -48,15 +45,21 @@ class HomeScreen: Fragment(R.layout.screen_home) {
             viewModel.selectedCategory(category.id)
             val menuList = productsAdapter.currentList
             val categoryPosition = menuList.indexOfFirst { it.id == category.id }
+
             if (categoryPosition != -1) {
+                if (categoryPosition == 0) {
+                    binding.root.transitionToStart()
+                } else {
+                    binding.root.transitionToEnd()
+                }
+
                 val scroller = object : androidx.recyclerview.widget.LinearSmoothScroller(requireContext()) {
                     override fun getVerticalSnapPreference(): Int = SNAP_TO_START
                 }
                 scroller.targetPosition = categoryPosition
-
                 binding.productsRecyclerVew.layoutManager?.startSmoothScroll(scroller)
             }
-         }
+        }
 
         binding.productsRecyclerVew.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -66,15 +69,17 @@ class HomeScreen: Fragment(R.layout.screen_home) {
                 if (firstVisiblePos != RecyclerView.NO_POSITION) {
                     val categoryId = productsAdapter.currentList[firstVisiblePos].id
                     viewModel.selectedCategory(categoryId)
-                    binding.categoriesRecyclerView.smoothScrollToPosition(firstVisiblePos)
+
+                    val categoryIndex = categoryAdapter.currentList.indexOfFirst { it.id == categoryId }
+                    if (categoryIndex != -1) {
+                        binding.categoriesRecyclerView.smoothScrollToPosition(categoryIndex)
+                    }
                 }
             }
         })
 
         binding.btnNotification.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_homeScreen_to_notificationScreen
-            )
+            findNavController().navigate(R.id.action_homeScreen_to_notificationScreen)
         }
 
         adapter = StoriesAdapter()
@@ -83,7 +88,14 @@ class HomeScreen: Fragment(R.layout.screen_home) {
         observe()
         viewModel.loadHome()
     }
+
     private fun observe(){
+        viewModel.storiesLiveData.observe(viewLifecycleOwner){
+            if (it.isNotEmpty()){
+                adapter.submitList(it)
+            }
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 launch {
@@ -110,16 +122,10 @@ class HomeScreen: Fragment(R.layout.screen_home) {
                         }
                     }
                 }
-                launch {
-                    viewModel.storiesLiveData.observe(viewLifecycleOwner){
-                        if (it.isNotEmpty()){
-                            adapter.submitList(it)
-                        }
-                    }
-                }
             }
         }
     }
+
     private fun startAutoScrooll(){
         autoScJob?.cancel()
         autoScJob = viewLifecycleOwner.lifecycleScope.launch {
@@ -129,5 +135,4 @@ class HomeScreen: Fragment(R.layout.screen_home) {
             }
         }
     }
-
 }
