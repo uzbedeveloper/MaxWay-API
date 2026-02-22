@@ -6,4 +6,6 @@
     <string name="menu_item_home_txt">Главное</string>
     <string name="menu_item_cart_txt">Мои заказы</string>
     <string name="menu_item_profile_txt">Личное</string>
+    <string name="menu_cart_title_txt">Корзина</string>
+    <string name="cart_currently_empty">В вашей корзине пока пусто</string>
 </resources>
