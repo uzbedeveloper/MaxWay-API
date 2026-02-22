@@ -39,11 +39,9 @@ class CategoryAdapter: ListAdapter<CategoryChipUI, CategoryAdapter.CategoryViewH
                 if (category.isSelected) {
                     val color = ContextCompat.getColor(root.context, R.color.selected_category)
                     root.setCardBackgroundColor(color)
-                    textCategoryName.setTextColor(Color.WHITE)
                 } else {
                     val color = ContextCompat.getColor(root.context, R.color.white)
                     root.setCardBackgroundColor(color)
-                    textCategoryName.setTextColor(Color.BLACK)
                 }
 
                 root.setOnClickListener {

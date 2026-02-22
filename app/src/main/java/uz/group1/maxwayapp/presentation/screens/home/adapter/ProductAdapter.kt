@@ -33,8 +33,10 @@ class ProductAdapter : ListAdapter<ProductUIData, ProductAdapter.ProductViewHold
 
 
             binding.cardCost.setOnClickListener {
-                binding.cardCost.visibility = View.GONE
-                binding.countContainer.visibility = View.VISIBLE
+                binding.textCost.visibility = View.GONE
+                binding.textCount.visibility = View.VISIBLE
+                binding.btnMinus.visibility = View.VISIBLE
+                binding.btnPlus.visibility = View.VISIBLE
 
             }
         }

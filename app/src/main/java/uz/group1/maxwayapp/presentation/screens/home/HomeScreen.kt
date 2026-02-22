@@ -2,11 +2,17 @@ package uz.group1.maxwayapp.presentation.screens.home
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat.enableEdgeToEdge
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -28,6 +34,12 @@ class HomeScreen: Fragment(R.layout.screen_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        enableEdgeToEdge(requireActivity().window)
+        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         bannerAdapter = BannerAdapter(childFragmentManager, lifecycle)
         binding.viewPager.adapter = bannerAdapter
@@ -37,8 +49,37 @@ class HomeScreen: Fragment(R.layout.screen_home) {
         productsAdapter = ProductsAdapter()
         binding.productsRecyclerVew.adapter = productsAdapter
 
-        categoryAdapter.setOnItemClickListener {
-            viewModel.selectedCategory(it.id)
+        categoryAdapter.setOnItemClickListener { category ->
+            viewModel.selectedCategory(category.id)
+            val menuList = productsAdapter.currentList
+            val categoryPosition = menuList.indexOfFirst { it.id == category.id }
+            if (categoryPosition != -1) {
+                val scroller = object : androidx.recyclerview.widget.LinearSmoothScroller(requireContext()) {
+                    override fun getVerticalSnapPreference(): Int = SNAP_TO_START
+                }
+                scroller.targetPosition = categoryPosition
+
+                binding.productsRecyclerVew.layoutManager?.startSmoothScroll(scroller)
+            }
+         }
+
+        binding.productsRecyclerVew.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val firstVisiblePos = layoutManager.findFirstVisibleItemPosition()
+
+                if (firstVisiblePos != RecyclerView.NO_POSITION) {
+                    val categoryId = productsAdapter.currentList[firstVisiblePos].id
+                    viewModel.selectedCategory(categoryId)
+                    binding.categoriesRecyclerView.smoothScrollToPosition(firstVisiblePos)
+                }
+            }
+        })
+
+        binding.btnNotification.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_homeScreen_to_notificationScreen
+            )
         }
         observe()
         viewModel.loadHome()

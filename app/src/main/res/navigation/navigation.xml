@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_homeScreen_to_storiesScreen"
             app:destination="@id/storiesScreen" />
+        <action
+            android:id="@+id/action_homeScreen_to_notificationScreen"
+            app:destination="@id/notificationScreen" />
     </fragment>
     <fragment
         android:id="@+id/cartScreen"

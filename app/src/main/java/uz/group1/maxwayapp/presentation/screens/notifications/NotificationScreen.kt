@@ -6,6 +6,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import uz.gita.leeson_network.utils.NetworkMonitor
 import uz.group1.maxwayapp.R
@@ -27,6 +28,10 @@ class NotificationScreen: Fragment(R.layout.screen_notification) {
         checkConnection()
         setUpClick()
         setUpObservers()
+
+        binding.imgBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
 
     }
 
