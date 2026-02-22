@@ -3,23 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="240dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     app:cardCornerRadius="12dp"
     app:cardElevation="2dp"
-    android:layout_margin="10dp"
-    >
+    android:layout_margin="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        >
+        android:background="@color/white">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="124dp"
             android:id="@+id/img_product"
             app:layout_constraintTop_toTopOf="parent"
-            />
+            tools:src="@mipmap/ic_launcher" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,6 +26,7 @@
             android:textColor="@color/black"
             android:textStyle="bold"
             android:id="@+id/text_name"
+            tools:text="@string/app_name"
             app:layout_constraintTop_toBottomOf="@id/img_product"
             android:layout_marginTop="8dp"
             android:scrollHorizontally="false"
@@ -54,6 +54,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                tools:text="@string/app_name"
                 android:textColor="@color/black"
                 android:layout_gravity="center"
                 android:id="@+id/text_cost"

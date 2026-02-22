@@ -4,6 +4,6 @@ import kotlinx.coroutines.flow.Flow
 import uz.group1.maxwayapp.data.model.StoryUIData
 
 interface GetStoriesUseCase {
-    suspend operator fun invoke(): Flow<Result<List<StoryUIData>>>
+    operator fun invoke(): Flow<Result<List<StoryUIData>>>
 }
 

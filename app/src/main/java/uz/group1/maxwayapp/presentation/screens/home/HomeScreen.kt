@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenHomeBinding
 import uz.group1.maxwayapp.presentation.screens.home.adapter.CategoryAdapter
+import uz.group1.maxwayapp.presentation.screens.home.adapter.StoriesAdapter
 import uz.group1.maxwayapp.presentation.screens.home.banner.BannerAdapter
 import uz.group1.maxwayapp.presentation.screens.main.banner.adapter.ProductsAdapter
 
@@ -24,6 +25,7 @@ class HomeScreen: Fragment(R.layout.screen_home) {
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var productsAdapter: ProductsAdapter
     private var autoScJob: Job? = null
+    private lateinit var adapter: StoriesAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,6 +41,10 @@ class HomeScreen: Fragment(R.layout.screen_home) {
         categoryAdapter.setOnItemClickListener {
             viewModel.selectedCategory(it.id)
         }
+
+        adapter = StoriesAdapter()
+        binding.storiesRv.adapter = adapter
+
         observe()
         viewModel.loadHome()
     }
@@ -66,6 +72,13 @@ class HomeScreen: Fragment(R.layout.screen_home) {
                     viewModel.menu.collect {
                         if(it.isNotEmpty()){
                             productsAdapter.submitList(it)
+                        }
+                    }
+                }
+                launch {
+                    viewModel.storiesLiveData.observe(viewLifecycleOwner){
+                        if (it.isNotEmpty()){
+                            adapter.submitList(it)
                         }
                     }
                 }
