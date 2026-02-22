@@ -9,4 +9,5 @@
     <color name="backgroun_home">#F8F6FA</color>
     <color name="selected_category">#51267D</color>
 
+    <color name="cart_background">#EFEFF4</color>
 </resources>
