@@ -4,30 +4,90 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/background_home">
+    android:background="@color/backgroun_home">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/appbar_container"
+        android:background="@color/white"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/backgroun_home"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_margin="15dp"
+                app:cardCornerRadius="10dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Доставка"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:layout_gravity="center"
+                    android:layout_margin="6dp"
+                    android:drawablePadding="6dp"
+                    android:drawableEnd="@drawable/arrow_down_angle_svgrepo_com"
+                    />
+
+
+            </androidx.cardview.widget.CardView>
+
+            <ImageView
+                android:id="@+id/btn_search"
+                android:layout_width="21dp"
+                android:layout_height="28dp"
+                android:layout_marginVertical="15dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/search_svgrepo_com"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/notification_6_svgrepo_com"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_search"
+                android:layout_marginVertical="15dp"
+                android:id="@+id/btn_notification"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    </com.google.android.material.appbar.AppBarLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/storiesRv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appbar_container"
         tools:listitem="@layout/item_story_circle" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
         android:clipToPadding="false"
         android:clipChildren="false"
         android:paddingStart="20dp"
-        android:layout_marginTop="10dp"
         android:paddingEnd="20dp"
-        app:layout_constraintDimensionRatio="H, 16:7"
         app:layout_constraintTop_toBottomOf="@id/storiesRv"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -38,20 +98,20 @@
         android:id="@+id/categories_recycler_view"
         app:layout_constraintTop_toBottomOf="@id/viewPager"
         android:layout_marginVertical="10dp"
-        app:layout_constraintBottom_toTopOf="@id/products_recycler_vew"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="horizontal"
-        tools:listitem="@layout/item_category" />
-
+        app:layout_constraintBottom_toTopOf="@id/products_recycler_vew"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/categories_recycler_view"
         app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/products_recycler_vew"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/item_products" />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -44,6 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/card"
         android:gravity="center"
+        android:textColor="@color/black"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:ellipsize="end"
