@@ -24,13 +24,6 @@ class MyApp : Application() {
 
         MapKitFactory.setApiKey("f65ea3dc-63fd-411e-9043-cce7921a4695")
         MapKitFactory.initialize(this)
-
-        AuthRepositoryImpl.init()
-        StoryRepositoryImpl.init()
-
-
-        RepositoryProvider.initAll()
-        NotificationsRepositoryImpl.init()
     }
 }
 
