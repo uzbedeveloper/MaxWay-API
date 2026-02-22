@@ -1,5 +1,6 @@
 package uz.group1.maxwayapp.utils
 
+import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
@@ -15,18 +16,22 @@ import androidx.fragment.app.Fragment
  *
  * @author Murodxonov
  */
-fun Fragment.showNotification(message: String, isSuccess: Boolean = false) {
-    val rootView = requireActivity().findViewById<ViewGroup>(android.R.id.content)
+fun Activity.showNotification(message: String, type: NotificationType) {
+    val rootView = findViewById<ViewGroup>(android.R.id.content)
 
-    val bannerView = TextView(requireContext()).apply {
+    val bannerView = TextView(this).apply {
         text = message
         setTextColor(Color.WHITE)
-        textSize = 16f
+        textSize = 14f
         gravity = Gravity.CENTER
         setPadding(40, 30, 40, 30)
 
-        val startColor = if (isSuccess) "#00A63E" else "#F54900"
-        val endColor = if (isSuccess) "#009966" else "#E7000B"
+        val (startColor, endColor) = when (type) {
+            NotificationType.SUCCESS -> "#00A63E" to "#009966"
+            NotificationType.ERROR -> "#F54900" to "#E7000B"
+            NotificationType.WARNING -> "#F9A825" to "#FBC02D"
+            NotificationType.INFO -> "#0277BD" to "#01579B"
+        }
 
         background = GradientDrawable(
             GradientDrawable.Orientation.TL_BR,
