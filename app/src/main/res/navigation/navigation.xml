@@ -12,6 +12,7 @@
         android:label="StoriesScreen" />
     <fragment
         android:id="@+id/homeScreen"
+        tools:layout="@layout/screen_home"
         android:name="uz.group1.maxwayapp.presentation.screens.home.HomeScreen"
         android:label="HomeScreen" >
         <action
@@ -20,10 +21,12 @@
     </fragment>
     <fragment
         android:id="@+id/cartScreen"
+        tools:layout="@layout/screen_cart"
         android:name="uz.group1.maxwayapp.presentation.screens.cart.CartScreen"
         android:label="CartScreen" />
     <fragment
         android:id="@+id/profileScreen"
+        tools:layout="@layout/screen_profile"
         android:name="uz.group1.maxwayapp.presentation.screens.profile.ProfileScreen"
         android:label="ProfileScreen" >
         <action
@@ -39,4 +42,9 @@
         tools:layout="@layout/screen_notification"
         android:name="uz.group1.maxwayapp.presentation.screens.notifications.NotificationScreen"
         android:label="NotificationScreen" />
+    <fragment
+        android:id="@+id/noConnectionFragment"
+        tools:layout="@layout/screen_no_connection"
+        android:name="uz.group1.maxwayapp.presentation.screens.nointernet.NoConnectionFragment"
+        android:label="NoConnectionFragment" />
 </navigation>

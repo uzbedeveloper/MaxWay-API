@@ -17,12 +17,12 @@ class NotificationsRepositoryImpl(
     companion object {
         private lateinit var instance: NotificationsRepository
 
-        fun init() {
+        fun getInstance() : NotificationsRepository {
             if (!(::instance.isInitialized))
                 instance = NotificationsRepositoryImpl(ApiClient.notificationsApi,Gson())
-        }
 
-        fun getInstance() : NotificationsRepository = instance
+            return instance
+        }
     }
 
     override suspend fun getNotifications(): Result<List<NotificationUiData>> {

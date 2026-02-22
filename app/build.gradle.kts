@@ -21,7 +21,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://pledgeable-marly-hubert.ngrok-free.dev\"")
+            buildConfigField("String", "BASE_URL", "\"https://extramundane-arlo-stereospecific.ngrok-free.dev\"")
         }
         release {
             isMinifyEnabled = false
@@ -86,4 +86,6 @@ dependencies {
 
     //yandex mapkit
     implementation("com.yandex.android:maps.mobile:4.29.0-full")
+
+    implementation("com.airbnb.android:lottie:6.7.1")
 }

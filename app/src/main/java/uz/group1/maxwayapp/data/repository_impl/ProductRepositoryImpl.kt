@@ -14,12 +14,12 @@ class ProductRepositoryImpl(private val productApi: ProductApi): ProductReposito
     companion object{
         private lateinit var instance: ProductRepository
 
-        fun init(){
-            if (!(::instance.isInitialized)){
+        fun getInstance(): ProductRepository {
+            if (!::instance.isInitialized) {
                 instance = ProductRepositoryImpl(ApiClient.productApi)
             }
+            return instance
         }
-        fun getInstance(): ProductRepository = instance
     }
     override suspend fun getBanners(): Result<List<BannerUIData>> {
         return try {

@@ -25,7 +25,6 @@ class HomeScreen: Fragment(R.layout.screen_home) {
     private lateinit var productsAdapter: ProductsAdapter
     private var autoScJob: Job? = null
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

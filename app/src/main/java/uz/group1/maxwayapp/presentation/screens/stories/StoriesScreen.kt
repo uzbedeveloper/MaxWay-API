@@ -22,13 +22,13 @@ import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.model.StoryUIData
 import uz.group1.maxwayapp.databinding.ScreenStoriesBinding
 import uz.group1.maxwayapp.presentation.adapters.StoryAdapter
+import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
 
 class StoriesScreen: Fragment(R.layout.screen_stories) {
 
     private val binding by viewBinding(ScreenStoriesBinding::bind)
     private val viewModel by viewModels<StoriesViewModelImpl> { StoriesViewModelFactory() }
-    private lateinit var networkMonitor: NetworkMonitor
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,47 +36,6 @@ class StoriesScreen: Fragment(R.layout.screen_stories) {
         setUpObservers()
         setupTouchListener()
 
-        networkMonitor = NetworkMonitor(requireContext().applicationContext)
-
-        networkMonitor.startMonitoring(object : NetworkConnectionCallback {
-            override fun onNetworkAvailable() {
-                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-                    if (isAdded) {
-                        if (viewModel.storiesLiveData.value.isNullOrEmpty()){
-                            viewModel.loadStories()
-                        }else{
-                            viewModel.setPauseState(false)
-                        }
-                    }
-                }
-            }
-
-            override fun onNetworkLost() {
-                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-                    if (isAdded) {
-                        showNotification("Internet mavjud emas!",false)
-                        viewModel.setPauseState(true)
-                    }
-                }
-            }
-
-            override fun onNetworkLosing() {
-            }
-
-            override fun onNetworkUnavailable() {
-                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-                    if (isAdded) {
-                        showNotification("Offline",false)
-
-                    }
-                }
-            }
-        })
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        networkMonitor.stopMonitoring()
     }
 
     private fun setUpObservers() {
@@ -101,7 +60,7 @@ class StoriesScreen: Fragment(R.layout.screen_stories) {
             }
         }
         viewModel.errorLiveData.observe(viewLifecycleOwner) {errorMessage->
-            showNotification(errorMessage, isSuccess = false)
+            requireActivity().showNotification(errorMessage, NotificationType.ERROR)
         }
         viewModel.progressLiveData.observe(viewLifecycleOwner){
             binding.loader.isVisible = it

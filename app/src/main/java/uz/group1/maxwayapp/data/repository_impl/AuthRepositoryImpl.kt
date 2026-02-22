@@ -15,12 +15,12 @@ class AuthRepositoryImpl private constructor(
     companion object {
         private lateinit var instance: AuthRepository
 
-        fun init() {
+        fun getInstance() : AuthRepository {
             if (!(::instance.isInitialized))
                 instance = AuthRepositoryImpl(ApiClient.authApi, Gson())
-        }
 
-        fun getInstance() : AuthRepository = instance
+            return instance
+        }
     }
 
 
