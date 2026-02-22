@@ -30,8 +30,16 @@ class MainActivity : AppCompatActivity() {
 
         networkMonitor = NetworkMonitor(applicationContext)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, v.paddingBottom)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                v.paddingBottom
+            )
+
             insets
         }
 

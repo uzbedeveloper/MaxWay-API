@@ -35,7 +35,6 @@ class HomeScreen: Fragment(R.layout.screen_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        enableEdgeToEdge(requireActivity().window)
 
         bannerAdapter = BannerAdapter(childFragmentManager, lifecycle)
         binding.viewPager.adapter = bannerAdapter
