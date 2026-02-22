@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_auth_graph"
+    app:startDestination="@id/phoneFragment">
+
+    <fragment
+        android:id="@+id/phoneFragment"
+        android:name="uz.group1.maxwayapp.presentation.screens.auth.phone.PhoneFragment"
+        android:label="PhoneFragment"
+        tools:layout="@layout/fragment_register_phone">
+        <action
+            android:id="@+id/action_phoneFragment_to_smsCodeFragment"
+            app:destination="@id/smsCodeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/smsCodeFragment"
+        android:name="uz.group1.maxwayapp.presentation.screens.auth.sms_code.SmsCodeFragment"
+        android:label="SmsCodeFragment"
+        tools:layout="@layout/fragment_register_sms_code">
+        <argument
+            android:name="phone"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_smsCodeFragmentToNameFragment"
+            app:destination="@id/nameFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nameFragment"
+        android:name="uz.group1.maxwayapp.presentation.screens.auth.name.NameFragment"
+        android:label="NameFragment"
+        tools:layout="@layout/fragment_register_name">
+        <argument
+            android:name="phone"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_nameFragment_to_homeActivity"
+            app:destination="@id/homeActivity" />
+    </fragment>
+
+    <activity
+        android:id="@+id/homeActivity"
+        android:name="uz.group1.maxwayapp.HomeActivity"
+        android:label="HomeActivity" />
+
+</navigation>
