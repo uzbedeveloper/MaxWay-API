@@ -10,7 +10,7 @@
         android:id="@+id/card"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         app:cardBackgroundColor="@color/grey"
         app:cardCornerRadius="50dp"
         app:strokeWidth="2dp"
@@ -40,7 +40,7 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/card"
         android:gravity="center"
