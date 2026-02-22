@@ -120,7 +120,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Акции -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -176,7 +175,6 @@
                 android:layout_marginStart="60dp"
                 android:background="#F2F2F7" />
 
-            <!-- Филиалы -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/btn_filial"
                 android:layout_width="match_parent"
