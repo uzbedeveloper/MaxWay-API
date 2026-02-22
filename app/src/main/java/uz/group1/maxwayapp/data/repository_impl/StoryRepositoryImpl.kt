@@ -17,12 +17,12 @@ class StoryRepositoryImpl(
     companion object {
         private lateinit var instance: StoryRepository
 
-        fun init() {
-            if (!(::instance.isInitialized))
-                instance = StoryRepositoryImpl(ApiClient.storiesApi,Gson())
+        fun getInstance() : StoryRepository {
+            if (!(::instance.isInitialized)) {
+                instance = StoryRepositoryImpl(ApiClient.storiesApi, Gson())
+            }
+            return instance
         }
-
-        fun getInstance() : StoryRepository = instance
     }
 
     override suspend fun getStories(): Result<List<StoryUIData>> {

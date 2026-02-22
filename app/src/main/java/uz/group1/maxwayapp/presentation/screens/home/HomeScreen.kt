@@ -20,6 +20,7 @@ import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenHomeBinding
 import uz.group1.maxwayapp.presentation.screens.home.adapter.CategoryAdapter
+import uz.group1.maxwayapp.presentation.screens.home.adapter.StoriesAdapter
 import uz.group1.maxwayapp.presentation.screens.home.banner.BannerAdapter
 import uz.group1.maxwayapp.presentation.screens.main.banner.adapter.ProductsAdapter
 
@@ -30,16 +31,11 @@ class HomeScreen: Fragment(R.layout.screen_home) {
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var productsAdapter: ProductsAdapter
     private var autoScJob: Job? = null
-
+    private lateinit var adapter: StoriesAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         enableEdgeToEdge(requireActivity().window)
-        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
         bannerAdapter = BannerAdapter(childFragmentManager, lifecycle)
         binding.viewPager.adapter = bannerAdapter
@@ -81,6 +77,10 @@ class HomeScreen: Fragment(R.layout.screen_home) {
                 R.id.action_homeScreen_to_notificationScreen
             )
         }
+
+        adapter = StoriesAdapter()
+        binding.storiesRv.adapter = adapter
+
         observe()
         viewModel.loadHome()
     }
@@ -108,6 +108,13 @@ class HomeScreen: Fragment(R.layout.screen_home) {
                     viewModel.menu.collect {
                         if(it.isNotEmpty()){
                             productsAdapter.submitList(it)
+                        }
+                    }
+                }
+                launch {
+                    viewModel.storiesLiveData.observe(viewLifecycleOwner){
+                        if (it.isNotEmpty()){
+                            adapter.submitList(it)
                         }
                     }
                 }

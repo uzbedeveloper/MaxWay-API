@@ -86,4 +86,6 @@ dependencies {
 
     //yandex mapkit
     implementation("com.yandex.android:maps.mobile:4.29.0-full")
+
+    implementation("com.airbnb.android:lottie:6.7.1")
 }

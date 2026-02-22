@@ -12,6 +12,7 @@ import uz.gita.leeson_network.utils.NetworkMonitor
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenNotificationBinding
 import uz.group1.maxwayapp.presentation.adapters.NotificationsAdapter
+import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
 
 class NotificationScreen: Fragment(R.layout.screen_notification) {
@@ -40,8 +41,7 @@ class NotificationScreen: Fragment(R.layout.screen_notification) {
             binding.rv.adapter = NotificationsAdapter(list)
         }
         viewModel.errorLiveData.observe(viewLifecycleOwner){
-            showNotification(it,false)
-            Log.d("TTT", "setUpObservers: $it")
+            requireActivity().showNotification(it, NotificationType.ERROR)
         }
         viewModel.loadingLiveData.observe(viewLifecycleOwner){
             binding.loader.isVisible = it
