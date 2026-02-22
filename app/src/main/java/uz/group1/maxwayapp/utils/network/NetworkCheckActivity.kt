@@ -11,7 +11,7 @@ import androidx.activity.ComponentActivity
 *
 * */
 
-class MainActivity : ComponentActivity() {
+class NetworkCheckActivity : ComponentActivity() {
     private lateinit var networkMonitor: NetworkMonitor
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
                 runOnUiThread {
                     Log.d("TTT","Internet mavjud")
                     // UI yangilash
-                    Toast.makeText(this@MainActivity, "Online", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@NetworkCheckActivity, "Online", Toast.LENGTH_SHORT).show()
                 }
             }
             
@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
                 runOnUiThread {
                     Log.d("TTT"," Internet yo'qoldi")
                     // UI yangilash
-                    Toast.makeText(this@MainActivity, "Connection Lost", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@NetworkCheckActivity, "Connection Lost", Toast.LENGTH_SHORT).show()
                 }
             }
             
@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
             override fun onNetworkUnavailable() {
                 runOnUiThread {
                     Log.d("TTT"," Internet yo'q")
-                    Toast.makeText(this@MainActivity, "Offline", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@NetworkCheckActivity, "Offline", Toast.LENGTH_SHORT).show()
                 }
             }
         })

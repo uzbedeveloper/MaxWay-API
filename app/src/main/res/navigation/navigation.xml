@@ -42,4 +42,9 @@
         tools:layout="@layout/screen_notification"
         android:name="uz.group1.maxwayapp.presentation.screens.notifications.NotificationScreen"
         android:label="NotificationScreen" />
+    <fragment
+        android:id="@+id/noConnectionFragment"
+        tools:layout="@layout/screen_no_connection"
+        android:name="uz.group1.maxwayapp.presentation.screens.nointernet.NoConnectionFragment"
+        android:label="NoConnectionFragment" />
 </navigation>
