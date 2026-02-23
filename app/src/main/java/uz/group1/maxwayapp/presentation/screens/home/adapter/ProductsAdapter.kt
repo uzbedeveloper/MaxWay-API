@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import uz.group1.maxwayapp.data.model.CategoryUIData
 import uz.group1.maxwayapp.databinding.ItemProductsBinding
 
+@Deprecated("Rv Multi modal ni ishlatamiz")
 class ProductsAdapter : ListAdapter<CategoryUIData, ProductsAdapter.ProductsViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductsViewHolder {
@@ -26,6 +27,7 @@ class ProductsAdapter : ListAdapter<CategoryUIData, ProductsAdapter.ProductsView
         fun bind(category: CategoryUIData) {
             binding.categoryName.text = category.name
             binding.rvProducts.adapter = productAdapter
+
             productAdapter.submitList(category.products)
         }
     }

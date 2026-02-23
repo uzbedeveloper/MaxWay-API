@@ -6,11 +6,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import uz.group1.maxwayapp.data.model.CategoryChipUI
 import uz.group1.maxwayapp.data.model.StoryUIData
 import uz.group1.maxwayapp.databinding.ItemStoryCircleBinding
 import uz.group1.maxwayapp.utils.loadImage
 
 class StoriesAdapter() : ListAdapter<StoryUIData, StoriesAdapter.StoriesViewHolder>(DiffCallback) {
+
+    private var onItemClick: ((StoryUIData, Int) -> Unit)? = null
+    fun setOnItemClickListener(l: (StoryUIData, Int)-> Unit){
+        onItemClick = l
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoriesViewHolder {
         val binding = ItemStoryCircleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -30,6 +36,9 @@ class StoriesAdapter() : ListAdapter<StoryUIData, StoriesAdapter.StoriesViewHold
             binding.img.loadImage(data.imageUrl){
                 binding.card.visibility = View.VISIBLE
                 binding.loader.visibility = View.GONE
+            }
+            binding.card.setOnClickListener {
+                onItemClick?.invoke(data, absoluteAdapterPosition)
             }
         }
     }

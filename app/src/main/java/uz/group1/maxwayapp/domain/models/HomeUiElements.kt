@@ -1,4 +1,4 @@
-package uz.group1.maxwayapp.domain
+package uz.group1.maxwayapp.domain.models
 
 import uz.group1.maxwayapp.data.model.BannerUIData
 import uz.group1.maxwayapp.data.model.CategoryChipUI

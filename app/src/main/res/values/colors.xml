@@ -17,4 +17,6 @@
     <color name="text_gray">#8E8E93</color>
     <color name="divider_color">#F2F2F7</color>
     <color name="icon_bg_purple">#F0EBF4</color>
+    <color name="bg_price">#F1E6FF</color>
+    <color name="purple">#766095</color>
 </resources>

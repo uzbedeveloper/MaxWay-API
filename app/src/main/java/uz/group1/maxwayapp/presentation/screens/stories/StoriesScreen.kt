@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +36,9 @@ class StoriesScreen: Fragment(R.layout.screen_stories) {
 
         setUpObservers()
         setupTouchListener()
+
+        val currentPosition = arguments?.getInt("currentPosition") ?: 0
+        binding.viewPager.setCurrentItem(currentPosition, false)
 
     }
 
@@ -86,6 +90,9 @@ class StoriesScreen: Fragment(R.layout.screen_stories) {
 
     private fun setupViewPager(list: List<StoryUIData>) {
         val storyAdapter = StoryAdapter(list)
+        storyAdapter.setOnItemClickListener {
+            findNavController().popBackStack()
+        }
         binding.viewPager.apply {
             adapter = storyAdapter
 
