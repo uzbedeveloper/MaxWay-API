@@ -54,6 +54,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.notificationScreen ->{
                     binding.bottomNav.visibility = View.GONE
                 }
+                R.id.searchScreen -> {
+                    binding.bottomNav.visibility = View.GONE
+                }
                 else -> {
                     binding.bottomNav.visibility = View.VISIBLE
                 }

@@ -6,6 +6,7 @@ import uz.group1.maxwayapp.data.model.CategoryChipUI
 import uz.group1.maxwayapp.data.model.CategoryUIData
 import uz.group1.maxwayapp.data.model.FilialListUIData
 import uz.group1.maxwayapp.data.model.FilialMapUIData
+import uz.group1.maxwayapp.data.model.ProductSearchUIData
 import uz.group1.maxwayapp.data.model.ProductUIData
 import uz.group1.maxwayapp.data.model.StoryUIData
 import uz.group1.maxwayapp.data.sources.remote.response.BannerResponse
@@ -14,6 +15,7 @@ import uz.group1.maxwayapp.data.sources.remote.response.CategoriesResponse
 import uz.group1.maxwayapp.data.sources.remote.response.CategoryResponse
 import uz.group1.maxwayapp.data.sources.remote.response.FilialData
 import uz.group1.maxwayapp.data.sources.remote.response.ProductResponse
+import uz.group1.maxwayapp.data.sources.remote.response.ProductSearchResponse
 import uz.group1.maxwayapp.data.sources.remote.response.StoryData
 
 fun StoryData.toUiData(): StoryUIData {
@@ -80,5 +82,16 @@ fun FilialData.toMapUiData(): FilialMapUIData {
         id = id,
         latitude = latitude,
         longitude = longitude
+    )
+}
+fun ProductResponse.toUISData(): ProductSearchUIData{
+    return ProductSearchUIData(
+        id = id,
+        categoryID = categoryID,
+        name = name,
+        description = description,
+        image = image,
+        cost= cost
+
     )
 }

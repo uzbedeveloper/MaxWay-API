@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_homeScreen_to_notificationScreen"
             app:destination="@id/notificationScreen" />
+        <action
+            android:id="@+id/action_homeScreen_to_searchScreen"
+            app:destination="@id/searchScreen" />
     </fragment>
     <fragment
         android:id="@+id/cartScreen"
@@ -50,4 +53,8 @@
         tools:layout="@layout/screen_no_connection"
         android:name="uz.group1.maxwayapp.presentation.screens.nointernet.NoConnectionFragment"
         android:label="NoConnectionFragment" />
+    <fragment
+        android:id="@+id/searchScreen"
+        android:name="uz.group1.maxwayapp.presentation.screens.home.search.SearchScreen"
+        android:label="SearchScreen" />
 </navigation>
