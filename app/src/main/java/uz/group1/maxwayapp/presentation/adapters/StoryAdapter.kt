@@ -1,11 +1,9 @@
 package uz.group1.maxwayapp.presentation.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.model.StoryUIData
 import uz.group1.maxwayapp.databinding.ItemStoryBinding
 import uz.group1.maxwayapp.utils.loadImage
@@ -13,11 +11,19 @@ import uz.group1.maxwayapp.utils.loadImage
 class StoryAdapter(private val stories: List<StoryUIData>) :
     RecyclerView.Adapter<StoryAdapter.StoryViewHolder>() {
 
+    private var onItemClick: (() -> Unit)? = null
+    fun setOnItemClickListener(l: () -> Unit) {
+        onItemClick = l
+    }
+
     inner class StoryViewHolder(val binding: ItemStoryBinding) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(story: StoryUIData){
             binding.imageLoader.isVisible = true
             binding.storyImage.loadImage(story.imageUrl){
                 binding.imageLoader.isVisible = false
+            }
+            binding.close.setOnClickListener {
+                onItemClick?.invoke()
             }
             binding.storyTitle.text = story.title
         }

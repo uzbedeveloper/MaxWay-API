@@ -2,12 +2,14 @@ package uz.group1.maxwayapp.presentation.screens.home
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -16,10 +18,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenHomeBinding
+import uz.group1.maxwayapp.domain.models.HomeItem
 import uz.group1.maxwayapp.presentation.screens.home.adapter.CategoryAdapter
+import uz.group1.maxwayapp.presentation.screens.home.adapter.HomeMainAdapter
 import uz.group1.maxwayapp.presentation.screens.home.adapter.StoriesAdapter
 import uz.group1.maxwayapp.presentation.screens.home.banner.BannerAdapter
-import uz.group1.maxwayapp.presentation.screens.main.banner.adapter.ProductsAdapter
+import uz.group1.maxwayapp.utils.GlobalVariables
 
 class HomeScreen: Fragment(R.layout.screen_home) {
 
@@ -28,7 +32,8 @@ class HomeScreen: Fragment(R.layout.screen_home) {
 
     private lateinit var bannerAdapter: BannerAdapter
     private lateinit var categoryAdapter: CategoryAdapter
-    private lateinit var productsAdapter: ProductsAdapter
+
+    private lateinit var productsAdapter: HomeMainAdapter
     private lateinit var storiesAdapter: StoriesAdapter
     private var autoScJob: Job? = null
 
@@ -39,7 +44,6 @@ class HomeScreen: Fragment(R.layout.screen_home) {
         setUpClick()
         observe()
 
-        viewModel.loadHome()
     }
 
     private fun setUpClick() {
@@ -53,14 +57,30 @@ class HomeScreen: Fragment(R.layout.screen_home) {
         binding.viewPager.adapter = bannerAdapter
 
         categoryAdapter = CategoryAdapter()
+
+        productsAdapter = HomeMainAdapter { product, newCount ->
+            viewModel.updateProductCount(product.id, newCount)
+        }
+
+        val manager = GridLayoutManager(requireContext(), 2)
+        manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if (productsAdapter.getItemViewType(position) == HomeMainAdapter.TYPE_HEADER) 2 else 1
+            }
+        }
+
         binding.categoriesRecyclerView.adapter = categoryAdapter
-        productsAdapter = ProductsAdapter()
+
+        binding.productsRecyclerVew.layoutManager = manager
         binding.productsRecyclerVew.adapter = productsAdapter
 
         categoryAdapter.setOnItemClickListener { category ->
             viewModel.selectedCategory(category.id)
+
             val menuList = productsAdapter.currentList
-            val categoryPosition = menuList.indexOfFirst { it.id == category.id }
+            val categoryPosition = menuList.indexOfFirst { item ->
+                item is HomeItem.CategoryHeader && item.id == category.id
+            }
 
             if (categoryPosition != -1) {
                 if (categoryPosition == 0) {
@@ -81,39 +101,62 @@ class HomeScreen: Fragment(R.layout.screen_home) {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                 val firstVisiblePos = layoutManager.findFirstVisibleItemPosition()
-
                 if (firstVisiblePos != RecyclerView.NO_POSITION) {
-                    val categoryId = productsAdapter.currentList[firstVisiblePos].id
-                    viewModel.selectedCategory(categoryId)
+                    val currentItem = productsAdapter.currentList[firstVisiblePos]
 
-                    val categoryIndex = categoryAdapter.currentList.indexOfFirst { it.id == categoryId }
-                    if (categoryIndex != -1) {
-                        binding.categoriesRecyclerView.smoothScrollToPosition(categoryIndex)
+                    val categoryId = when (currentItem) {
+                        is HomeItem.CategoryHeader -> currentItem.id
+                        is HomeItem.ProductItem -> currentItem.product.categoryID
                     }
+
+                    viewModel.selectedCategory(categoryId)
                 }
             }
         })
         storiesAdapter = StoriesAdapter()
+        storiesAdapter.setOnItemClickListener { data, i ->
+            findNavController().navigate(
+                R.id.action_homeScreen_to_storiesScreen,
+                bundleOf("currentPosition" to i)
+            )
+            GlobalVariables.stateVisibilityBottomNav.postValue(false)
+        }
         binding.storiesRv.adapter = storiesAdapter
     }
 
-    private fun observe(){
+    private fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect { state ->
-                    handleLoadingState(state.isLoading)
+                viewModel.homeScreenElements
+                    .collect { state ->
+                        handleLoadingState(state.isLoading)
 
-                    if (!state.isLoading) {
-                        if (state.banners.isNotEmpty()) {
-                            bannerAdapter.submitList(state.banners)
-                            setupBannerAutoScroll(state.banners.size)
+                        if (!state.isLoading) {
+                            if (state.banners.isNotEmpty()) {
+                                bannerAdapter.submitList(state.banners)
+                                setupBannerAutoScroll(state.banners.size)
+                            }
+
+                            categoryAdapter.submitList(state.categories)
+
+                            val homeItems = mutableListOf<HomeItem>()
+                            state.menu.forEach { categoryMenu ->
+                                homeItems.add(
+                                    HomeItem.CategoryHeader(
+                                        categoryMenu.id,
+                                        categoryMenu.name
+                                    )
+                                )
+
+                                categoryMenu.products.forEach { product ->
+                                    homeItems.add(HomeItem.ProductItem(product))
+                                }
+                            }
+                            productsAdapter.submitList(homeItems)
+
+                            storiesAdapter.submitList(state.stories)
                         }
-
-                        categoryAdapter.submitList(state.categories)
-                        productsAdapter.submitList(state.menu)
-                        storiesAdapter.submitList(state.stories)
                     }
-                }
             }
         }
     }

@@ -27,6 +27,7 @@
         android:textStyle="bold" />
 
     <ImageView
+        android:id="@+id/close"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="top|right"

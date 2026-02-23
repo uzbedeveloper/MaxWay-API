@@ -1,5 +1,10 @@
 package uz.group1.maxwayapp.data.repository_impl
 
+import android.util.Log
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import uz.group1.maxwayapp.data.ApiClient
 import uz.group1.maxwayapp.data.mapper.toBannerUIData
 import uz.group1.maxwayapp.data.mapper.toCategoryUIData
@@ -12,6 +17,22 @@ import uz.group1.maxwayapp.data.sources.remote.api.ProductApi
 import uz.group1.maxwayapp.domain.repository.ProductRepository
 
 class ProductRepositoryImpl(private val productApi: ProductApi): ProductRepository {
+
+    private val _menuFlow = MutableStateFlow<List<CategoryUIData>>(emptyList())
+    val menuFlow: StateFlow<List<CategoryUIData>> = _menuFlow.asStateFlow()
+
+    override fun getMenu(): Flow<List<CategoryUIData>> {
+        return menuFlow
+    }
+
+    override fun updateProductCount(productId: Int, newCount: Int) {
+        val currentMenu = _menuFlow.value.map { category ->
+            category.copy(products = category.products.map { product ->
+                if (product.id == productId) product.copy(count = newCount) else product
+            })
+        }
+        _menuFlow.value = currentMenu
+    }
 
     companion object{
         private lateinit var instance: ProductRepository
@@ -58,6 +79,7 @@ class ProductRepositoryImpl(private val productApi: ProductApi): ProductReposito
                 val categoryProduct = productMap[category.id] ?: emptyList()
                 category.toUIData(categoryProduct)
             }
+            _menuFlow.value = result
             Result.success(result)
         }catch (e: Exception){
             Result.failure(e)

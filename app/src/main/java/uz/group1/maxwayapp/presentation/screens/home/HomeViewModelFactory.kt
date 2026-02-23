@@ -8,6 +8,7 @@ import uz.group1.maxwayapp.domain.usecase.impl.BannerUseCaseImpl
 import uz.group1.maxwayapp.domain.usecase.impl.GetCategoriesUseCaseImpl
 import uz.group1.maxwayapp.domain.usecase.impl.GetMenuUseCaseImpl
 import uz.group1.maxwayapp.domain.usecase.impl.GetStoriesUseCaseImpl
+import uz.group1.maxwayapp.domain.usecase.impl.UpdateProductCountUseCaseImpl
 
 @Suppress("UNCHECKED_CAST")
 class HomeViewModelFactory: ViewModelProvider.Factory {
@@ -17,6 +18,7 @@ class HomeViewModelFactory: ViewModelProvider.Factory {
            bannerUseCase =  BannerUseCaseImpl(repo),
             categorysUseCase = GetCategoriesUseCaseImpl(repo),
             menuProductUseCase = GetMenuUseCaseImpl(repo),
+            updateProductCountUseCase = UpdateProductCountUseCaseImpl(repo),
             getStories = GetStoriesUseCaseImpl(StoryRepositoryImpl.getInstance())
         ) as T
     }

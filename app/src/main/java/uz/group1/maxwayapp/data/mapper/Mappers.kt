@@ -49,7 +49,8 @@ fun CategoryResponse.toUIData(product: List<ProductResponse>): CategoryUIData{
     return CategoryUIData(
         id = id,
         name = name,
-        products = product.map { it.toUIData() }
+        products = product.map { it.toUIData() },
+        count = 0
     )
 }
 
@@ -57,7 +58,8 @@ fun CategoryResponse.toCategoryUIData(): CategoryUIData{
     return CategoryUIData(
         id = id,
         name = name,
-        products = emptyList()
+        products = emptyList(),
+        count = 0
     )
 }
 fun CategoryUIData.toChipUI(isSelected: Boolean = false): CategoryChipUI {
