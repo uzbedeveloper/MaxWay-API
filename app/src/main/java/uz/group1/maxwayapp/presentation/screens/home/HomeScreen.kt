@@ -50,6 +50,11 @@ class HomeScreen: Fragment(R.layout.screen_home) {
         binding.btnNotification.setOnClickListener {
             findNavController().navigate(R.id.action_homeScreen_to_notificationScreen)
         }
+        binding.btnSearch.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_homeScreen_to_searchScreen
+            )
+        }
     }
 
     private fun setUpAdapters() {
