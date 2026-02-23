@@ -67,22 +67,26 @@ class SearchScreen : Fragment(R.layout.screen_search) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.products.collectLatest { list ->
-                val queryNotEmpty = binding.etSearch.text.isNotEmpty()
+                val query = binding.etSearch.text.toString().trim()
                 val isLoading = viewModel.isLoading.value
 
                 adapter.submitList(list)
 
                 binding.apply {
                     if (!isLoading) {
-                        if (list.isEmpty() && queryNotEmpty) {
-                            layoutEmpty.isVisible = true
-                            recyclerView.isVisible = false
-                        } else if (list.isNotEmpty()) {
-                            layoutEmpty.isVisible = false
-                            recyclerView.isVisible = true
-                        } else {
-                            layoutEmpty.isVisible = false
-                            recyclerView.isVisible = false
+                        when {
+                            list.isEmpty() && query.isNotEmpty() -> {
+                                layoutEmpty.isVisible = true
+                                recyclerView.isVisible = false
+                            }
+                            list.isNotEmpty() -> {
+                                layoutEmpty.isVisible = false
+                                recyclerView.isVisible = true
+                            }
+                            else -> {
+                                layoutEmpty.isVisible = false
+                                recyclerView.isVisible = false
+                            }
                         }
                     }
                 }
