@@ -4,8 +4,10 @@ import uz.group1.maxwayapp.data.ApiClient
 import uz.group1.maxwayapp.data.mapper.toBannerUIData
 import uz.group1.maxwayapp.data.mapper.toCategoryUIData
 import uz.group1.maxwayapp.data.mapper.toUIData
+import uz.group1.maxwayapp.data.mapper.toUISData
 import uz.group1.maxwayapp.data.model.BannerUIData
 import uz.group1.maxwayapp.data.model.CategoryUIData
+import uz.group1.maxwayapp.data.model.ProductSearchUIData
 import uz.group1.maxwayapp.data.sources.remote.api.ProductApi
 import uz.group1.maxwayapp.domain.repository.ProductRepository
 
@@ -57,6 +59,16 @@ class ProductRepositoryImpl(private val productApi: ProductApi): ProductReposito
                 category.toUIData(categoryProduct)
             }
             Result.success(result)
+        }catch (e: Exception){
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun getSearchProducts(str: String): Result<List<ProductSearchUIData>> {
+        return try {
+            val response = productApi.getSearchProduct(str)
+            val list = response.data.map { it.toUISData() }
+            Result.success(list)
         }catch (e: Exception){
             Result.failure(e)
         }
