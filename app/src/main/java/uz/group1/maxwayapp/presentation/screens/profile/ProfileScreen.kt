@@ -13,8 +13,11 @@ class ProfileScreen: Fragment(R.layout.screen_profile) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
+        binding.btnFilial.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_profileScreen_to_filialScreen
+            )
+        }
     }
 
 }
