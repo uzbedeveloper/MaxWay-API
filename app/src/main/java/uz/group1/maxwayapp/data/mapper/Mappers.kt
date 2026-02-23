@@ -4,12 +4,15 @@ import uz.group1.maxwayapp.data.model.BannerUIData
 import uz.group1.maxwayapp.data.model.NotificationUiData
 import uz.group1.maxwayapp.data.model.CategoryChipUI
 import uz.group1.maxwayapp.data.model.CategoryUIData
+import uz.group1.maxwayapp.data.model.FilialListUIData
+import uz.group1.maxwayapp.data.model.FilialMapUIData
 import uz.group1.maxwayapp.data.model.ProductUIData
 import uz.group1.maxwayapp.data.model.StoryUIData
 import uz.group1.maxwayapp.data.sources.remote.response.BannerResponse
 import uz.group1.maxwayapp.data.sources.remote.response.NotificationData
 import uz.group1.maxwayapp.data.sources.remote.response.CategoriesResponse
 import uz.group1.maxwayapp.data.sources.remote.response.CategoryResponse
+import uz.group1.maxwayapp.data.sources.remote.response.FilialData
 import uz.group1.maxwayapp.data.sources.remote.response.ProductResponse
 import uz.group1.maxwayapp.data.sources.remote.response.StoryData
 
@@ -60,5 +63,22 @@ fun CategoryUIData.toChipUI(isSelected: Boolean = false): CategoryChipUI {
         id = id,
         name = name,
         isSelected = isSelected
+    )
+}
+fun FilialData.toDetailsUIdata(): FilialListUIData{
+    return FilialListUIData(
+        id = id,
+        name = name,
+        address = address,
+        phone = phone,
+        openTime = openTime,
+        closeTime = closeTime
+    )
+}
+fun FilialData.toMapUiData(): FilialMapUIData {
+    return FilialMapUIData(
+        id = id,
+        latitude = latitude,
+        longitude = longitude
     )
 }
