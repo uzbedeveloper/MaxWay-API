@@ -54,7 +54,7 @@ class HomeViewModelImpl(
 
             menuProductUseCase().collect { result ->
                 result.onSuccess { updatedMenu ->
-                    Log.d("TTT", "loadHome: $updatedMenu")
+                    Log.d("TTT", "loadHome: ${updatedMenu[0].name}")
                     homeScreenElements.update { it.copy(menu = updatedMenu, isLoading = false) }
                 }
                 result.onFailure {

@@ -26,16 +26,12 @@ class ProductRepositoryImpl(private val productApi: ProductApi): ProductReposito
     }
 
     override fun updateProductCount(productId: Int, newCount: Int) {
-        Log.d("TTT", "fromRepo: $productId, count = $newCount")
-
-        val currentMenu = _menuFlow.value
-        val updatedMenu = currentMenu.map { category ->
-            val updatedProducts = category.products.map { product ->
+        val currentMenu = _menuFlow.value.map { category ->
+            category.copy(products = category.products.map { product ->
                 if (product.id == productId) product.copy(count = newCount) else product
-            }
-            category.copy(products = updatedProducts)
+            })
         }
-        _menuFlow.value = updatedMenu
+        _menuFlow.value = currentMenu
     }
 
     companion object{
