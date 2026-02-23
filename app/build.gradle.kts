@@ -88,4 +88,6 @@ dependencies {
     implementation("com.yandex.android:maps.mobile:4.29.0-full")
 
     implementation("com.airbnb.android:lottie:6.7.1")
+
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 }

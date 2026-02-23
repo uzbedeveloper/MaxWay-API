@@ -22,17 +22,33 @@ import uz.group1.maxwayapp.presentation.screens.home.banner.BannerAdapter
 import uz.group1.maxwayapp.presentation.screens.main.banner.adapter.ProductsAdapter
 
 class HomeScreen: Fragment(R.layout.screen_home) {
+
     private val binding by viewBinding(ScreenHomeBinding::bind)
     private val viewModel: HomeViewModel by viewModels<HomeViewModelImpl> { HomeViewModelFactory() }
+
     private lateinit var bannerAdapter: BannerAdapter
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var productsAdapter: ProductsAdapter
+    private lateinit var storiesAdapter: StoriesAdapter
     private var autoScJob: Job? = null
-    private lateinit var adapter: StoriesAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setUpAdapters()
+        setUpClick()
+        observe()
+
+        viewModel.loadHome()
+    }
+
+    private fun setUpClick() {
+        binding.btnNotification.setOnClickListener {
+            findNavController().navigate(R.id.action_homeScreen_to_notificationScreen)
+        }
+    }
+
+    private fun setUpAdapters() {
         bannerAdapter = BannerAdapter(childFragmentManager, lifecycle)
         binding.viewPager.adapter = bannerAdapter
 
@@ -48,9 +64,9 @@ class HomeScreen: Fragment(R.layout.screen_home) {
 
             if (categoryPosition != -1) {
                 if (categoryPosition == 0) {
-                    binding.root.transitionToStart()
+                    binding.mainMotionLayout.transitionToStart()
                 } else {
-                    binding.root.transitionToEnd()
+                    binding.mainMotionLayout.transitionToEnd()
                 }
 
                 val scroller = object : androidx.recyclerview.widget.LinearSmoothScroller(requireContext()) {
@@ -77,57 +93,47 @@ class HomeScreen: Fragment(R.layout.screen_home) {
                 }
             }
         })
-
-        binding.btnNotification.setOnClickListener {
-            findNavController().navigate(R.id.action_homeScreen_to_notificationScreen)
-        }
-        binding.btnSearch.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_homeScreen_to_searchScreen
-            )
-        }
-
-        adapter = StoriesAdapter()
-        binding.storiesRv.adapter = adapter
-
-        observe()
-        viewModel.loadHome()
+        storiesAdapter = StoriesAdapter()
+        binding.storiesRv.adapter = storiesAdapter
     }
 
     private fun observe(){
-        viewModel.storiesLiveData.observe(viewLifecycleOwner){
-            if (it.isNotEmpty()){
-                adapter.submitList(it)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    handleLoadingState(state.isLoading)
+
+                    if (!state.isLoading) {
+                        if (state.banners.isNotEmpty()) {
+                            bannerAdapter.submitList(state.banners)
+                            setupBannerAutoScroll(state.banners.size)
+                        }
+
+                        categoryAdapter.submitList(state.categories)
+                        productsAdapter.submitList(state.menu)
+                        storiesAdapter.submitList(state.stories)
+                    }
+                }
             }
         }
+    }
+    private fun handleLoadingState(isLoading: Boolean) {
+        if (isLoading) {
+            binding.shimmerLayout.startShimmer()
+            binding.shimmerLayout.visibility = View.VISIBLE
+            binding.mainMotionLayout.visibility = View.GONE
+        } else {
+            binding.shimmerLayout.stopShimmer()
+            binding.shimmerLayout.visibility = View.GONE
+            binding.mainMotionLayout.visibility = View.VISIBLE
+        }
+    }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-                launch {
-                    viewModel.banners.collect { item->
-                        if (item.isNotEmpty()){
-                            bannerAdapter.submitList(item)
-                            val newSize = (Int.MAX_VALUE / 2) - ((Int.MAX_VALUE/2) % item.size)
-                            binding.viewPager.setCurrentItem(newSize, false)
-                            startAutoScrooll()
-                        }
-                    }
-                }
-                launch {
-                    viewModel.categorys.collect {
-                        if (it.isNotEmpty()){
-                            categoryAdapter.submitList(it)
-                        }
-                    }
-                }
-                launch {
-                    viewModel.menu.collect {
-                        if(it.isNotEmpty()){
-                            productsAdapter.submitList(it)
-                        }
-                    }
-                }
-            }
+    private fun setupBannerAutoScroll(size: Int) {
+        if (autoScJob == null) {
+            val middlePosition = (Int.MAX_VALUE / 2) - ((Int.MAX_VALUE / 2) % size)
+            binding.viewPager.setCurrentItem(middlePosition, false)
+            startAutoScrooll()
         }
     }
 

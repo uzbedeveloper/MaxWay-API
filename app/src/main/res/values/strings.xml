@@ -8,4 +8,7 @@
     <string name="menu_item_profile_txt">Личное</string>
     <string name="menu_cart_title_txt">Корзина</string>
     <string name="cart_currently_empty">В вашей корзине пока пусто</string>
+    <string name="no_internet_text">Произошёл сбой в сети, пожалуйста, проверьте, включен ли ваш Wi-Fi/мобильный интернет.</string>
+    <string name="no_connection_internet">Нет подключения к интернету!</string>
+    <string name="try_again">Попробуйте еще раз</string>
 </resources>
