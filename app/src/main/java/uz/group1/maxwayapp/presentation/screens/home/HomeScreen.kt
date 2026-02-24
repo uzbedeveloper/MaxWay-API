@@ -19,6 +19,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenHomeBinding
+import uz.group1.maxwayapp.presentation.screens.profile.address.AddressBottomSheet
 import uz.group1.maxwayapp.domain.models.HomeItem
 import uz.group1.maxwayapp.presentation.screens.home.adapter.CategoryAdapter
 import uz.group1.maxwayapp.presentation.screens.home.adapter.HomeMainAdapter
@@ -70,9 +71,12 @@ class HomeScreen: Fragment(R.layout.screen_home) {
             findNavController().navigate(R.id.action_homeScreen_to_notificationScreen)
         }
         binding.btnSearch.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_homeScreen_to_searchScreen
-            )
+            findNavController().navigate(R.id.action_homeScreen_to_searchScreen)
+        }
+        binding.btnDelivery.setOnClickListener {
+            AddressBottomSheet {
+                findNavController().navigate(R.id.action_homeScreen_to_addAddressScreen)
+            }.show(childFragmentManager, "address_bottom_sheet")
         }
     }
 

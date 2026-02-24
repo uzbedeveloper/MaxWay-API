@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_homeScreen_to_searchScreen"
             app:destination="@id/searchScreen" />
+        <action
+            android:id="@+id/action_homeScreen_to_addAddressScreen"
+            app:destination="@id/addAddressScreen" />
     </fragment>
     <fragment
         android:id="@+id/cartScreen"
@@ -41,7 +44,18 @@
         <action
             android:id="@+id/action_profileScreen_to_registerScreen"
             app:destination="@id/registerScreen" />
+        <action
+            android:id="@+id/action_profileScreen_to_addAddressScreen"
+            app:destination="@id/addAddressScreen" />
+        <action
+            android:id="@+id/action_profileScreen_to_createUserScreen"
+            app:destination="@id/createUserScreen" />
     </fragment>
+    <fragment
+        android:id="@+id/addAddressScreen"
+        tools:layout="@layout/screen_add_address"
+        android:name="uz.group1.maxwayapp.presentation.screens.profile.address.AddAddressScreen"
+        android:label="AddAddressScreen" />
     <fragment
         android:id="@+id/filialScreen"
         android:name="uz.group1.maxwayapp.presentation.screens.profile.filial.FilialScreen"
@@ -85,7 +99,9 @@
         android:label="CreateUserScreen" >
         <action
             android:id="@+id/action_createUserScreen_to_profileScreen"
-            app:destination="@id/profileScreen" />
+            app:destination="@id/profileScreen"
+            app:popUpTo="@id/profileScreen"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/splashFragment"

@@ -2,7 +2,6 @@ package uz.group1.maxwayapp.presentation.screens.home.cart_bottomsheet
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +47,6 @@ class CartBottomSheet : BottomSheetDialogFragment() {
                 repository.getMenu().collect { categories ->
                     val addedProducts = categories.flatMap { it.products }.filter { it.count > 0 }
 
-                    Log.d("TTT", "BottomSheet from Repo: ${addedProducts.size} items")
 
                     if (addedProducts.isEmpty()) {
                         showEmptyState()

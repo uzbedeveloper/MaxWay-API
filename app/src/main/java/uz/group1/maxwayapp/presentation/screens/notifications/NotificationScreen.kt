@@ -1,7 +1,6 @@
 package uz.group1.maxwayapp.presentation.screens.notifications
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment

@@ -1,6 +1,5 @@
 package uz.group1.maxwayapp.data.repository_impl
 
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

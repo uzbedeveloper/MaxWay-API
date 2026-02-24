@@ -1,6 +1,5 @@
 package uz.group1.maxwayapp.presentation.screens.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.async
@@ -80,6 +79,6 @@ class HomeViewModelImpl(
     }
     override fun updateProductCount(productId: Int, newCount: Int) {
         updateProductCountUseCase(productId, newCount)
-        Log.d("TTT", "updateProductCount: $productId, count = $newCount")
+
     }
 }
