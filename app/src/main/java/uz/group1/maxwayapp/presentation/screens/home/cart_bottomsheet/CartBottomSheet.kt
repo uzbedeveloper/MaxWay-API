@@ -1,4 +1,4 @@
-package uz.group1.maxwayapp.presentation.screens.home.bottomsheet
+package uz.group1.maxwayapp.presentation.screens.home.cart_bottomsheet
 
 import android.app.Dialog
 import android.os.Bundle

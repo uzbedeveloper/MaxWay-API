@@ -3,6 +3,9 @@ package uz.group1.maxwayapp.presentation.screens.profile.register
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -20,25 +23,18 @@ class RegisterScreen: Fragment(R.layout.screen_register_phone) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.etPhone.addTextChangedListener {
-            val text = it.toString()
-            if (!text.startsWith("+998")) {
-                binding.etPhone.setText("+998")
-                binding.etPhone.setSelection(4)
-            }
-
-            val isReady = text.length == 13
-            updateButtonState(isReady)
-        }
 
         binding.btnContinueLogin.setOnClickListener {
-            viewModel.register(binding.etPhone.text.toString())
+            val phone = "+"+binding.etPhone.text.toString().replace(Regex("\\D"), "")
+
+            viewModel.register(phone)
         }
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
         }
 
         observeViewModel()
+        setupPhoneFormatter()
     }
 
     private fun updateButtonState(isReady: Boolean) {
@@ -61,5 +57,36 @@ class RegisterScreen: Fragment(R.layout.screen_register_phone) {
                 Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun setupPhoneFormatter() {
+        binding.etPhone.addTextChangedListener(object : TextWatcher {
+            private var isUpdating = false
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                if (isUpdating || s == null) return
+                isUpdating = true
+                val digits = s.toString().replace(Regex("\\D"), "")
+                val formatted = StringBuilder()
+                for (i in digits.indices) {
+                    when (i) {
+                        0 -> formatted.append("+")
+                        3, 5, 8, 10 -> formatted.append(" ")
+                    }
+                    formatted.append(digits[i])
+                    if (i >= 11) break
+                }
+                val selection = binding.etPhone.selectionStart + (formatted.length - s.length)
+                s.replace(0, s.length, formatted.toString())
+                binding.etPhone.setSelection(selection.coerceIn(0, formatted.length))
+                isUpdating = false
+
+
+                val isReady = (if(digits.length==12) 13 else digits.length) == 13
+                Log.d("TTT", "afterTextChanged: $isReady | $digits, ${digits.length}")
+                updateButtonState(isReady)
+            }
+        })
     }
 }

@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import uz.gita.leeson_network.utils.NetworkConnectionCallback
 import uz.gita.leeson_network.utils.NetworkMonitor
 import uz.group1.maxwayapp.databinding.ActivityMainBinding
-import uz.group1.maxwayapp.presentation.screens.home.bottomsheet.CartBottomSheet
+import uz.group1.maxwayapp.presentation.screens.home.cart_bottomsheet.CartBottomSheet
 import uz.group1.maxwayapp.utils.GlobalVariables
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification

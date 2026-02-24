@@ -17,12 +17,14 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
+import uz.group1.maxwayapp.data.model.ProductUIData
 import uz.group1.maxwayapp.databinding.ScreenHomeBinding
 import uz.group1.maxwayapp.domain.models.HomeItem
 import uz.group1.maxwayapp.presentation.screens.home.adapter.CategoryAdapter
 import uz.group1.maxwayapp.presentation.screens.home.adapter.HomeMainAdapter
 import uz.group1.maxwayapp.presentation.screens.home.adapter.StoriesAdapter
 import uz.group1.maxwayapp.presentation.screens.home.banner.BannerAdapter
+import uz.group1.maxwayapp.presentation.screens.home.product_infobottomsheet.ProductInfoBottomSheet
 import uz.group1.maxwayapp.utils.GlobalVariables
 
 class HomeScreen: Fragment(R.layout.screen_home) {
@@ -63,9 +65,22 @@ class HomeScreen: Fragment(R.layout.screen_home) {
 
         categoryAdapter = CategoryAdapter()
 
-        productsAdapter = HomeMainAdapter { product, newCount ->
-            viewModel.updateProductCount(product.id, newCount)
-        }
+        productsAdapter = HomeMainAdapter(
+            onCountChanged = { product, count ->
+                viewModel.updateProductCount(product.id, count)
+            },
+            onItemClick = { product, position ->
+                val bottomSheet = ProductInfoBottomSheet.newInstance(
+                    id = product.id,
+                    name = product.name,
+                    desc = product.description,
+                    price = product.cost,
+                    imageRes = product.image
+                )
+
+                bottomSheet.show(parentFragmentManager, "ProductInfoTag")
+            }
+        )
 
         val manager = GridLayoutManager(requireContext(), 2)
         manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {

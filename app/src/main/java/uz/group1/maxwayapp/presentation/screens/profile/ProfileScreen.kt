@@ -44,25 +44,25 @@ class ProfileScreen: Fragment(R.layout.screen_profile) {
         }
 
         binding.btnEdit.setOnClickListener {
-            EditProfileBottomSheet { name, phone ->
-                binding.textUsername.text = name
-                binding.textPhone.text = phone
-            }.show(childFragmentManager, "edit_profile")
+//            EditProfileBottomSheet { name, phone ->
+//                binding.textUsername.text = name
+//                binding.textPhone.text = phone
+//            }.show(childFragmentManager, "edit_profile")
         }
 
         binding.logout.setOnClickListener {
-            LogoutBottomSheet {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    val result = AuthRepositoryImpl.getInstance().deleteAccount()
-                    result.onSuccess {
-                        binding.cardUserInfo.visibility = View.GONE
-                        binding.cardRegister.visibility = View.VISIBLE
-                        binding.logout.visibility = View.GONE
-                    }.onFailure { error ->
-                        Snackbar.make(binding.root, error.message ?: "Xatolik", 2000).show()
-                    }
-                }
-            }.show(childFragmentManager, "logout")
+//            LogoutBottomSheet {
+//                viewLifecycleOwner.lifecycleScope.launch {
+//                    val result = AuthRepositoryImpl.getInstance().deleteAccount()
+//                    result.onSuccess {
+//                        binding.cardUserInfo.visibility = View.GONE
+//                        binding.cardRegister.visibility = View.VISIBLE
+//                        binding.logout.visibility = View.GONE
+//                    }.onFailure { error ->
+//                        Snackbar.make(binding.root, error.message ?: "Xatolik", 2000).show()
+//                    }
+//                }
+//            }.show(childFragmentManager, "logout")
         }
 
     }
