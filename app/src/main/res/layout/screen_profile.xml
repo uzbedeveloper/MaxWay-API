@@ -43,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:visibility="gone"
             android:id="@+id/card_register"
             android:padding="16dp">
 
@@ -95,6 +96,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 />
             <TextView
+                android:id="@+id/text_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="+9989 (91) 101 11 12"

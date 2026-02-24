@@ -84,6 +84,16 @@ class MainActivity : AppCompatActivity() {
                 R.id.searchScreen -> {
                     binding.bottomNav.visibility = View.GONE
                 }
+                R.id.registerScreen ->{
+                    binding.bottomNav.visibility = View.GONE
+                }
+                R.id.verifyScreen -> {
+                    binding.bottomNav.visibility = View.GONE
+
+                }
+                R.id.createUserScreen ->{
+                    binding.bottomNav.visibility = View.GONE
+                }
                 else -> {
                     binding.bottomNav.visibility = View.VISIBLE
                 }

@@ -9,6 +9,7 @@ import uz.group1.maxwayapp.data.model.FilialMapUIData
 import uz.group1.maxwayapp.data.model.ProductSearchUIData
 import uz.group1.maxwayapp.data.model.ProductUIData
 import uz.group1.maxwayapp.data.model.StoryUIData
+import uz.group1.maxwayapp.data.model.UserUIData
 import uz.group1.maxwayapp.data.sources.remote.response.BannerResponse
 import uz.group1.maxwayapp.data.sources.remote.response.NotificationData
 import uz.group1.maxwayapp.data.sources.remote.response.CategoriesResponse
@@ -17,6 +18,7 @@ import uz.group1.maxwayapp.data.sources.remote.response.FilialData
 import uz.group1.maxwayapp.data.sources.remote.response.ProductResponse
 import uz.group1.maxwayapp.data.sources.remote.response.ProductSearchResponse
 import uz.group1.maxwayapp.data.sources.remote.response.StoryData
+import uz.group1.maxwayapp.data.sources.remote.response.UserDataResponse
 
 fun StoryData.toUiData(): StoryUIData {
 
@@ -95,5 +97,14 @@ fun ProductResponse.toUISData(): ProductSearchUIData{
         image = image,
         cost= cost
 
+    )
+}
+
+fun UserDataResponse.toUserUI(): UserUIData{
+    return UserUIData(
+        id = id,
+        name = name,
+        phone = phone,
+        birthDate = birthDate
     )
 }
