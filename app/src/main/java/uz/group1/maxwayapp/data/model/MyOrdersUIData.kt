@@ -10,5 +10,8 @@ data class MyOrdersUIData(
     val longitude: Double,
     val ls: List<ProductItem>,
     val sum: Int,
-    val userID: Int
+    val userID: Int,
+    val currentStage: Int,
+    val orderNumber: String,
+    val statusText: String,
 )

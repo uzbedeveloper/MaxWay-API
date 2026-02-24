@@ -126,6 +126,9 @@ fun Data.toUIData(): MyOrdersUIData {
         longitude = longitude,
         ls = ls,
         sum = sum,
-        userID = userID
+        userID = userID,
+        currentStage = 1,
+        orderNumber = "100",
+        statusText = "Yaratildi"
     )
 }
