@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
@@ -32,14 +33,30 @@ class HomeViewModelImpl(
 
     override fun loadHome() {
 
-        if (homeScreenElements.value.banners.isNotEmpty()) return
+        homeScreenElements.update { it.copy(isLoading = true, isError = false) }
 
         viewModelScope.launch {
-            homeScreenElements.update { it.copy(isLoading = true) }
+            delay(1200)
+            if (homeScreenElements.value.banners.isNotEmpty()) return@launch
 
+            homeScreenElements.update { it.copy(isLoading = true, isError = false) }
+
+            val menuJob = launch {
+                menuProductUseCase().collect { result ->
+                    result.onSuccess { updatedMenu ->
+                        homeScreenElements.update {
+                            it.copy(menu = updatedMenu, isLoading = false, isError = false)
+                        }
+                    }
+                    result.onFailure {
+                        homeScreenElements.update {
+                            it.copy(isLoading = false, isError = true)
+                        }
+                    }
+                }
+            }
             val bannersDef = async { bannerUseCase.getAllBanners().first() }
             val categoriesDef = async { categorysUseCase().first() }
-            val menuDef = async { menuProductUseCase().first() }
             val storiesDef = async { getStories().first() }
 
             homeScreenElements.update {
@@ -47,20 +64,8 @@ class HomeViewModelImpl(
                     isLoading = false,
                     banners = bannersDef.await().getOrNull() ?: emptyList(),
                     categories = categoriesDef.await().getOrNull() ?: emptyList(),
-                    menu = menuDef.await().getOrNull() ?: emptyList(),
                     stories = storiesDef.await().getOrNull() ?: emptyList()
                 )
-            }
-
-            menuProductUseCase().collect { result ->
-                result.onSuccess { updatedMenu ->
-                    Log.d("TTT", "loadHome: ${updatedMenu[0].name}")
-                    homeScreenElements.update { it.copy(menu = updatedMenu, isLoading = false) }
-                }
-                result.onFailure {
-                    Log.d("TTT", "loadHome: $it")
-                    homeScreenElements.update { it.copy(isLoading = false) }
-                }
             }
         }
     }

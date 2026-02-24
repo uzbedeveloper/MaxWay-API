@@ -7,6 +7,7 @@ import uz.group1.maxwayapp.data.model.StoryUIData
 
 data class HomeUiElements(
     val isLoading: Boolean = true,
+    val isError: Boolean = false,
     val banners: List<BannerUIData> = emptyList(),
     val categories: List<CategoryChipUI> = emptyList(),
     val menu: List<CategoryUIData> = emptyList(),

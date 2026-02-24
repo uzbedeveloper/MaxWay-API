@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/homeScreen">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/storiesScreen"
@@ -86,5 +86,14 @@
         <action
             android:id="@+id/action_createUserScreen_to_profileScreen"
             app:destination="@id/profileScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        tools:layout="@layout/screen_splash"
+        android:name="uz.group1.maxwayapp.presentation.screens.splash.SplashFragment"
+        android:label="SplashFragment" >
+        <action
+            android:id="@+id/action_splashFragment_to_homeScreen"
+            app:destination="@id/homeScreen" />
     </fragment>
 </navigation>

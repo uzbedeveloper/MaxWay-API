@@ -3,6 +3,7 @@ package uz.group1.maxwayapp.presentation.screens.home
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -17,7 +18,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
-import uz.group1.maxwayapp.data.model.ProductUIData
 import uz.group1.maxwayapp.databinding.ScreenHomeBinding
 import uz.group1.maxwayapp.domain.models.HomeItem
 import uz.group1.maxwayapp.presentation.screens.home.adapter.CategoryAdapter
@@ -38,15 +38,32 @@ class HomeScreen: Fragment(R.layout.screen_home) {
     private lateinit var productsAdapter: HomeMainAdapter
     private lateinit var storiesAdapter: StoriesAdapter
     private var autoScJob: Job? = null
+    private var isFullyLoaded = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setUpRefreshListener()
         setUpAdapters()
         setUpClick()
         observe()
 
     }
+
+    private fun setUpRefreshListener() {
+
+        binding.productsRecyclerVew.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val isAtTop = !recyclerView.canScrollVertically(-1)
+                binding.swipeRefresh.isEnabled = isAtTop
+            }
+        })
+
+        binding.swipeRefresh.setOnRefreshListener({
+            loadImitation()
+        })
+    }
+
 
     private fun setUpClick() {
         binding.btnNotification.setOnClickListener {
@@ -147,9 +164,8 @@ class HomeScreen: Fragment(R.layout.screen_home) {
     private fun observe() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.homeScreenElements
-                    .collect { state ->
-                        handleLoadingState(state.isLoading)
+                viewModel.homeScreenElements.collect { state ->
+                    handleLoadingState(state.isLoading, state.isError)
 
                         if (!state.isLoading) {
                             if (state.banners.isNotEmpty()) {
@@ -175,20 +191,44 @@ class HomeScreen: Fragment(R.layout.screen_home) {
                             productsAdapter.submitList(homeItems)
 
                             storiesAdapter.submitList(state.stories)
+
+                            if (state.stories.isEmpty() || state.banners.isEmpty() || state.categories.isEmpty()) {
+                                isFullyLoaded = false
+                            } else {
+                                isFullyLoaded = true
+                            }
                         }
-                    }
+                }
             }
         }
     }
-    private fun handleLoadingState(isLoading: Boolean) {
+
+    private fun handleLoadingState(isLoading: Boolean, isError: Boolean) {
+        val hasData = productsAdapter.itemCount > 0
+
         if (isLoading) {
-            binding.shimmerLayout.startShimmer()
-            binding.shimmerLayout.visibility = View.VISIBLE
-            binding.mainMotionLayout.visibility = View.GONE
+            if (hasData) {
+                binding.swipeRefresh.isRefreshing = true
+                binding.shimmerLayout.visibility = View.GONE
+            } else {
+                binding.swipeRefresh.isRefreshing = false
+                binding.shimmerLayout.visibility = View.VISIBLE
+                binding.shimmerLayout.startShimmer()
+                binding.mainMotionLayout.visibility = View.GONE
+                binding.layoutEmpty.visibility = View.GONE
+            }
         } else {
+            binding.swipeRefresh.isRefreshing = false
             binding.shimmerLayout.stopShimmer()
             binding.shimmerLayout.visibility = View.GONE
-            binding.mainMotionLayout.visibility = View.VISIBLE
+
+            if (isError && !hasData) {
+                binding.layoutEmpty.visibility = View.VISIBLE
+                binding.mainMotionLayout.visibility = View.GONE
+            } else {
+                binding.layoutEmpty.visibility = View.GONE
+                binding.mainMotionLayout.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -209,4 +249,15 @@ class HomeScreen: Fragment(R.layout.screen_home) {
             }
         }
     }
+
+    private fun loadImitation() {
+        lifecycleScope.launch {
+            binding.mainMotionLayout.isVisible = false
+            binding.shimmerLayout.isVisible = true
+            delay(1200)
+            binding.mainMotionLayout.isVisible = true
+            binding.shimmerLayout.isVisible = false
+        }
+    }
 }
+
