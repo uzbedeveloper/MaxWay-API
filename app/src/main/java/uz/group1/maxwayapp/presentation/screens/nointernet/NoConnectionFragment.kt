@@ -9,6 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import uz.gita.leeson_network.utils.NetworkMonitor
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenNoConnectionBinding
+import uz.group1.maxwayapp.utils.GlobalVariables
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
 
@@ -22,9 +23,17 @@ class NoConnectionFragment: Fragment(R.layout.screen_no_connection) {
 
         networkMonitor = NetworkMonitor(requireContext().applicationContext)
 
+        val message = arguments?.getString("message", "")?: ""
+        if (message.isNotEmpty()){
+            binding.textTitle.text = message
+        }
+
         binding.btnRetry.setOnClickListener {
             checkConnection()
         }
+
+        GlobalVariables.stateVisibilityBottomNav.postValue(false)
+
     }
 
     private fun checkConnection() {

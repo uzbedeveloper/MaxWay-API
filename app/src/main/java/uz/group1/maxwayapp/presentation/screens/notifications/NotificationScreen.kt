@@ -12,6 +12,7 @@ import uz.gita.leeson_network.utils.NetworkMonitor
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenNotificationBinding
 import uz.group1.maxwayapp.presentation.adapters.NotificationsAdapter
+import uz.group1.maxwayapp.utils.GlobalVariables
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
 
@@ -25,6 +26,8 @@ class NotificationScreen: Fragment(R.layout.screen_notification) {
         super.onViewCreated(view, savedInstanceState)
 
         networkMonitor = NetworkMonitor(requireContext().applicationContext)
+
+        GlobalVariables.stateVisibilityBottomNav.postValue(false)
 
         checkConnection()
         setUpClick()

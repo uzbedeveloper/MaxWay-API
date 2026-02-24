@@ -14,7 +14,8 @@ import uz.group1.maxwayapp.domain.models.HomeItem
 import uz.group1.maxwayapp.utils.loadImage
 
 class HomeMainAdapter(
-    private val onCountChanged: (ProductUIData, Int) -> Unit
+    private val onCountChanged: (ProductUIData, Int) -> Unit,
+    private val onItemClick:(ProductUIData,Int) -> Unit
 ) : ListAdapter<HomeItem, RecyclerView.ViewHolder>(HomeItemDiffCallback) {
 
     companion object {
@@ -77,6 +78,10 @@ class HomeMainAdapter(
 
             setupClickListeners()
             updateUI(pr)
+
+            binding.root.setOnClickListener {
+                onItemClick(pr,absoluteAdapterPosition)
+            }
         }
 
         private fun setupClickListeners() {

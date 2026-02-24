@@ -11,4 +11,5 @@
     <string name="no_internet_text">Произошёл сбой в сети, пожалуйста, проверьте, включен ли ваш Wi-Fi/мобильный интернет.</string>
     <string name="no_connection_internet">Нет подключения к интернету!</string>
     <string name="try_again">Попробуйте еще раз</string>
+    <string name="add">Добавить</string>
 </resources>

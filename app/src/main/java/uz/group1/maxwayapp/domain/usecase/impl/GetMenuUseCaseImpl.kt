@@ -13,6 +13,8 @@ class GetMenuUseCaseImpl(private val repo: ProductRepository) : GetMenuUseCase {
         val initial = repo.getCategoriesWithProducts()
         if (initial.isSuccess) {
             emit(initial)
+        }else{
+            emit(Result.failure(initial.exceptionOrNull() ?: Exception("Unknown Error")))
         }
 
         repo.getMenu().collect { updatedList ->

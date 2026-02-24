@@ -21,6 +21,10 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:selectableItemBackgroundBorderless"
         android:src="@drawable/logout_svgrepo_com"
         app:layout_constraintTop_toTopOf="@id/tvTitle"
         app:layout_constraintBottom_toBottomOf="@id/tvTitle"
@@ -110,6 +114,10 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:selectableItemBackgroundBorderless"
                 android:src="@drawable/pencil_edit_button_svgrepo_com"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -142,6 +150,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@color/white"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:selectableItemBackgroundBorderless"
                 android:paddingHorizontal="16dp">
 
                 <androidx.cardview.widget.CardView
@@ -196,6 +207,9 @@
                 android:id="@+id/btn_filial"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:selectableItemBackgroundBorderless"
                 android:background="@color/white"
                 android:paddingHorizontal="16dp">
 
@@ -251,6 +265,9 @@
                 android:id="@+id/btn_lenguage"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:selectableItemBackgroundBorderless"
                 android:background="@color/white"
                 android:paddingHorizontal="16dp">
 

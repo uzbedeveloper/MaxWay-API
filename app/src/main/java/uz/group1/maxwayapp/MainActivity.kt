@@ -2,6 +2,7 @@ package uz.group1.maxwayapp
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -18,7 +19,7 @@ import kotlinx.coroutines.launch
 import uz.gita.leeson_network.utils.NetworkConnectionCallback
 import uz.gita.leeson_network.utils.NetworkMonitor
 import uz.group1.maxwayapp.databinding.ActivityMainBinding
-import uz.group1.maxwayapp.presentation.screens.home.bottomsheet.CartBottomSheet
+import uz.group1.maxwayapp.presentation.screens.home.cart_bottomsheet.CartBottomSheet
 import uz.group1.maxwayapp.utils.GlobalVariables
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
@@ -59,6 +60,7 @@ class MainActivity : AppCompatActivity() {
     private fun setUpObservers() {
         GlobalVariables.stateVisibilityBottomNav.observe(this){
             binding.bottomNav.isVisible = it
+            Log.d("TTT", "setUpObservers: $it")
         }
 
         lifecycleScope.launch {
@@ -120,7 +122,9 @@ class MainActivity : AppCompatActivity() {
         networkMonitor.startMonitoring(object : NetworkConnectionCallback {
             override fun onNetworkAvailable() {
                 runOnUiThread {
-                    GlobalVariables.stateVisibilityBottomNav.postValue(true)
+                    if (navController.currentDestination?.id != R.id.splashFragment){
+                        GlobalVariables.stateVisibilityBottomNav.postValue(true)
+                    }
 
                     if (navController.currentDestination?.id == R.id.noConnectionFragment) {
                         showNotification("Internet tiklandi", NotificationType.SUCCESS)
