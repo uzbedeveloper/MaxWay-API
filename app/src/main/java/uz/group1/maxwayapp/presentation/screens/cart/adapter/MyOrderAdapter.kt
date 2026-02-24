@@ -16,9 +16,26 @@ class MyOrderAdapter : ListAdapter<MyOrdersUIData, MyOrderAdapter.ViewHolder>(Di
 
     inner class ViewHolder(private val binding: ItemMyOrderBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(order: MyOrdersUIData) {
-            binding.statusZakaz.text = "Статус заказа No${order.orderNumber}"
+            val currentTime = System.currentTimeMillis()
+            val diffInMs = currentTime - order.createTime
+            val minutesPassed = (diffInMs / (1000 * 60)).toInt()
 
-            updateStages(order.currentStage)
+            val currentStage = when {
+                minutesPassed < 5 -> 1
+                minutesPassed < 10 -> 2
+                minutesPassed < 20 -> 3
+                else -> 4
+            }
+
+            binding.statusZakaz.text = "Buyurtma №${order.createTime.toString().takeLast(4)}"
+
+            binding.tvDesc.text = when(currentStage) {
+                1 -> "Qabul qilindi"
+                2 -> "Tayyorlanmoqda"
+                3 -> "Yo'lda"
+                else -> "Yetkazildi"
+            }
+            updateStages(currentStage)
         }
 
         private fun updateStages(stage: Int) {
