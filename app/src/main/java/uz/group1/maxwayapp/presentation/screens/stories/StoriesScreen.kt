@@ -2,7 +2,6 @@ package uz.group1.maxwayapp.presentation.screens.stories
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
