@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment_container_name"
-    android:background="#F5F5F5">
+    android:background="#FFFFFF">
 
     <ImageButton
         android:id="@+id/btn_back"
@@ -19,20 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Имя Фамилия"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/btn_back" />
 
     <TextView
         android:id="@+id/tv_name_header"
@@ -58,10 +44,10 @@
         android:layout_marginEnd="24dp"
         android:layout_marginTop="16dp"
         app:boxBackgroundColor="#FFFFFF"
-        app:boxCornerRadiusTopStart="10dp"
-        app:boxCornerRadiusTopEnd="10dp"
-        app:boxCornerRadiusBottomStart="10dp"
-        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusBottomEnd="12dp"
         app:boxStrokeColor="@drawable/selector_input_border_color"
         app:boxStrokeWidth="1.5dp"
         app:hintEnabled="false"
@@ -85,19 +71,51 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/tv_terms_note"
+        android:id="@+id/tv_birthday_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:text="Дата рождения"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/til_name" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_birthday"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="center"
-        android:text="Создавая аккаунт, вы принимаете\nУсловия использования MaxWay"
-        android:textColor="#AAAAAA"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@id/btn_continue"
+        android:layout_marginTop="12dp"
+        app:boxBackgroundColor="#FFFFFF"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxStrokeColor="@drawable/selector_input_border_color"
+        app:boxStrokeWidth="1.5dp"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_birthday_header">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_birthday"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:hint="DD.MM.YYYY"
+            android:focusable="false"
+            android:clickable="true"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:paddingStart="16dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <Button
         android:id="@+id/btn_continue"

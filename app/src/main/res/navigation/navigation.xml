@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_profileScreen_to_filialScreen"
             app:destination="@id/filialScreen" />
+        <action
+            android:id="@+id/action_profileScreen_to_registerScreen"
+            app:destination="@id/registerScreen" />
     </fragment>
     <fragment
         android:id="@+id/filialScreen"
@@ -57,4 +60,31 @@
         android:id="@+id/searchScreen"
         android:name="uz.group1.maxwayapp.presentation.screens.home.search.SearchScreen"
         android:label="SearchScreen" />
+    <fragment
+        android:id="@+id/registerScreen"
+        android:name="uz.group1.maxwayapp.presentation.screens.profile.register.RegisterScreen"
+        android:label="RegisterScreen" >
+        <action
+            android:id="@+id/action_registerScreen_to_verifyScreen"
+            app:destination="@id/verifyScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/verifyScreen"
+        android:name="uz.group1.maxwayapp.presentation.screens.profile.register.VerifyScreen"
+        android:label="VerifyScreen" >
+        <action
+            android:id="@+id/action_verifyScreen_to_profileScreen"
+            app:destination="@id/profileScreen" />
+        <action
+            android:id="@+id/action_verifyScreen_to_createUserScreen"
+            app:destination="@id/createUserScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/createUserScreen"
+        android:name="uz.group1.maxwayapp.presentation.screens.profile.register.CreateUserScreen"
+        android:label="CreateUserScreen" >
+        <action
+            android:id="@+id/action_createUserScreen_to_profileScreen"
+            app:destination="@id/profileScreen" />
+    </fragment>
 </navigation>

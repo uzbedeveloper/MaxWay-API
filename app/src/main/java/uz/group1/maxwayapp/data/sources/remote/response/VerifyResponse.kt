@@ -1,0 +1,5 @@
+package uz.group1.maxwayapp.data.sources.remote.response
+
+data class VerifyResponse(
+    val token: String
+)
