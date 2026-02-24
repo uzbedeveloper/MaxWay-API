@@ -12,11 +12,15 @@ import uz.group1.maxwayapp.data.mapper.toUIData
 import uz.group1.maxwayapp.data.mapper.toUISData
 import uz.group1.maxwayapp.data.model.BannerUIData
 import uz.group1.maxwayapp.data.model.CategoryUIData
+import uz.group1.maxwayapp.data.model.MyOrdersUIData
 import uz.group1.maxwayapp.data.model.ProductSearchUIData
+import uz.group1.maxwayapp.data.sources.local.TokenManager
 import uz.group1.maxwayapp.data.sources.remote.api.ProductApi
+import uz.group1.maxwayapp.data.sources.remote.request.orders.createOrder.CreateOrderRequest
+import uz.group1.maxwayapp.data.sources.remote.response.order.createOrder.CreateOrderResponse
 import uz.group1.maxwayapp.domain.repository.ProductRepository
 
-class ProductRepositoryImpl(private val productApi: ProductApi): ProductRepository {
+class ProductRepositoryImpl private constructor(private val productApi: ProductApi, private val tokenManager: TokenManager): ProductRepository {
 
     private val _menuFlow = MutableStateFlow<List<CategoryUIData>>(emptyList())
     val menuFlow: StateFlow<List<CategoryUIData>> = _menuFlow.asStateFlow()
@@ -39,7 +43,7 @@ class ProductRepositoryImpl(private val productApi: ProductApi): ProductReposito
 
         fun getInstance(): ProductRepository {
             if (!::instance.isInitialized) {
-                instance = ProductRepositoryImpl(ApiClient.productApi)
+                instance = ProductRepositoryImpl(ApiClient.productApi, TokenManager)
             }
             return instance
         }
@@ -92,6 +96,46 @@ class ProductRepositoryImpl(private val productApi: ProductApi): ProductReposito
             val list = response.data.map { it.toUISData() }
             Result.success(list)
         }catch (e: Exception){
+            Result.failure(e)
+        }
+    }
+
+    override fun clearCart() {
+        val currentMenu = _menuFlow.value
+        val resetMenu = currentMenu.map { category->
+            category.copy(
+                products = category.products.map { product->
+                    product.copy(count = 0)
+                }
+            )
+        }
+        _menuFlow.value = resetMenu
+    }
+
+    override suspend fun getMyOrders(): Result<List<MyOrdersUIData>> {
+        return try {
+            val response = productApi.getAllOrders(tokenManager.getToken())
+            Log.d("TTT", "getMyOrders: ${response}")
+            val list = response.data.map {
+                it.toUIData()
+            }
+
+            Log.d("TTT", "getMyOrders: ${list}")
+            Result.success(list)
+
+            } catch (e: Exception) {
+            Log.d("TTT", "getMyOrders: $e")
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun confirmOrder(request: CreateOrderRequest): Result<CreateOrderResponse> {
+        Log.d("TTT", "Order confirmed")
+
+        return try {
+            val response = productApi.createOrder(request = request, token = tokenManager.getToken())
+            Result.success(response)
+        } catch (e: Exception) {
             Result.failure(e)
         }
     }

@@ -6,6 +6,7 @@ import uz.group1.maxwayapp.data.model.CategoryChipUI
 import uz.group1.maxwayapp.data.model.CategoryUIData
 import uz.group1.maxwayapp.data.model.FilialListUIData
 import uz.group1.maxwayapp.data.model.FilialMapUIData
+import uz.group1.maxwayapp.data.model.MyOrdersUIData
 import uz.group1.maxwayapp.data.model.ProductSearchUIData
 import uz.group1.maxwayapp.data.model.ProductUIData
 import uz.group1.maxwayapp.data.model.StoryUIData
@@ -19,6 +20,9 @@ import uz.group1.maxwayapp.data.sources.remote.response.ProductResponse
 import uz.group1.maxwayapp.data.sources.remote.response.ProductSearchResponse
 import uz.group1.maxwayapp.data.sources.remote.response.StoryData
 import uz.group1.maxwayapp.data.sources.remote.response.UserDataResponse
+import uz.group1.maxwayapp.data.sources.remote.response.order.myOrders.Data
+import uz.group1.maxwayapp.data.sources.remote.response.order.myOrders.MyOrdersResponse
+import uz.group1.maxwayapp.data.sources.remote.response.order.myOrders.ProductItem
 
 fun StoryData.toUiData(): StoryUIData {
 
@@ -106,5 +110,25 @@ fun UserDataResponse.toUserUI(): UserUIData{
         name = name,
         phone = phone,
         birthDate = birthDate
+    )
+}
+
+fun ProductItem.toProductUiData(): ProductUIData{
+    return ProductUIData(productData.id, productData.categoryID, productData.name, productData.description, productData.image, productData.cost, count)
+}
+
+fun Data.toUIData(): MyOrdersUIData {
+    return MyOrdersUIData(
+        id = id,
+        address = address,
+        createTime = createTime,
+        latitude = latitude,
+        longitude = longitude,
+        ls = ls,
+        sum = sum,
+        userID = userID,
+        currentStage = 1,
+        orderNumber = "100",
+        statusText = "Yaratildi"
     )
 }

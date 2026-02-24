@@ -19,7 +19,7 @@ import uz.group1.maxwayapp.utils.showNotification
 
 class SplashFragment : Fragment(R.layout.screen_splash) {
 
-    private val repository by lazy { ProductRepositoryImpl(ApiClient.productApi) }
+    private val repository by lazy { ProductRepositoryImpl.getInstance() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
