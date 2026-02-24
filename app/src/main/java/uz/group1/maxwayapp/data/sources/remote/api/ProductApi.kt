@@ -24,10 +24,7 @@ interface ProductApi {
     suspend fun getSearchProduct(@Query("query") query: String): ProductSearchResponse
 
     @POST("create_order")
-    suspend fun createOrder(
-        @Header("token") token: String,
-        @Body request: CreateOrderRequest
-    ): CreateOrderResponse
+    suspend fun createOrder(@Header("token") token: String, @Body request: CreateOrderRequest): CreateOrderResponse
 
     @GET("my_orders")
     suspend fun getAllOrders(@Header("token") token:String): MyOrdersResponse

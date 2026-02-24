@@ -114,22 +114,18 @@ class ProductRepositoryImpl private constructor(private val productApi: ProductA
     override suspend fun getMyOrders(): Result<List<MyOrdersUIData>> {
         return try {
             val response = productApi.getAllOrders(tokenManager.getToken())
-            Log.d("TTT", "getMyOrders: ${response}")
             val list = response.data.map {
                 it.toUIData()
             }
 
-            Log.d("TTT", "getMyOrders: ${list}")
             Result.success(list)
 
             } catch (e: Exception) {
-            Log.d("TTT", "getMyOrders: $e")
             Result.failure(e)
         }
     }
 
     override suspend fun confirmOrder(request: CreateOrderRequest): Result<CreateOrderResponse> {
-        Log.d("TTT", "Order confirmed")
 
         return try {
             val response = productApi.createOrder(request = request, token = tokenManager.getToken())

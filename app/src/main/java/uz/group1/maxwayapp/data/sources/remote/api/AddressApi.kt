@@ -17,20 +17,11 @@ interface AddressApi {
     suspend fun getAddresses(@Header("token") token: String): Response<GeneralResponse<List<AddressData>>>
 
     @POST("/address/add")
-    suspend fun addAddress(
-        @Header("token") token: String,
-        @Body data: AddressRequest
-    ): Response<GeneralResponse<AddressData>>
+    suspend fun addAddress(@Header("token") token: String, @Body data: AddressRequest): Response<GeneralResponse<AddressData>>
 
     @POST("/address/edit")
-    suspend fun editAddress(
-        @Header("token") token: String,
-        @Body data: AddressEditRequest
-    ): Response<GeneralResponse<AddressData>>
+    suspend fun editAddress(@Header("token") token: String, @Body data: AddressEditRequest): Response<GeneralResponse<AddressData>>
 
     @POST("/address/delete")
-    suspend fun deleteAddress(
-        @Header("token") token: String,
-        @Query("id") id: Int
-    ): Response<GeneralResponse<String>>
+    suspend fun deleteAddress(@Header("token") token: String, @Query("id") id: Int): Response<GeneralResponse<String>>
 }
