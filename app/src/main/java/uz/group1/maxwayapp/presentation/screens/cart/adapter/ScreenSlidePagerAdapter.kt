@@ -2,7 +2,7 @@ package uz.group1.maxwayapp.presentation.screens.cart.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import uz.group1.maxwayapp.presentation.screens.cart.pages.CurrentOrdersPage
+import uz.group1.maxwayapp.presentation.screens.cart.pages.current_orders.CurrentOrdersPage
 import uz.group1.maxwayapp.presentation.screens.cart.pages.HistoryOrdersPage
 
 class ScreenSlidePagerAdapter(fa: Fragment) : FragmentStateAdapter(fa) {

@@ -21,6 +21,7 @@ import uz.group1.maxwayapp.data.repository_impl.ProductRepositoryImpl
 import uz.group1.maxwayapp.databinding.DialogBottomsheetCartBinding
 import uz.group1.maxwayapp.domain.repository.ProductRepository
 import uz.group1.maxwayapp.presentation.screens.home.adapter.CartAdapter
+import uz.group1.maxwayapp.presentation.screens.home.dialogs.ConfirmDialog
 
 class CartBottomSheet : BottomSheetDialogFragment() {
 
@@ -60,7 +61,9 @@ class CartBottomSheet : BottomSheetDialogFragment() {
         }
 
         binding.btnChooseDish.setOnClickListener { dismiss() }
-        binding.btnBuy.setOnClickListener { dismiss() }
+        binding.btnBuy.setOnClickListener {
+            ConfirmDialog().show(childFragmentManager, "ConfirmDialog")
+        }
     }
 
     private fun setupRecyclerView() {
