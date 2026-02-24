@@ -1,13 +1,10 @@
 package uz.group1.maxwayapp.data.repository_impl
 
-import android.util.Log
 import com.google.gson.Gson
 import uz.group1.maxwayapp.data.ApiClient
 import uz.group1.maxwayapp.data.mapper.toUiData
 import uz.group1.maxwayapp.data.model.StoryUIData
 import uz.group1.maxwayapp.data.sources.remote.api.StoriesApi
-import uz.group1.maxwayapp.data.sources.remote.response.StoriesResponse
-import uz.group1.maxwayapp.domain.repository.AuthRepository
 import uz.group1.maxwayapp.domain.repository.StoryRepository
 
 class StoryRepositoryImpl(

@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -84,7 +83,7 @@ class RegisterScreen: Fragment(R.layout.screen_register_phone) {
 
 
                 val isReady = (if(digits.length==12) 13 else digits.length) == 13
-                Log.d("TTT", "afterTextChanged: $isReady | $digits, ${digits.length}")
+
                 updateButtonState(isReady)
             }
         })

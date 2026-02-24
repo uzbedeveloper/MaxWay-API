@@ -2,7 +2,6 @@ package uz.group1.maxwayapp
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -60,7 +59,7 @@ class MainActivity : AppCompatActivity() {
     private fun setUpObservers() {
         GlobalVariables.stateVisibilityBottomNav.observe(this){
             binding.bottomNav.isVisible = it
-            Log.d("TTT", "setUpObservers: $it")
+
         }
 
         lifecycleScope.launch {
@@ -96,6 +95,11 @@ class MainActivity : AppCompatActivity() {
                 R.id.createUserScreen ->{
                     binding.bottomNav.visibility = View.GONE
                 }
+
+                R.id.addAddressScreen -> {
+                    binding.bottomNav.visibility = View.GONE
+                }
+
                 else -> {
                     binding.bottomNav.visibility = View.VISIBLE
                 }

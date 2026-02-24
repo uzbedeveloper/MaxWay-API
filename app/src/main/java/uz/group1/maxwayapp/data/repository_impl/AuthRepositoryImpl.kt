@@ -1,6 +1,5 @@
 package uz.group1.maxwayapp.data.repository_impl
 
-import android.util.Log
 import com.google.gson.Gson
 import uz.group1.maxwayapp.data.ApiClient
 import uz.group1.maxwayapp.data.sources.local.TokenManager
@@ -26,13 +25,13 @@ class AuthRepositoryImpl (private val authApi: AuthApi, private val gson: Gson) 
     }
 
     companion object {
-        @Volatile
-        private var instance: AuthRepository? = null
+        private lateinit var instance: AuthRepository
 
         fun getInstance(): AuthRepository {
-            return instance ?: synchronized(this) {
-                instance ?: AuthRepositoryImpl(ApiClient.authApi, Gson()).also { instance = it }
+            if (!(::instance.isInitialized)) {
+                instance = AuthRepositoryImpl(ApiClient.authApi, Gson())
             }
+            return instance
         }
     }
 
