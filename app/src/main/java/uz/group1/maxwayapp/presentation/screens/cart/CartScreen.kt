@@ -6,6 +6,7 @@ import android.transition.TransitionManager
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -31,7 +32,9 @@ class CartScreen : Fragment(R.layout.screen_cart) {
             tab.text = if (position == 0) "Текущий заказ" else "История"
         }.attach()
 
-        binding.btnBack.setOnClickListener { findNavController().navigate(R.id.homeScreen) }
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack(R.id.homeScreen, false)
+        }
 
         /*
         * o'zi aslida repository->useCase->ViewModel->UI bo'lishi kerak edi.
@@ -41,7 +44,11 @@ class CartScreen : Fragment(R.layout.screen_cart) {
 
         if (!repository.hasToken()){
             requireActivity().showNotification("Siz ro'yhatdan o'tishingiz lozim", NotificationType.WARNING)
-            findNavController().navigate(R.id.registerScreen)
+            val navOptions = NavOptions.Builder()
+                .setPopUpTo(R.id.homeScreen, false)
+                .build()
+
+            findNavController().navigate(R.id.registerScreen, null, navOptions)
         }
     }
 }
