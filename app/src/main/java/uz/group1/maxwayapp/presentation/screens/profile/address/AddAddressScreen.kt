@@ -3,13 +3,17 @@ package uz.group1.maxwayapp.presentation.screens.profile.address
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.LocationListener
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
+import android.provider.Settings
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -50,7 +54,13 @@ class AddAddressScreen : Fragment(R.layout.screen_add_address), CameraListener {
         if (granted) {
             enableUserLocationAndMoveCamera()
         } else {
-            Snackbar.make(binding.root, "Geolokatsiya ruxsati berilmadi", 2000).show()
+            val permanentlyDenied = !shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) &&
+                    !shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION)
+            if (permanentlyDenied) {
+                showGoToSettingsDialog()
+            } else {
+                Snackbar.make(binding.root, "Geolokatsiya ruxsati berilmadi", 2000).show()
+            }
         }
     }
 
@@ -76,16 +86,48 @@ class AddAddressScreen : Fragment(R.layout.screen_add_address), CameraListener {
     private fun checkAndRequestLocationPermission() {
         val fine = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
         val coarse = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
-        if (fine == PackageManager.PERMISSION_GRANTED || coarse == PackageManager.PERMISSION_GRANTED) {
-            enableUserLocationAndMoveCamera()
-        } else {
-            locationPermissionLauncher.launch(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
+        when {
+            fine == PackageManager.PERMISSION_GRANTED || coarse == PackageManager.PERMISSION_GRANTED -> {
+                enableUserLocationAndMoveCamera()
+            }
+            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Geolokatsiya ruxsati")
+                    .setMessage("Manzilingizni to'g'ri belgilash uchun geolokatsiyaga ruxsat bering")
+                    .setPositiveButton("Ruxsat berish") { _, _ ->
+                        locationPermissionLauncher.launch(
+                            arrayOf(
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION
+                            )
+                        )
+                    }
+                    .setNegativeButton("Bekor qilish", null)
+                    .show()
+            }
+            else -> {
+                locationPermissionLauncher.launch(
+                    arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    )
                 )
-            )
+            }
         }
+    }
+
+    private fun showGoToSettingsDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Geolokatsiya o'chirilgan")
+            .setMessage("Sozlamalarga o'tib geolokatsiyaga ruxsat bering")
+            .setPositiveButton("Sozlamalar") { _, _ ->
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = Uri.fromParts("package", requireContext().packageName, null)
+                }
+                startActivity(intent)
+            }
+            .setNegativeButton("Bekor qilish", null)
+            .show()
     }
 
     @SuppressLint("MissingPermission")
@@ -163,18 +205,7 @@ class AddAddressScreen : Fragment(R.layout.screen_add_address), CameraListener {
         }
 
         binding.btnMyLocation.setOnClickListener {
-            val fine = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-            val coarse = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
-            if (fine == PackageManager.PERMISSION_GRANTED || coarse == PackageManager.PERMISSION_GRANTED) {
-                enableUserLocationAndMoveCamera()
-            } else {
-                locationPermissionLauncher.launch(
-                    arrayOf(
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    )
-                )
-            }
+            checkAndRequestLocationPermission()
         }
 
         binding.btnSave.setOnClickListener {
@@ -205,6 +236,15 @@ class AddAddressScreen : Fragment(R.layout.screen_add_address), CameraListener {
         locationListener = null
         binding.mapview.mapWindow.map.removeCameraListener(this)
         super.onDestroyView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val fine = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+        val coarse = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+        if (fine == PackageManager.PERMISSION_GRANTED || coarse == PackageManager.PERMISSION_GRANTED) {
+            enableUserLocationAndMoveCamera()
+        }
     }
 
     override fun onStart() {
