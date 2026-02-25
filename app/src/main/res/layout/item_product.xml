@@ -16,7 +16,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:id="@+id/img_product"
+            android:id="@+id/imgProduct"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_height="150dp"
             tools:src="@mipmap/ic_launcher" />
@@ -29,7 +29,7 @@
             android:textStyle="bold"
             android:padding="10dp"
             android:textColor="@color/purple"
-            app:layout_constraintTop_toBottomOf="@id/img_product"
+            app:layout_constraintTop_toBottomOf="@id/imgProduct"
             android:layout_marginTop="8dp"
             android:scrollHorizontally="false"
             android:singleLine="false"

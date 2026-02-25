@@ -2,6 +2,9 @@ package uz.group1.maxwayapp
 
 import android.graphics.Color
 import android.os.Bundle
+import android.transition.Slide
+import android.transition.TransitionManager
+import android.view.Gravity
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -40,14 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            v.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                v.paddingBottom
-            )
-
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, v.paddingBottom)
             insets
         }
 
@@ -74,28 +70,21 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.navContainerView) as NavHostFragment
 
         navController = navHostFragment.navController
+
+        NavigationUI.setupWithNavController(binding.bottomNav, navController)
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.filialScreen -> {
-                    binding.bottomNav.visibility = View.GONE
-                }
-                R.id.notificationScreen ->{
-                    binding.bottomNav.visibility = View.GONE
-                }
-                R.id.searchScreen -> {
-                    binding.bottomNav.visibility = View.GONE
-                }
-                R.id.registerScreen ->{
-                    binding.bottomNav.visibility = View.GONE
-                }
-                R.id.verifyScreen -> {
-                    binding.bottomNav.visibility = View.GONE
+            val isHiddenScreen = destination.id in setOf(
+                R.id.filialScreen, R.id.notificationScreen, R.id.searchScreen,
+                R.id.registerScreen, R.id.verifyScreen, R.id.createUserScreen, R.id.addAddressScreen
+            )
 
-                }
-                R.id.createUserScreen ->{
-                    binding.bottomNav.visibility = View.GONE
-                }
+            val transition = Slide(Gravity.BOTTOM).apply {
+                duration = 200
+                addTarget(binding.bottomNav)
+            }
 
+            TransitionManager.beginDelayedTransition(binding.root as android.view.ViewGroup, transition)
                 R.id.addAddressScreen -> {
                     binding.bottomNav.visibility = View.GONE
                 }
@@ -103,10 +92,7 @@ class MainActivity : AppCompatActivity() {
                     binding.bottomNav.visibility = View.GONE
                 }
 
-                else -> {
-                    binding.bottomNav.visibility = View.VISIBLE
-                }
-            }
+            binding.bottomNav.visibility = if (isHiddenScreen) View.GONE else View.VISIBLE
         }
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
 

@@ -20,6 +20,7 @@ import uz.group1.maxwayapp.data.sources.remote.response.StoryData
 import uz.group1.maxwayapp.data.sources.remote.response.UserDataResponse
 import uz.group1.maxwayapp.data.sources.remote.response.order.myOrders.Data
 import uz.group1.maxwayapp.data.sources.remote.response.order.myOrders.ProductItem
+import uz.group1.maxwayapp.data.sources.remote.response.recomended_product.RecomendedProductItem
 
 fun StoryData.toUiData(): StoryUIData {
 
@@ -112,6 +113,10 @@ fun UserDataResponse.toUserUI(): UserUIData{
 
 fun ProductItem.toProductUiData(): ProductUIData{
     return ProductUIData(productData.id, productData.categoryID, productData.name, productData.description, productData.image, productData.cost, count)
+}
+
+fun RecomendedProductItem.toProductUIData(): ProductUIData {
+    return ProductUIData(id,categoryID,name,description,image,cost,0)
 }
 
 fun Data.toUIData(): MyOrdersUIData {

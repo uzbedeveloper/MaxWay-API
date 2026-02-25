@@ -35,16 +35,15 @@ class StoriesScreen: Fragment(R.layout.screen_stories) {
 
         setUpObservers()
         setupTouchListener()
-
-        val currentPosition = arguments?.getInt("currentPosition") ?: 0
-        binding.viewPager.setCurrentItem(currentPosition, false)
-
     }
 
     private fun setUpObservers() {
         viewModel.storiesLiveData.observe(viewLifecycleOwner) { list ->
             if (list.isNotEmpty()) {
                 setupViewPager(list)
+
+                val initialPosition = arguments?.getInt("currentPosition") ?: 0
+                binding.viewPager.setCurrentItem(initialPosition, false)
             }
         }
 
@@ -109,12 +108,11 @@ class StoriesScreen: Fragment(R.layout.screen_stories) {
     }
 
     private fun updateUI(index: Int, progress: Int) {
-        if (binding.viewPager.currentItem != index) {
+        if (binding.viewPager.currentItem != index && !binding.viewPager.isFakeDragging) {
             binding.viewPager.setCurrentItem(index, true)
         }
 
-        val bar = binding.storyProgressBar
-        bar.progress = progress
+        binding.storyProgressBar.progress = progress
     }
 
 }
