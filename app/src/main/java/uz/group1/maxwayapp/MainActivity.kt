@@ -85,12 +85,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             TransitionManager.beginDelayedTransition(binding.root as android.view.ViewGroup, transition)
-                R.id.addAddressScreen -> {
-                    binding.bottomNav.visibility = View.GONE
-                }
-                R.id.splashFragment ->{
-                    binding.bottomNav.visibility = View.GONE
-                }
 
             binding.bottomNav.visibility = if (isHiddenScreen) View.GONE else View.VISIBLE
         }
