@@ -2,6 +2,7 @@ package uz.group1.maxwayapp.data.sources.remote.api
 
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -22,6 +23,6 @@ interface AddressApi {
     @POST("/address/edit")
     suspend fun editAddress(@Header("token") token: String, @Body data: AddressEditRequest): Response<GeneralResponse<AddressData>>
 
-    @POST("/address/delete")
+    @DELETE("/address/delete")
     suspend fun deleteAddress(@Header("token") token: String, @Query("id") id: Int): Response<GeneralResponse<String>>
 }

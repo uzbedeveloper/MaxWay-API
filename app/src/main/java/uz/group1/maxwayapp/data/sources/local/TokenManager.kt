@@ -26,7 +26,7 @@ object TokenManager {
         }
     }
 
-    fun getToken(): String = prefs.getString(KEY_TOKEN, "")?:""
+    fun getToken(): String? = prefs.getString(KEY_TOKEN, null)?.takeIf { it.isNotEmpty() }
     fun getName(): String? = prefs.getString(KEY_NAME, "")
     fun getPhone(): String? = prefs.getString(KEY_PHONE, "")
     fun getBirthDate(): String? = prefs.getString(KEY_BIRTH_DATE, "")

@@ -21,10 +21,14 @@ class ProfileScreen: Fragment(R.layout.screen_profile) {
             )
         }
 
+        childFragmentManager.setFragmentResultListener(
+            AddressBottomSheet.RESULT_KEY, viewLifecycleOwner
+        ) { _, _ ->
+            findNavController().navigate(R.id.action_profileScreen_to_addAddressScreen)
+        }
+
         binding.btnMyAddresses.setOnClickListener {
-            AddressBottomSheet {
-                findNavController().navigate(R.id.action_profileScreen_to_addAddressScreen)
-            }.show(childFragmentManager, "address_bottom_sheet")
+            AddressBottomSheet().show(childFragmentManager, "address_bottom_sheet")
         }
         val token = TokenManager.getToken()
         val isAuthorized = !token.isNullOrEmpty()
