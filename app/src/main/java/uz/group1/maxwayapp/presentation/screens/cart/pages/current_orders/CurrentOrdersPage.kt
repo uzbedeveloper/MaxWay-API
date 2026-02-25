@@ -3,6 +3,7 @@ package uz.group1.maxwayapp.presentation.screens.cart.pages.current_orders
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -29,6 +30,10 @@ class CurrentOrdersPage: Fragment(R.layout.page_current_orders) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.ordersRv.adapter = adapter
+
+        adapter.setOnItemClickListener {
+            findNavController().navigate(R.id.orderDetailScreen, bundleOf("currentOrder" to it))
+        }
 
         binding.btnHome.setOnClickListener {
             findNavController().navigate(R.id.homeScreen)

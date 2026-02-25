@@ -238,7 +238,6 @@ class HomeScreen: Fragment(R.layout.screen_home) {
             }
         }
     }
-
     private fun setupBannerAutoScroll(size: Int) {
         if (autoScJob == null) {
             val middlePosition = (Int.MAX_VALUE / 2) - ((Int.MAX_VALUE / 2) % size)
