@@ -85,7 +85,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
     //yandex mapkit
-    implementation("com.yandex.android:maps.mobile:4.29.0-full")
+    implementation("com.yandex.android:maps.mobile:4.29.0-lite")
 
     implementation("com.airbnb.android:lottie:6.7.1")
 

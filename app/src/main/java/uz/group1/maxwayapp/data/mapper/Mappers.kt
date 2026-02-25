@@ -13,15 +13,12 @@ import uz.group1.maxwayapp.data.model.StoryUIData
 import uz.group1.maxwayapp.data.model.UserUIData
 import uz.group1.maxwayapp.data.sources.remote.response.BannerResponse
 import uz.group1.maxwayapp.data.sources.remote.response.NotificationData
-import uz.group1.maxwayapp.data.sources.remote.response.CategoriesResponse
 import uz.group1.maxwayapp.data.sources.remote.response.CategoryResponse
 import uz.group1.maxwayapp.data.sources.remote.response.FilialData
 import uz.group1.maxwayapp.data.sources.remote.response.ProductResponse
-import uz.group1.maxwayapp.data.sources.remote.response.ProductSearchResponse
 import uz.group1.maxwayapp.data.sources.remote.response.StoryData
 import uz.group1.maxwayapp.data.sources.remote.response.UserDataResponse
 import uz.group1.maxwayapp.data.sources.remote.response.order.myOrders.Data
-import uz.group1.maxwayapp.data.sources.remote.response.order.myOrders.MyOrdersResponse
 import uz.group1.maxwayapp.data.sources.remote.response.order.myOrders.ProductItem
 
 fun StoryData.toUiData(): StoryUIData {

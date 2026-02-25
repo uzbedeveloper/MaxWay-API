@@ -73,10 +73,14 @@ class HomeScreen: Fragment(R.layout.screen_home) {
         binding.btnSearch.setOnClickListener {
             findNavController().navigate(R.id.action_homeScreen_to_searchScreen)
         }
+        childFragmentManager.setFragmentResultListener(
+            AddressBottomSheet.RESULT_KEY, viewLifecycleOwner
+        ) { _, _ ->
+            findNavController().navigate(R.id.action_homeScreen_to_addAddressScreen)
+        }
+
         binding.btnDelivery.setOnClickListener {
-            AddressBottomSheet {
-                findNavController().navigate(R.id.action_homeScreen_to_addAddressScreen)
-            }.show(childFragmentManager, "address_bottom_sheet")
+            AddressBottomSheet().show(childFragmentManager, "address_bottom_sheet")
         }
     }
 
