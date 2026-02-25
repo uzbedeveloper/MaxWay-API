@@ -126,6 +126,14 @@ class ProductRepositoryImpl private constructor(private val productApi: ProductA
         }
     }
 
+    override fun clear() {
+        _menuFlow.value = emptyList()
+        tokenManager.clear()
+    }
+    override fun hasToken(): Boolean {
+        return tokenManager.getToken() != null
+    }
+
     override suspend fun confirmOrder(request: CreateOrderRequest): Result<CreateOrderResponse> {
 
         return try {

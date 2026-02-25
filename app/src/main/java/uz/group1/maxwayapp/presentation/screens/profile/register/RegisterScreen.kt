@@ -29,7 +29,7 @@ class RegisterScreen: Fragment(R.layout.screen_register_phone) {
             viewModel.register(phone)
         }
         binding.btnBack.setOnClickListener {
-            findNavController().popBackStack()
+            findNavController().navigate(R.id.homeScreen)
         }
 
         observeViewModel()

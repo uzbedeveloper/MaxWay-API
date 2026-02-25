@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -47,6 +48,15 @@ class ConfirmDialog : DialogFragment(R.layout.dialog_confirm) {
         }
 
         binding.btnConfirm.setOnClickListener {
+
+            if (!repository.hasToken()){
+                requireActivity().showNotification("Siz ro'yhatdan o'tishingiz lozim", NotificationType.WARNING)
+                (parentFragment as? BottomSheetDialogFragment)?.dismiss()
+                dismiss()
+                findNavController().navigate(R.id.registerScreen)
+                return@setOnClickListener
+            }
+
             viewLifecycleOwner.lifecycleScope.launch {
                 try {
                     val categories = repository.getMenu().first()
@@ -67,8 +77,23 @@ class ConfirmDialog : DialogFragment(R.layout.dialog_confirm) {
                         (parentFragment as? BottomSheetDialogFragment)?.dismiss()
                         dismiss()
                     } else {
-                        requireActivity().showNotification(result.exceptionOrNull()?.message.toString(), NotificationType.WARNING)
-                        Log.e("API_ERROR", result.exceptionOrNull()?.message.toString())
+
+                        /*
+                        * o'zi bu yerda ham type ga o'girib chiqish kerak edi.
+                        * keyingi holatda fix qilinadi
+                        * */
+                        val message = result.exceptionOrNull()?.message.toString()
+
+                        if (message.contains("400")){
+                            requireActivity().showNotification("Foydalanuvchi topilmadi", NotificationType.ERROR)
+                            findNavController().navigate(R.id.registerScreen)
+                        }else{
+                            requireActivity().showNotification(message, NotificationType.ERROR)
+                        }
+                        (parentFragment as? BottomSheetDialogFragment)?.dismiss()
+                        dismiss()
+
+                        Log.e("API_ERROR",message )
                     }
                 } catch (e: Exception) {
                     Log.e("CONFIRM_ERROR", e.message.toString())

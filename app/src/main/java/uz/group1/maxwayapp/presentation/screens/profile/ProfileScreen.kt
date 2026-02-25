@@ -6,12 +6,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import uz.group1.maxwayapp.R
+import uz.group1.maxwayapp.data.repository_impl.ProductRepositoryImpl
 import uz.group1.maxwayapp.data.sources.local.TokenManager
 import uz.group1.maxwayapp.databinding.ScreenProfileBinding
 import uz.group1.maxwayapp.presentation.screens.profile.address.AddressBottomSheet
 
 class ProfileScreen: Fragment(R.layout.screen_profile) {
     private val binding by viewBinding(ScreenProfileBinding::bind)
+    private val repository = ProductRepositoryImpl.getInstance()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,7 +57,7 @@ class ProfileScreen: Fragment(R.layout.screen_profile) {
         }
 
         binding.logout.setOnClickListener {
-            TokenManager.clear()
+            repository.clear()
             binding.cardUserInfo.visibility = View.GONE
             binding.cardRegister.visibility = View.VISIBLE
             binding.logout.visibility = View.GONE

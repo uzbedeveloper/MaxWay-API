@@ -11,7 +11,7 @@
         android:text="@string/no_connection_internet"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:textSize="20sp"
+        android:textSize="@dimen/title_main"
         app:layout_constraintBottom_toTopOf="@id/animation_view"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
