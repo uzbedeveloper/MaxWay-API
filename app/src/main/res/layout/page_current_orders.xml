@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:paddingHorizontal="20dp"
+    android:paddingHorizontal="10dp"
     android:gravity="center">
 
     <LinearLayout
@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:visibility="gone"
         android:orientation="vertical">
 
         <ImageView
@@ -36,6 +37,7 @@
             android:textSize="16sp" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -65,6 +67,17 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </LinearLayout>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="10dp"
+        android:id="@+id/shimmerLayout">
+
+        <include
+            layout="@layout/shimmer_order"/>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 
 </FrameLayout>

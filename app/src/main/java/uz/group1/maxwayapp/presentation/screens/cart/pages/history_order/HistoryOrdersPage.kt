@@ -1,24 +1,26 @@
-package uz.group1.maxwayapp.presentation.screens.cart.pages.current_orders
+package uz.group1.maxwayapp.presentation.screens.cart.pages.history_order
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.PageCurrentOrdersBinding
 import uz.group1.maxwayapp.presentation.screens.cart.adapter.MyOrderAdapter
+import uz.group1.maxwayapp.presentation.screens.cart.pages.current_orders.CurrentOrdersPageContract
+import uz.group1.maxwayapp.presentation.screens.cart.pages.current_orders.CurrentOrdersPageViewModel
+import uz.group1.maxwayapp.presentation.screens.cart.pages.current_orders.CurrentOrdersPageViewModelFactory
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
+import kotlin.getValue
 
-class CurrentOrdersPage: Fragment(R.layout.page_current_orders) {
+class HistoryOrdersPage: Fragment(R.layout.page_current_orders) {
 
     private val binding by viewBinding(PageCurrentOrdersBinding::bind)
-    private val viewModel: CurrentOrdersPageContract by viewModels<CurrentOrdersPageViewModel>{
-        CurrentOrdersPageViewModelFactory()
+    private val viewModel: HistoryOrdersPageContract by viewModels<HistoryOrdersPageViewModel>{
+        HistoryOrdersPageViewModelFactory()
     }
 
     private val adapter by lazy { MyOrderAdapter() }
@@ -27,10 +29,6 @@ class CurrentOrdersPage: Fragment(R.layout.page_current_orders) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.ordersRv.adapter = adapter
-
-        binding.btnHome.setOnClickListener {
-            findNavController().navigate(R.id.homeScreen)
-        }
 
         viewModel.progressLiveData.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
@@ -46,6 +44,7 @@ class CurrentOrdersPage: Fragment(R.layout.page_current_orders) {
         }
 
         viewModel.ordersLiveData.observe(viewLifecycleOwner) { orders ->
+            Log.d("TTT", "onViewCreated: ${orders.size}")
             if (orders.isEmpty()) {
                 binding.emptyState.visibility = View.VISIBLE
                 binding.layoutMain.visibility = View.GONE
@@ -64,4 +63,3 @@ class CurrentOrdersPage: Fragment(R.layout.page_current_orders) {
 
     }
 }
-
