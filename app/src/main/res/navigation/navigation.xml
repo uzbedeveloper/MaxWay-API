@@ -32,7 +32,13 @@
         android:id="@+id/cartScreen"
         tools:layout="@layout/screen_cart"
         android:name="uz.group1.maxwayapp.presentation.screens.cart.CartScreen"
-        android:label="CartScreen" />
+        android:label="CartScreen" >
+        <action
+            android:id="@+id/action_cartScreen_to_registerScreen"
+            app:destination="@id/registerScreen"
+            app:popUpTo="@id/cartScreen"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/profileScreen"
         tools:layout="@layout/screen_profile"
@@ -84,6 +90,9 @@
         <action
             android:id="@+id/action_registerScreen_to_verifyScreen"
             app:destination="@id/verifyScreen" />
+        <action
+            android:id="@+id/action_registerScreen_to_cartScreen"
+            app:destination="@id/cartScreen" />
     </fragment>
     <fragment
         android:id="@+id/verifyScreen"
@@ -115,6 +124,8 @@
         android:label="SplashFragment" >
         <action
             android:id="@+id/action_splashFragment_to_homeScreen"
-            app:destination="@id/homeScreen" />
+            app:destination="@id/homeScreen"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

@@ -6,6 +6,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import uz.group1.maxwayapp.R
@@ -67,7 +68,11 @@ class CurrentOrdersPage: Fragment(R.layout.page_current_orders) {
             when{
                 errorMessage.contains("400")->{
                     requireActivity().showNotification("Foydalanuvchi topilmadi", NotificationType.ERROR)
-                    findNavController().navigate(R.id.registerScreen)
+                    val navOptions = NavOptions.Builder()
+                        .setPopUpTo(R.id.homeScreen, false)
+                        .build()
+
+                    findNavController().navigate(R.id.registerScreen, null, navOptions)
                 }
 
                 else->{
