@@ -16,7 +16,9 @@ import uz.group1.maxwayapp.data.model.ProductSearchUIData
 import uz.group1.maxwayapp.data.sources.local.TokenManager
 import uz.group1.maxwayapp.data.sources.remote.api.ProductApi
 import uz.group1.maxwayapp.data.sources.remote.request.orders.createOrder.CreateOrderRequest
+import uz.group1.maxwayapp.data.sources.remote.request.recomended_product.RecomendedProductRequest
 import uz.group1.maxwayapp.data.sources.remote.response.order.createOrder.CreateOrderResponse
+import uz.group1.maxwayapp.data.sources.remote.response.recomended_product.RecomendedProductResponse
 import uz.group1.maxwayapp.domain.repository.ProductRepository
 
 class ProductRepositoryImpl private constructor(private val productApi: ProductApi, private val tokenManager: TokenManager): ProductRepository {
@@ -122,6 +124,20 @@ class ProductRepositoryImpl private constructor(private val productApi: ProductA
             Result.success(list)
 
             } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun getRecommendedProducts(ids: List<Int>): Result<RecomendedProductResponse> {
+        return try {
+            val response = productApi.getRecommendedProducts(RecomendedProductRequest(ids))
+
+            if (response.isSuccessful && response.body()!=null) {
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(Throwable(response.errorBody()?.string() ?: "Unknown error"))
+            }
+        } catch (e: Exception) {
             Result.failure(e)
         }
     }
