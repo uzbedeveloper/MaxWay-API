@@ -43,6 +43,9 @@
             app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_homeScreen_to_addAddressScreen"
             app:destination="@id/addAddressScreen" />
+        <action
+            android:id="@+id/action_homeScreen_to_orderDetailScreen"
+            app:destination="@id/orderDetailScreen" />
     </fragment>
     <fragment
         android:id="@+id/cartScreen"
@@ -188,4 +191,8 @@
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/orderDetailScreen"
+        android:name="uz.group1.maxwayapp.presentation.screens.cart_details.OrderDetailScreen"
+        android:label="OrderDetailScreen" />
 </navigation>
