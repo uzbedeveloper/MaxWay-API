@@ -17,14 +17,19 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a")
+        }
     }
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://extramundane-arlo-stereospecific.ngrok-free.dev\"")
+            buildConfigField("String", "BASE_URL", "\"https://pledgeable-marly-hubert.ngrok-free.dev\"")
         }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
