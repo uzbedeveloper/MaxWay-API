@@ -14,6 +14,11 @@ import uz.group1.maxwayapp.databinding.ItemMyOrderBinding
 
 class MyOrderAdapter : ListAdapter<MyOrdersUIData, MyOrderAdapter.ViewHolder>(DiffCallback) {
 
+    private var onItemClick: ((MyOrdersUIData) -> Unit)? = null
+    fun setOnItemClickListener(l: (MyOrdersUIData) -> Unit) {
+        onItemClick = l
+    }
+
     inner class ViewHolder(private val binding: ItemMyOrderBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(order: MyOrdersUIData) {
             val currentTime = System.currentTimeMillis()
@@ -28,6 +33,10 @@ class MyOrderAdapter : ListAdapter<MyOrdersUIData, MyOrderAdapter.ViewHolder>(Di
             }
 
             binding.statusZakaz.text = "Buyurtma №${order.createTime.toString().takeLast(4)}"
+
+            binding.root.setOnClickListener {
+                onItemClick?.invoke(order)
+            }
 
             binding.tvDesc.text = when(currentStage) {
                 1 -> "Qabul qilindi"

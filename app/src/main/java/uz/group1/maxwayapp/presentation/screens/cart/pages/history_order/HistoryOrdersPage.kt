@@ -3,8 +3,10 @@ package uz.group1.maxwayapp.presentation.screens.cart.pages.history_order
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.PageCurrentOrdersBinding
@@ -29,6 +31,10 @@ class HistoryOrdersPage: Fragment(R.layout.page_current_orders) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.ordersRv.adapter = adapter
+
+        adapter.setOnItemClickListener {
+            findNavController().navigate(R.id.orderDetailScreen, bundleOf("currentOrder" to it))
+        }
 
         viewModel.progressLiveData.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {

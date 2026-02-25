@@ -1,6 +1,7 @@
 package uz.group1.maxwayapp.data.model
 
 import uz.group1.maxwayapp.data.sources.remote.response.order.myOrders.ProductItem
+import java.io.Serializable
 
 data class MyOrdersUIData(
     val address: String,
@@ -14,4 +15,4 @@ data class MyOrdersUIData(
     val currentStage: Int,
     val orderNumber: String,
     val statusText: String,
-)
+): Serializable
