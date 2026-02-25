@@ -1,24 +1,3 @@
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/d9b586c1-d5fc-48b6-b58f-2ee9c2304788" width="220" alt="Splash Screen" />
-  <img src="https://github.com/user-attachments/assets/a314111a-0bfb-4329-96a6-3ef72b58eb77" width="220" alt="Main Screen" />
-  <img src="https://github.com/user-attachments/assets/08ec7fd3-e681-4f9c-9172-a44040c7924c" width="220" alt="Main Scrolled" 
-</p>
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/87da5f4d-d4b5-466b-bf28-1b7ebea504b9" width="220" alt="Yandex Map" />
-  <img src="https://github.com/user-attachments/assets/2b986ee3-8ea0-4b0e-aff7-d2d618ac4509" width="220" alt="Branches" />
-  <img src="https://github.com/user-attachments/assets/ca7ad9bb-0da6-49bc-95ae-ffcbe27e06b4" width="220" alt="Cart BottomSheet" />
-</p>
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/f5b4e1d5-e267-4b86-afef-e68d003d345b" width="220" alt="Product Details" />/>
-  <img src="https://github.com/user-attachments/assets/45b17cbb-4309-417e-bc74-051f0a14fa69" width="220" alt="Stories" />
-  <img src="https://github.com/user-attachments/assets/cc0e2683-b32d-4cc0-9378-ba2da2538d81" width="220" alt="Orders History" />
-  <img src="https://github.com/user-attachments/assets/8f4cebcc-5a29-4391-87f3-5eee91768cfb" width="220" alt="Notifications" />
-</p>
-
-
 # 🍔 MaxWay App - Fast Food Delivery Clone
 
 <p align="center">
@@ -69,6 +48,25 @@ Loyihaning asosi eng so'nggi Android standartlariga tayanadi:
 | **Jetpack Navigation** | Fragmentlar orasidagi murakkab o'tishlar va SafeArgs orqali ma'lumot uzatish. |
 | **Dynamic UI** | Ma'lumotlar yuklanayotgan vaqtda Shimmer effect yoki Progress bar holatlari. |
 
+---
+<p align="center">
+    <img src="https://github.com/user-attachments/assets/d9b586c1-d5fc-48b6-b58f-2ee9c2304788" width="220" alt="Splash" />
+    <img src="https://github.com/user-attachments/assets/a314111a-0bfb-4329-96a6-3ef72b58eb77" width="220" alt="Main" />
+    <img src="https://github.com/user-attachments/assets/08ec7fd3-e681-4f9c-9172-a44040c7924c" width="220" alt="Main Scrolled" />
+  </p>
+  
+  <p align="center">
+    <img src="https://github.com/user-attachments/assets/87da5f4d-d4b5-466b-bf28-1b7ebea504b9" width="220" alt="Yandex Map" />
+    <img src="https://github.com/user-attachments/assets/2b986ee3-8ea0-4b0e-aff7-d2d618ac4509" width="220" alt="Branches" />
+    <img src="https://github.com/user-attachments/assets/ca7ad9bb-0da6-49bc-95ae-ffcbe27e06b4" width="220" alt="Cart" />
+  </p>
+
+  <p align="center">
+    <img src="https://github.com/user-attachments/assets/f5b4e1d5-e267-4b86-afef-e68d003d345b" width="220" alt="Product Details" />
+    <img src="https://github.com/user-attachments/assets/45b17cbb-4309-417e-bc74-051f0a14fa69" width="220" alt="Stories" />
+    <img src="https://github.com/user-attachments/assets/cc0e2683-b32d-4cc0-9378-ba2da2538d81" width="220" alt="History" />
+    <img src="https://github.com/user-attachments/assets/8f4cebcc-5a29-4391-87f3-5eee91768cfb" width="220" alt="Notifications" />
+  </p>
 ---
 
 ## 🗺️ Kelajakdagi Rejalar (Roadmap)
