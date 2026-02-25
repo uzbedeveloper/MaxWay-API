@@ -20,4 +20,7 @@ interface ProductRepository {
     fun clearCart()
 
     suspend fun getMyOrders(): Result<List<MyOrdersUIData>>
+
+    fun hasToken(): Boolean
+    fun clear()
 }

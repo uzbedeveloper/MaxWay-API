@@ -32,7 +32,7 @@
             android:text="Филиалы"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="@dimen/title_main"
             app:layout_constraintTop_toTopOf="@id/btn_back"
             app:layout_constraintBottom_toBottomOf="@id/btn_back"
             app:layout_constraintStart_toStartOf="parent"

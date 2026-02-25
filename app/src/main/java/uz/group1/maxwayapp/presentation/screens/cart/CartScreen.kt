@@ -11,12 +11,16 @@ import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import uz.group1.maxwayapp.R
+import uz.group1.maxwayapp.data.repository_impl.ProductRepositoryImpl
 import uz.group1.maxwayapp.databinding.ScreenCartBinding
 import uz.group1.maxwayapp.presentation.screens.cart.adapter.ScreenSlidePagerAdapter
+import uz.group1.maxwayapp.utils.NotificationType
+import uz.group1.maxwayapp.utils.showNotification
 
 class CartScreen : Fragment(R.layout.screen_cart) {
 
     private val binding by viewBinding(ScreenCartBinding::bind)
+    private val repository = ProductRepositoryImpl.getInstance()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -27,6 +31,17 @@ class CartScreen : Fragment(R.layout.screen_cart) {
             tab.text = if (position == 0) "Текущий заказ" else "История"
         }.attach()
 
-        binding.btnBack.setOnClickListener { findNavController().popBackStack() }
+        binding.btnBack.setOnClickListener { findNavController().navigate(R.id.homeScreen) }
+
+        /*
+        * o'zi aslida repository->useCase->ViewModel->UI bo'lishi kerak edi.
+        * keyinchalik implementation ni to'g'rilab ketaman.
+        * xozircha repository->UI
+        * */
+
+        if (!repository.hasToken()){
+            requireActivity().showNotification("Siz ro'yhatdan o'tishingiz lozim", NotificationType.WARNING)
+            findNavController().navigate(R.id.registerScreen)
+        }
     }
 }

@@ -6,6 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import uz.group1.maxwayapp.BuildConfig.BASE_URL
 import uz.group1.maxwayapp.app.MyApp
+import uz.group1.maxwayapp.data.sources.remote.api.AddressApi
 //import uz.group1.maxwayapp.data.sources.remote.api.AddressApi
 import uz.group1.maxwayapp.data.sources.remote.api.AuthApi
 import uz.group1.maxwayapp.data.sources.remote.api.BranchApi
@@ -31,5 +32,5 @@ object ApiClient {
     val notificationsApi = retrofit.create(NotificationsApi::class.java)
 
     val branchApi = retrofit.create(BranchApi::class.java)
-//    val addressApi = retrofit.create(AddressApi::class.java)
+    val addressApi = retrofit.create(AddressApi::class.java)
 }

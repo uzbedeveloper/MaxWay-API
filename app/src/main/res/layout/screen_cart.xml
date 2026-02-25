@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:text="Мои заказы"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="@dimen/title_main"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/btn_back"
             app:layout_constraintEnd_toEndOf="parent"
