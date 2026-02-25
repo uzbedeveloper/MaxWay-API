@@ -65,7 +65,6 @@ class HomeScreen: Fragment(R.layout.screen_home) {
         })
     }
 
-
     private fun setUpClick() {
         binding.btnNotification.setOnClickListener {
             findNavController().navigate(R.id.action_homeScreen_to_notificationScreen)
@@ -162,7 +161,7 @@ class HomeScreen: Fragment(R.layout.screen_home) {
         storiesAdapter.setOnItemClickListener { data, i ->
             findNavController().navigate(
                 R.id.action_homeScreen_to_storiesScreen,
-                bundleOf("currentPosition" to i)
+                bundleOf("currentPosition" to i, "currentData" to data)
             )
             GlobalVariables.stateVisibilityBottomNav.postValue(false)
         }

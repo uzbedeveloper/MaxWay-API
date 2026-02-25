@@ -23,7 +23,7 @@ class ProductInfoBottomSheet : BottomSheetDialogFragment() {
 
     private val repository: ProductRepository = ProductRepositoryImpl.getInstance()
 
-    private var currentCount = 1
+    private var currentCount = 0
     private var productId: Int = -1
     private var price = 0
 
