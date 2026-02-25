@@ -58,6 +58,7 @@
         android:label="AddAddressScreen" />
     <fragment
         android:id="@+id/filialScreen"
+        tools:layout="@layout/screen_filial"
         android:name="uz.group1.maxwayapp.presentation.screens.profile.filial.FilialScreen"
         android:label="FilialScreen" />
     <fragment
@@ -72,10 +73,12 @@
         android:label="NoConnectionFragment" />
     <fragment
         android:id="@+id/searchScreen"
+        tools:layout="@layout/screen_search"
         android:name="uz.group1.maxwayapp.presentation.screens.home.search.SearchScreen"
         android:label="SearchScreen" />
     <fragment
         android:id="@+id/registerScreen"
+        tools:layout="@layout/screen_register_phone"
         android:name="uz.group1.maxwayapp.presentation.screens.profile.register.RegisterScreen"
         android:label="RegisterScreen" >
         <action
@@ -84,6 +87,7 @@
     </fragment>
     <fragment
         android:id="@+id/verifyScreen"
+        tools:layout="@layout/screen_register_sms_code"
         android:name="uz.group1.maxwayapp.presentation.screens.profile.register.VerifyScreen"
         android:label="VerifyScreen" >
         <action
@@ -95,6 +99,7 @@
     </fragment>
     <fragment
         android:id="@+id/createUserScreen"
+        tools:layout="@layout/screen_register_name"
         android:name="uz.group1.maxwayapp.presentation.screens.profile.register.CreateUserScreen"
         android:label="CreateUserScreen" >
         <action

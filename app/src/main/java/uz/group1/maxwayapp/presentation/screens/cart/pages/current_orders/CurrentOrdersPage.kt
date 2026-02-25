@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import uz.group1.maxwayapp.R
+import uz.group1.maxwayapp.data.sources.local.TokenManager
 import uz.group1.maxwayapp.databinding.PageCurrentOrdersBinding
 import uz.group1.maxwayapp.presentation.screens.cart.adapter.MyOrderAdapter
 import uz.group1.maxwayapp.utils.NotificationType
@@ -46,6 +47,12 @@ class CurrentOrdersPage: Fragment(R.layout.page_current_orders) {
         }
 
         viewModel.ordersLiveData.observe(viewLifecycleOwner) { orders ->
+            if (TokenManager.getToken() == null){
+                binding.emptyState.visibility = View.VISIBLE
+                binding.layoutMain.visibility = View.GONE
+                return@observe
+            }
+
             if (orders.isEmpty()) {
                 binding.emptyState.visibility = View.VISIBLE
                 binding.layoutMain.visibility = View.GONE
@@ -57,7 +64,16 @@ class CurrentOrdersPage: Fragment(R.layout.page_current_orders) {
         }
 
         viewModel.errorLiveData.observe(viewLifecycleOwner) { errorMessage ->
-            requireActivity().showNotification(errorMessage, NotificationType.ERROR)
+            when{
+                errorMessage.contains("400")->{
+                    requireActivity().showNotification("Foydalanuvchi topilmadi", NotificationType.ERROR)
+                    findNavController().navigate(R.id.registerScreen)
+                }
+
+                else->{
+                    requireActivity().showNotification(errorMessage, NotificationType.ERROR)
+                }
+            }
         }
 
         viewModel.loadMyOrders()
