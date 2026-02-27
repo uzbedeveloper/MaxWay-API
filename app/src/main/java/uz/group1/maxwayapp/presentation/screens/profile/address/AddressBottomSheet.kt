@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -16,6 +18,9 @@ import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.repository_impl.AddressRepositoryImpl
 import uz.group1.maxwayapp.databinding.DialogBottomsheetAddressBinding
 import uz.group1.maxwayapp.domain.repository.AddressRepository
+import uz.group1.maxwayapp.utils.NotificationType
+import uz.group1.maxwayapp.utils.dpToPx
+import uz.group1.maxwayapp.utils.showNotification
 
 class AddressBottomSheet : BottomSheetDialogFragment() {
 
@@ -62,7 +67,8 @@ class AddressBottomSheet : BottomSheetDialogFragment() {
                     adapter.submitList(list)
                 }
             }.onFailure { error ->
-                Snackbar.make(binding.root, error.message ?: "Xatolik", 2000).show()
+                requireActivity().showNotification(error.message ?: "Xatolik",
+                    NotificationType.ERROR)
             }
         }
     }
@@ -73,7 +79,8 @@ class AddressBottomSheet : BottomSheetDialogFragment() {
             result.onSuccess {
                 loadAddresses()
             }.onFailure { error ->
-                Snackbar.make(binding.root, error.message ?: "O'chirishda xatolik", 2000).show()
+                requireActivity().showNotification(error.message ?: "O'chirishda xatolik",
+                    NotificationType.ERROR)
             }
         }
     }
@@ -95,8 +102,7 @@ class AddressBottomSheet : BottomSheetDialogFragment() {
             it.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
             val behavior = BottomSheetBehavior.from(it)
             behavior.isFitToContents = false
-            behavior.halfExpandedRatio = 0.6f
-            behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
 }

@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:id="@+id/main"
-    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -28,8 +27,9 @@
         app:menu="@menu/bottom_menu"
         app:itemActiveIndicatorStyle="@null"
         android:background="@color/white"
+        app:paddingBottomSystemWindowInsets="false"
+        app:paddingTopSystemWindowInsets="false"
         app:itemIconTint="@color/bottom_nav_color"
-        app:itemTextColor="@color/bottom_nav_color"
-       />
+        app:itemTextColor="@color/bottom_nav_color" />
 
 </LinearLayout>

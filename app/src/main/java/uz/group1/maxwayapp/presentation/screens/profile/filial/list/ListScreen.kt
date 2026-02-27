@@ -9,6 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.PageListBinding
+import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
 import uz.group1.maxwayapp.presentation.screens.profile.filial.FilialViewModel
 import uz.group1.maxwayapp.presentation.screens.profile.filial.FilialViewModelFactory
 import uz.group1.maxwayapp.presentation.screens.profile.filial.FilialViewModelImpl

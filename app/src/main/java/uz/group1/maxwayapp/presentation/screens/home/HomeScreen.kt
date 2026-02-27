@@ -21,6 +21,7 @@ import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenHomeBinding
 import uz.group1.maxwayapp.presentation.screens.profile.address.AddressBottomSheet
 import uz.group1.maxwayapp.domain.models.HomeItem
+import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
 import uz.group1.maxwayapp.presentation.screens.home.adapter.CategoryAdapter
 import uz.group1.maxwayapp.presentation.screens.home.adapter.HomeMainAdapter
 import uz.group1.maxwayapp.presentation.screens.home.adapter.StoriesAdapter
@@ -28,7 +29,7 @@ import uz.group1.maxwayapp.presentation.screens.home.banner.BannerAdapter
 import uz.group1.maxwayapp.presentation.screens.home.product_infobottomsheet.ProductInfoBottomSheet
 import uz.group1.maxwayapp.utils.GlobalVariables
 
-class HomeScreen: Fragment(R.layout.screen_home) {
+class HomeScreen: BaseFragment(R.layout.screen_home) {
 
     private val binding by viewBinding(ScreenHomeBinding::bind)
     private val viewModel: HomeViewModel by viewModels<HomeViewModelImpl> { HomeViewModelFactory() }
@@ -40,6 +41,9 @@ class HomeScreen: Fragment(R.layout.screen_home) {
     private lateinit var storiesAdapter: StoriesAdapter
     private var autoScJob: Job? = null
     private var isFullyLoaded = false
+
+    override val applyBottomInset: Boolean
+        get() = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

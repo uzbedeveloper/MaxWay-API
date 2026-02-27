@@ -12,7 +12,9 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenRegisterSmsCodeBinding
-class VerifyScreen : Fragment(R.layout.screen_register_sms_code) {
+import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
+
+class VerifyScreen : BaseFragment(R.layout.screen_register_sms_code) {
 
     private val binding by viewBinding(ScreenRegisterSmsCodeBinding::bind)
     private val viewModel: RegisterViewModel by viewModels { RegisterViewModelFactory() }

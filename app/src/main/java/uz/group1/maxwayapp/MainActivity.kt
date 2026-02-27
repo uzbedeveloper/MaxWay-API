@@ -1,6 +1,7 @@
 package uz.group1.maxwayapp
 
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.transition.Slide
 import android.transition.TransitionManager
@@ -10,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -36,20 +38,23 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        enableEdgeToEdge()
+        enableEdgeToEdge(
+            statusBarStyle = androidx.activity.SystemBarStyle.dark(
+                android.graphics.Color.TRANSPARENT
+            ),
+            navigationBarStyle = androidx.activity.SystemBarStyle.dark(
+                android.graphics.Color.TRANSPARENT
+            )
+        )
         setContentView(binding.root)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         networkMonitor = NetworkMonitor(applicationContext)
-
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, v.paddingBottom)
-            insets
-        }
 
         setUpBottomNav()
         networkMonitor()
         setUpObservers()
+
     }
 
     private fun setUpObservers() {

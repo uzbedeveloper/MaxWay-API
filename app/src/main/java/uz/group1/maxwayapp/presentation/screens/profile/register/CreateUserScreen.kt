@@ -12,9 +12,10 @@ import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.repository_impl.AuthRepositoryImpl
 import uz.group1.maxwayapp.databinding.ScreenRegisterNameBinding
+import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
 import java.util.Calendar
 
-class CreateUserScreen : Fragment(R.layout.screen_register_name) {
+class CreateUserScreen : BaseFragment(R.layout.screen_register_name) {
     private val binding by viewBinding(ScreenRegisterNameBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

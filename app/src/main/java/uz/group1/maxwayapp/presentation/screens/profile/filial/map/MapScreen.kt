@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.model.FilialMapUIData
 import uz.group1.maxwayapp.databinding.PageMapBinding
+import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
 import uz.group1.maxwayapp.presentation.screens.profile.filial.FilialViewModel
 import uz.group1.maxwayapp.presentation.screens.profile.filial.FilialViewModelFactory
 import uz.group1.maxwayapp.presentation.screens.profile.filial.FilialViewModelImpl

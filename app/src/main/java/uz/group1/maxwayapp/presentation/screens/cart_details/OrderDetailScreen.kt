@@ -11,12 +11,13 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.model.MyOrdersUIData
 import uz.group1.maxwayapp.databinding.ScreenOrderDetailBinding
+import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
 import uz.group1.maxwayapp.utils.loadImage
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class OrderDetailScreen : Fragment(R.layout.screen_order_detail) {
+class OrderDetailScreen : BaseFragment(R.layout.screen_order_detail) {
 
     private val binding by viewBinding(ScreenOrderDetailBinding::bind)
 

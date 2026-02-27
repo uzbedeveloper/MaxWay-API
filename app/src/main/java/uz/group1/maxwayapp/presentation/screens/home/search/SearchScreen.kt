@@ -14,8 +14,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenSearchBinding
+import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
 
-class SearchScreen : Fragment(R.layout.screen_search) {
+class SearchScreen : BaseFragment(R.layout.screen_search) {
     private val binding by viewBinding(ScreenSearchBinding::bind)
     private val viewModel: SearchViewModel by viewModels { SearchViewModelFactory() }
     private val adapter by lazy { SearchAdapter() }

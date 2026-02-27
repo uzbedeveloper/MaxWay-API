@@ -15,8 +15,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.snackbar.Snackbar
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenRegisterPhoneBinding
+import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
 
-class RegisterScreen: Fragment(R.layout.screen_register_phone) {
+class RegisterScreen: BaseFragment(R.layout.screen_register_phone) {
     private val binding by viewBinding(ScreenRegisterPhoneBinding::bind)
     private val viewModel: RegisterViewModel by viewModels { RegisterViewModelFactory() }
 
@@ -40,7 +41,7 @@ class RegisterScreen: Fragment(R.layout.screen_register_phone) {
         binding.btnContinueLogin.isEnabled = isReady
         binding.btnContinueLogin.backgroundTintList = ColorStateList.valueOf(if (isReady) Color.parseColor("#8150A0") else Color.parseColor("#F2F2F2"))
         binding.btnContinueLogin.setTextColor(
-            if (isReady) Color.BLACK else Color.parseColor("#FFFFFF")
+            if (isReady) Color.WHITE else Color.parseColor("#FFFFFF")
         )
     }
 
