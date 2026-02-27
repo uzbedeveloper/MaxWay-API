@@ -67,6 +67,7 @@ class AddressBottomSheet : BottomSheetDialogFragment() {
                     adapter.submitList(list)
                 }
             }.onFailure { error ->
+                dismiss()
                 requireActivity().showNotification(error.message ?: "Xatolik",
                     NotificationType.ERROR)
             }
@@ -102,7 +103,8 @@ class AddressBottomSheet : BottomSheetDialogFragment() {
             it.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
             val behavior = BottomSheetBehavior.from(it)
             behavior.isFitToContents = false
-            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            behavior.halfExpandedRatio = 0.8f
+            behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
         }
     }
 }
