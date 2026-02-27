@@ -16,10 +16,18 @@ import com.google.android.material.snackbar.Snackbar
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenRegisterPhoneBinding
 import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
+import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarConfig
+import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarIconStyle
 
 class RegisterScreen: BaseFragment(R.layout.screen_register_phone) {
     private val binding by viewBinding(ScreenRegisterPhoneBinding::bind)
     private val viewModel: RegisterViewModel by viewModels { RegisterViewModelFactory() }
+
+    override val systemBarConfig = SystemBarConfig(
+        statusBarIcons = SystemBarIconStyle.DARK_ICONS,
+        navigationBarIcons = SystemBarIconStyle.DARK_ICONS,
+        fullscreen = false
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

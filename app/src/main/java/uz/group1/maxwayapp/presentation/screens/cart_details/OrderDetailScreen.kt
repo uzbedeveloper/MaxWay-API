@@ -12,6 +12,8 @@ import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.model.MyOrdersUIData
 import uz.group1.maxwayapp.databinding.ScreenOrderDetailBinding
 import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
+import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarConfig
+import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarIconStyle
 import uz.group1.maxwayapp.utils.loadImage
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -20,6 +22,12 @@ import java.util.Locale
 class OrderDetailScreen : BaseFragment(R.layout.screen_order_detail) {
 
     private val binding by viewBinding(ScreenOrderDetailBinding::bind)
+
+    override val systemBarConfig = SystemBarConfig(
+        statusBarIcons = SystemBarIconStyle.DARK_ICONS,
+        navigationBarIcons = SystemBarIconStyle.DARK_ICONS,
+        fullscreen = false
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

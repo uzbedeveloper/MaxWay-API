@@ -10,6 +10,8 @@ import uz.group1.maxwayapp.data.repository_impl.ProductRepositoryImpl
 import uz.group1.maxwayapp.data.sources.local.TokenManager
 import uz.group1.maxwayapp.databinding.ScreenProfileBinding
 import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
+import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarConfig
+import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarIconStyle
 import uz.group1.maxwayapp.presentation.screens.profile.address.AddressBottomSheet
 
 class ProfileScreen: BaseFragment(R.layout.screen_profile) {
@@ -18,6 +20,12 @@ class ProfileScreen: BaseFragment(R.layout.screen_profile) {
 
     override val applyBottomInset: Boolean = false
     override val applyTopInset: Boolean = true
+
+    override val systemBarConfig = SystemBarConfig(
+        statusBarIcons = SystemBarIconStyle.DARK_ICONS,
+        navigationBarIcons = SystemBarIconStyle.DARK_ICONS,
+        fullscreen = false
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -22,6 +22,8 @@ import uz.group1.maxwayapp.databinding.ScreenHomeBinding
 import uz.group1.maxwayapp.presentation.screens.profile.address.AddressBottomSheet
 import uz.group1.maxwayapp.domain.models.HomeItem
 import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
+import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarConfig
+import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarIconStyle
 import uz.group1.maxwayapp.presentation.screens.home.adapter.CategoryAdapter
 import uz.group1.maxwayapp.presentation.screens.home.adapter.HomeMainAdapter
 import uz.group1.maxwayapp.presentation.screens.home.adapter.StoriesAdapter
@@ -44,6 +46,12 @@ class HomeScreen: BaseFragment(R.layout.screen_home) {
 
     override val applyBottomInset: Boolean
         get() = false
+
+    override val systemBarConfig = SystemBarConfig(
+        statusBarIcons = SystemBarIconStyle.DARK_ICONS,
+        navigationBarIcons = SystemBarIconStyle.DARK_ICONS,
+        fullscreen = false
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -267,6 +275,7 @@ class HomeScreen: BaseFragment(R.layout.screen_home) {
             delay(1200)
             binding.mainMotionLayout.isVisible = true
             binding.shimmerLayout.isVisible = false
+            binding.swipeRefresh.isRefreshing = false
         }
     }
 }

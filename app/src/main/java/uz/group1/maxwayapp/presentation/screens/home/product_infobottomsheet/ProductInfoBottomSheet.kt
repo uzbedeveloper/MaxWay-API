@@ -105,7 +105,7 @@ class ProductInfoBottomSheet : BottomSheetDialogFragment() {
                 val product = categories.flatMap { it.products }.find { it.id == productId }
 
                 product?.let {
-                    currentCount = if (it.count > 0) it.count else 1
+                    currentCount = it.count
                     updateCounterUI()
                 }
             }
@@ -115,12 +115,21 @@ class ProductInfoBottomSheet : BottomSheetDialogFragment() {
     private fun updateCounterUI() {
         binding.textCount.text = currentCount.toString()
 
-        binding.tvPrice.text = (price * currentCount).toString() + "сум"
+        if (currentCount > 0) {
+            val totalPrice = price * currentCount
+            binding.tvPrice.text = "$totalPrice сум"
+            binding.tvPrice.visibility = View.VISIBLE
+        } else {
+            val totalPrice = price * 1
+            binding.tvPrice.text = "$totalPrice сум"
+        }
 
         if (productId != -1) {
             repository.updateProductCount(productId, currentCount)
         }
 
+        binding.btnMinus.isEnabled = currentCount > 0
+        binding.btnMinus.alpha = if (currentCount > 0) 1.0f else 0.5f
     }
 
     private fun showEmptyState() {
