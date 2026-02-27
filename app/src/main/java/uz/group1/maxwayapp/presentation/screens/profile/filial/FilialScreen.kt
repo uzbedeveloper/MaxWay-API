@@ -10,11 +10,19 @@ import com.google.android.material.tabs.TabLayoutMediator
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenFilialBinding
 import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
+import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarConfig
+import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarIconStyle
 import uz.group1.maxwayapp.presentation.screens.profile.filial.list.ListScreen
 import uz.group1.maxwayapp.presentation.screens.profile.filial.map.MapScreen
 
 class FilialScreen : BaseFragment(R.layout.screen_filial) {
     private val binding by viewBinding(ScreenFilialBinding::bind)
+
+    override val systemBarConfig = SystemBarConfig(
+        statusBarIcons = SystemBarIconStyle.DARK_ICONS,
+        navigationBarIcons = SystemBarIconStyle.DARK_ICONS,
+        fullscreen = false
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

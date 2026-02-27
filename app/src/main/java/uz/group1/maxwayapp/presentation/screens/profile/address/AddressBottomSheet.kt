@@ -68,6 +68,7 @@ class AddressBottomSheet : BottomSheetDialogFragment() {
                     adapter.submitList(list)
                 }
             }.onFailure { error ->
+                dismiss()
                 Snackbar.make(binding.root, error.message ?: "Xatolik", 2000).show()
                 if (error is CancellationException) return@onFailure
                 requireActivity().showNotification(error.message ?: "Xatolik",
@@ -107,7 +108,8 @@ class AddressBottomSheet : BottomSheetDialogFragment() {
             it.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
             val behavior = BottomSheetBehavior.from(it)
             behavior.isFitToContents = false
-            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            behavior.halfExpandedRatio = 0.8f
+            behavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
         }
     }
 }

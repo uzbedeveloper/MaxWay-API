@@ -14,6 +14,8 @@ import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.ApiClient
 import uz.group1.maxwayapp.data.repository_impl.ProductRepositoryImpl
 import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
+import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarConfig
+import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarIconStyle
 import uz.group1.maxwayapp.utils.GlobalVariables
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
@@ -22,26 +24,20 @@ class SplashFragment : BaseFragment(R.layout.screen_splash) {
 
     override val applyBottomInset: Boolean = false
     override val applyTopInset: Boolean = false
-    override val isFullscreen: Boolean = true
+
+    override val systemBarConfig = SystemBarConfig(
+        statusBarIcons = SystemBarIconStyle.LIGHT_ICONS,
+        navigationBarIcons = SystemBarIconStyle.LIGHT_ICONS,
+        fullscreen = true
+    )
 
     private val repository by lazy { ProductRepositoryImpl.getInstance() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setSystemBarColors(R.color.purple_1200)
-
         checkServerAndNavigate()
         GlobalVariables.stateVisibilityBottomNav.postValue(false)
-
-    }
-
-    private fun setSystemBarColors(colorRes: Int) {
-        val window = requireActivity().window
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        val color = ContextCompat.getColor(requireContext(), colorRes)
-        window.statusBarColor = color
-        window.navigationBarColor = color
     }
 
     private fun checkServerAndNavigate() {
@@ -61,9 +57,5 @@ class SplashFragment : BaseFragment(R.layout.screen_splash) {
                 findNavController().navigate(R.id.noConnectionFragment, bundleOf("message" to message))
             }
         }
-    }
-    override fun onDestroyView() {
-        setSystemBarColors(R.color.white)
-        super.onDestroyView()
     }
 }

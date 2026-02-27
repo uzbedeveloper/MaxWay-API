@@ -12,6 +12,8 @@ import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenNotificationBinding
 import uz.group1.maxwayapp.presentation.adapters.NotificationsAdapter
 import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
+import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarConfig
+import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarIconStyle
 import uz.group1.maxwayapp.utils.GlobalVariables
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
@@ -21,6 +23,12 @@ class NotificationScreen: BaseFragment(R.layout.screen_notification) {
     private lateinit var networkMonitor: NetworkMonitor
     private val binding by viewBinding(ScreenNotificationBinding::bind)
     private val viewModel: NotificationsViewModel by viewModels<NotificationsViewModelImpl>{NotificationsViewModelFactory()}
+
+    override val systemBarConfig = SystemBarConfig(
+        statusBarIcons = SystemBarIconStyle.DARK_ICONS,
+        navigationBarIcons = SystemBarIconStyle.DARK_ICONS,
+        fullscreen = false
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

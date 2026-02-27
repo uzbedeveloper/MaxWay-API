@@ -2,6 +2,7 @@ package uz.group1.maxwayapp.presentation.screens.base_fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -12,18 +13,13 @@ abstract class BaseFragment(
     layoutRes: Int
 ) : Fragment(layoutRes) {
 
-    open val applyBottomInset: Boolean = true
+    open val systemBarConfig: SystemBarConfig? = null
+
     open val applyTopInset: Boolean = true
-    open val isFullscreen: Boolean = false
+    open val applyBottomInset: Boolean = true
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        if (isFullscreen) {
-            enableFullscreen()
-        } else {
-            disableFullscreen()
-        }
 
         ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -38,23 +34,38 @@ abstract class BaseFragment(
             insets
         }
     }
-    private fun enableFullscreen() {
+
+    override fun onResume() {
+        super.onResume()
+        applySystemBarConfig()
+    }
+
+    private fun applySystemBarConfig() {
+        val config = systemBarConfig ?: return
+
         val window = requireActivity().window
         val controller = WindowCompat.getInsetsController(window, window.decorView)
 
-        controller.hide(WindowInsetsCompat.Type.systemBars())
-        controller.systemBarsBehavior =
-            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-    }
+        controller.isAppearanceLightStatusBars =
+            config.statusBarIcons == SystemBarIconStyle.DARK_ICONS
 
-    private fun disableFullscreen() {
-        val window = requireActivity().window
-        val controller = WindowCompat.getInsetsController(window, window.decorView)
+        controller.isAppearanceLightNavigationBars =
+            config.navigationBarIcons == SystemBarIconStyle.DARK_ICONS
 
-        controller.show(WindowInsetsCompat.Type.systemBars())
-    }
-    override fun onDestroyView() {
-        disableFullscreen()
-        super.onDestroyView()
+        config.statusBarColorRes?.let {
+            window.statusBarColor = ContextCompat.getColor(requireContext(), it)
+        }
+
+        config.navigationBarColorRes?.let {
+            window.navigationBarColor = ContextCompat.getColor(requireContext(), it)
+        }
+
+        if (config.fullscreen) {
+            controller.hide(WindowInsetsCompat.Type.systemBars())
+            controller.systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        } else {
+            controller.show(WindowInsetsCompat.Type.systemBars())
+        }
     }
 }
