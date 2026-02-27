@@ -13,6 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.repository_impl.AddressRepositoryImpl
@@ -68,6 +69,8 @@ class AddressBottomSheet : BottomSheetDialogFragment() {
                 }
             }.onFailure { error ->
                 dismiss()
+                Snackbar.make(binding.root, error.message ?: "Xatolik", 2000).show()
+                if (error is CancellationException) return@onFailure
                 requireActivity().showNotification(error.message ?: "Xatolik",
                     NotificationType.ERROR)
             }
@@ -80,6 +83,8 @@ class AddressBottomSheet : BottomSheetDialogFragment() {
             result.onSuccess {
                 loadAddresses()
             }.onFailure { error ->
+                Snackbar.make(binding.root, error.message ?: "O'chirishda xatolik", 2000).show()
+                if (error is CancellationException) return@onFailure
                 requireActivity().showNotification(error.message ?: "O'chirishda xatolik",
                     NotificationType.ERROR)
             }
