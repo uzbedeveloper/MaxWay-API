@@ -2,7 +2,7 @@ package uz.group1.maxwayapp.presentation.screens.profile
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import uz.group1.maxwayapp.R
@@ -61,10 +61,17 @@ class ProfileScreen: BaseFragment(R.layout.screen_profile) {
         }
 
         binding.logout.setOnClickListener {
-            repository.clear()
-            binding.cardUserInfo.visibility = View.GONE
-            binding.cardRegister.visibility = View.VISIBLE
-            binding.logout.visibility = View.GONE
+            AlertDialog.Builder(requireContext())
+                .setTitle("Выход")
+                .setMessage("Вы уверены, что хотите выйти?")
+                .setPositiveButton("Выйти") { _, _ ->
+                    repository.clear()
+                    binding.cardUserInfo.visibility = View.GONE
+                    binding.cardRegister.visibility = View.VISIBLE
+                    binding.logout.visibility = View.GONE
+                }
+                .setNegativeButton("Отмена", null)
+                .show()
         }
 
     }

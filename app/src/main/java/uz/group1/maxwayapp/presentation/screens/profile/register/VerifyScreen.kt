@@ -13,6 +13,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenRegisterSmsCodeBinding
 import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
+import uz.group1.maxwayapp.utils.NotificationType
+import uz.group1.maxwayapp.utils.showNotification
 
 class VerifyScreen : BaseFragment(R.layout.screen_register_sms_code) {
 
@@ -89,7 +91,7 @@ class VerifyScreen : BaseFragment(R.layout.screen_register_sms_code) {
             if (isFull) Color.parseColor("#8150A0") else Color.parseColor("#F2F3F5")
         )
         binding.btnVerifyCode.setTextColor(
-            if (isFull) Color.BLACK else Color.parseColor("#A1A7B0")
+            if (isFull) Color.WHITE else Color.parseColor("#A1A7B0")
         )
     }
 
@@ -99,6 +101,17 @@ class VerifyScreen : BaseFragment(R.layout.screen_register_sms_code) {
     }
 
     private fun observeViewModel() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.loadingFlow.collect { isLoading ->
+                binding.progressVerify.visibility = if (isLoading) View.VISIBLE else View.GONE
+                binding.btnVerifyCode.text = if (isLoading) "" else "Продолжить"
+                if (isLoading) {
+                    binding.btnVerifyCode.isEnabled = false
+                } else {
+                    checkButtonState(getEnteredCode())
+                }
+            }
+        }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.timerFlow.collect { sec ->
                 if (sec > 0) {
@@ -125,7 +138,7 @@ class VerifyScreen : BaseFragment(R.layout.screen_register_sms_code) {
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.errorFlow.collect { msg ->
-                com.google.android.material.snackbar.Snackbar.make(binding.root, msg, 2000).show()
+                requireActivity().showNotification(msg, NotificationType.ERROR)
             }
         }
     }
