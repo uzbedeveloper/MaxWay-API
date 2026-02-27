@@ -14,14 +14,17 @@ import com.google.android.material.tabs.TabLayoutMediator
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.repository_impl.ProductRepositoryImpl
 import uz.group1.maxwayapp.databinding.ScreenCartBinding
+import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
 import uz.group1.maxwayapp.presentation.screens.cart.adapter.ScreenSlidePagerAdapter
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
 
-class CartScreen : Fragment(R.layout.screen_cart) {
+class CartScreen : BaseFragment(R.layout.screen_cart) {
 
     private val binding by viewBinding(ScreenCartBinding::bind)
     private val repository = ProductRepositoryImpl.getInstance()
+
+    override val applyBottomInset = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

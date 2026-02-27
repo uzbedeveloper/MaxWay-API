@@ -33,8 +33,9 @@ import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.repository_impl.AddressRepositoryImpl
 import uz.group1.maxwayapp.databinding.ScreenAddAddressBinding
 import uz.group1.maxwayapp.domain.repository.AddressRepository
+import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
 
-class AddAddressScreen : Fragment(R.layout.screen_add_address), CameraListener {
+class AddAddressScreen : BaseFragment(R.layout.screen_add_address), CameraListener {
 
     private val binding by viewBinding(ScreenAddAddressBinding::bind)
     private val repository: AddressRepository = AddressRepositoryImpl.getInstance()

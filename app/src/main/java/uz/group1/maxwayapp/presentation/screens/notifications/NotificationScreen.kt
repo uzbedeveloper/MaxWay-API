@@ -11,11 +11,12 @@ import uz.gita.leeson_network.utils.NetworkMonitor
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenNotificationBinding
 import uz.group1.maxwayapp.presentation.adapters.NotificationsAdapter
+import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
 import uz.group1.maxwayapp.utils.GlobalVariables
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
 
-class NotificationScreen: Fragment(R.layout.screen_notification) {
+class NotificationScreen: BaseFragment(R.layout.screen_notification) {
 
     private lateinit var networkMonitor: NetworkMonitor
     private val binding by viewBinding(ScreenNotificationBinding::bind)

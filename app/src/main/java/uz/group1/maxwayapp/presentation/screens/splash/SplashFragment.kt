@@ -13,11 +13,16 @@ import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.ApiClient
 import uz.group1.maxwayapp.data.repository_impl.ProductRepositoryImpl
+import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
 import uz.group1.maxwayapp.utils.GlobalVariables
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
 
-class SplashFragment : Fragment(R.layout.screen_splash) {
+class SplashFragment : BaseFragment(R.layout.screen_splash) {
+
+    override val applyBottomInset: Boolean = false
+    override val applyTopInset: Boolean = false
+    override val isFullscreen: Boolean = true
 
     private val repository by lazy { ProductRepositoryImpl.getInstance() }
 

@@ -22,13 +22,18 @@ import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.model.StoryUIData
 import uz.group1.maxwayapp.databinding.ScreenStoriesBinding
 import uz.group1.maxwayapp.presentation.adapters.StoryAdapter
+import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
 
-class StoriesScreen: Fragment(R.layout.screen_stories) {
+class StoriesScreen: BaseFragment(R.layout.screen_stories) {
 
     private val binding by viewBinding(ScreenStoriesBinding::bind)
     private val viewModel by viewModels<StoriesViewModelImpl> { StoriesViewModelFactory() }
+
+    override val isFullscreen: Boolean = true
+    override val applyBottomInset: Boolean = true
+    override val applyTopInset: Boolean = true
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

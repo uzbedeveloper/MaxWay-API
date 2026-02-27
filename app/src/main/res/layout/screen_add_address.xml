@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="240dp"
+        android:layout_marginBottom="260dp"
         android:orientation="vertical"
         android:gravity="center">
 
@@ -96,6 +96,7 @@
             android:focusable="true"
             app:cardCornerRadius="22dp"
             app:cardElevation="4dp"
+            android:layout_marginBottom="10dp"
             app:cardBackgroundColor="@android:color/white">
 
             <ImageView
@@ -116,6 +117,8 @@
         android:layout_gravity="bottom"
         app:cardCornerRadius="24dp"
         app:cardElevation="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginHorizontal="8dp"
         app:cardBackgroundColor="@android:color/white">
 
         <LinearLayout

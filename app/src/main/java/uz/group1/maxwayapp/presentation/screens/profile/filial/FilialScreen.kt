@@ -9,10 +9,11 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenFilialBinding
+import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
 import uz.group1.maxwayapp.presentation.screens.profile.filial.list.ListScreen
 import uz.group1.maxwayapp.presentation.screens.profile.filial.map.MapScreen
 
-class FilialScreen : Fragment(R.layout.screen_filial) {
+class FilialScreen : BaseFragment(R.layout.screen_filial) {
     private val binding by viewBinding(ScreenFilialBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
