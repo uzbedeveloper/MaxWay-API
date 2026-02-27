@@ -26,11 +26,15 @@ class RegisterViewModel(
     val verifySuccess = _verifySuccess.asSharedFlow()
     private val _timerFlow = MutableStateFlow(0)
     val timerFlow: StateFlow<Int> = _timerFlow
+    private val _loadingFlow = MutableStateFlow(false)
+    val loadingFlow: StateFlow<Boolean> = _loadingFlow
 
 
     fun register(phone: String) {
         viewModelScope.launch {
+            _loadingFlow.value = true
             registerUseCase(phone).collect { result ->
+                _loadingFlow.value = false
                 result.onSuccess { _registerSuccess.emit(phone) }
                     .onFailure { _errorFlow.emit(it.message ?: "Xatolik") }
             }
@@ -39,7 +43,9 @@ class RegisterViewModel(
 
     fun verify(phone: String, code: Int) {
         viewModelScope.launch {
+            _loadingFlow.value = true
             verifyUseCase(phone, code).collect { result ->
+                _loadingFlow.value = false
                 result.onSuccess { hasProfile -> _verifySuccess.emit(hasProfile) }
                     .onFailure { _errorFlow.emit(it.message ?: "Kod xato") }
             }

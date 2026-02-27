@@ -6,20 +6,20 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.google.android.material.snackbar.Snackbar
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenRegisterPhoneBinding
 import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
+import uz.group1.maxwayapp.utils.NotificationType
+import uz.group1.maxwayapp.utils.showNotification
 
 class RegisterScreen: BaseFragment(R.layout.screen_register_phone) {
     private val binding by viewBinding(ScreenRegisterPhoneBinding::bind)
     private val viewModel: RegisterViewModel by viewModels { RegisterViewModelFactory() }
+    private var isPhoneReady = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,6 +47,17 @@ class RegisterScreen: BaseFragment(R.layout.screen_register_phone) {
 
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.loadingFlow.collect { isLoading ->
+                binding.progressLogin.visibility = if (isLoading) View.VISIBLE else View.GONE
+                binding.btnContinueLogin.text = if (isLoading) "" else "Продолжить"
+                if (isLoading) {
+                    binding.btnContinueLogin.isEnabled = false
+                } else {
+                    updateButtonState(isPhoneReady)
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.registerSuccess.collect { phone ->
                 val bundle = Bundle().apply { putString("phone", phone) }
                 findNavController().navigate(R.id.verifyScreen, bundle)
@@ -54,7 +65,7 @@ class RegisterScreen: BaseFragment(R.layout.screen_register_phone) {
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.errorFlow.collect {
-                Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG).show()
+                requireActivity().showNotification(it, NotificationType.ERROR)
             }
         }
     }
