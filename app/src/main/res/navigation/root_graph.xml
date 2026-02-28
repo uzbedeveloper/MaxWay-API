@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools1="http://schemas.android.com/tools"
+    android:id="@+id/root_graph"
+    app:startDestination="@id/splashFragment2">
+
+    <fragment
+        android:id="@+id/splashFragment2"
+        tools:layout="@layout/screen_splash"
+        android:name="uz.group1.maxwayapp.presentation.screens.splash.SplashFragment"
+        android:label="SplashFragment" >
+        <action
+            android:id="@+id/action_splashFragment2_to_mainScreen"
+            app:destination="@id/mainScreen"
+            app:popUpTo="@id/splashFragment2"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_splashFragment2_to_noConnectionFragment"
+            app:destination="@id/noConnectionFragment"
+            app:popUpTo="@id/splashFragment2"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/mainScreen"
+        tools:layout="@layout/screen_main"
+        android:name="uz.group1.maxwayapp.presentation.screens.main.MainScreen"
+        android:label="MainScreen" >
+
+        <action
+            android:id="@+id/action_mainFragment_to_noConnectionFragment"
+            app:destination="@id/noConnectionFragment"
+            app:popUpTo="@id/mainScreen"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/noConnectionFragment"
+        tools:layout="@layout/screen_no_connection"
+        android:name="uz.group1.maxwayapp.presentation.screens.nointernet.NoConnectionFragment"
+        android:label="NoConnectionFragment" />
+</navigation>

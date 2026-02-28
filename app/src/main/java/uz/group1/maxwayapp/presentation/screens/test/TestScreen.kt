@@ -38,6 +38,7 @@ class TestScreen : Fragment(R.layout.screen_test) {
     }
 
     private val loadingObserver = Observer<Boolean> {
-        //
+
     }
+
 }
