@@ -36,8 +36,13 @@ class SplashFragment : BaseFragment(R.layout.screen_splash) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         checkServerAndNavigate()
-        GlobalVariables.stateVisibilityBottomNav.postValue(false)
     }
 
     private fun checkServerAndNavigate() {
@@ -50,7 +55,7 @@ class SplashFragment : BaseFragment(R.layout.screen_splash) {
             if (elapsedTime < 1500) delay(1500 - elapsedTime)
 
             if (healthCheck.isSuccess) {
-                findNavController().navigate(R.id.action_splashFragment_to_homeScreen)
+                findNavController().navigate(R.id.action_splashFragment2_to_mainScreen)
             } else {
                 val message = "500 - Server bilan muammo"
                 requireActivity().showNotification(message, NotificationType.ERROR)

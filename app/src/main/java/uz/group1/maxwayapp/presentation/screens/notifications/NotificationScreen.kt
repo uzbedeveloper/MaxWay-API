@@ -44,7 +44,6 @@ class NotificationScreen: BaseFragment(R.layout.screen_notification) {
         binding.imgBack.setOnClickListener {
             findNavController().popBackStack()
         }
-
     }
 
     private fun setUpObservers() {

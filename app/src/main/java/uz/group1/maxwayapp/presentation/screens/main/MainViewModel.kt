@@ -1,4 +1,4 @@
-package uz.group1.maxwayapp
+package uz.group1.maxwayapp.presentation.screens.main
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.map
