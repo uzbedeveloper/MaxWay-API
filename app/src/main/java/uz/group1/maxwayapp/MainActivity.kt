@@ -1,127 +1,48 @@
 package uz.group1.maxwayapp
 
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
-import android.transition.Slide
-import android.transition.TransitionManager
-import android.view.Gravity
-import android.view.View
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.launch
+import androidx.navigation.navOptions
 import uz.gita.leeson_network.utils.NetworkConnectionCallback
 import uz.gita.leeson_network.utils.NetworkMonitor
 import uz.group1.maxwayapp.databinding.ActivityMainBinding
-import uz.group1.maxwayapp.presentation.screens.home.cart_bottomsheet.CartBottomSheet
-import uz.group1.maxwayapp.utils.GlobalVariables
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var networkMonitor: NetworkMonitor
-    lateinit var navController: NavController
-
-    private val viewModel: MainViewModel by viewModels { MainViewModelFactory() }
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        enableEdgeToEdge(
-            statusBarStyle = androidx.activity.SystemBarStyle.dark(
-                android.graphics.Color.TRANSPARENT
-            ),
-            navigationBarStyle = androidx.activity.SystemBarStyle.dark(
-                android.graphics.Color.TRANSPARENT
-            )
-        )
+        enableEdgeToEdge()
         setContentView(binding.root)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        networkMonitor = NetworkMonitor(applicationContext)
-
-        setUpBottomNav()
-        networkMonitor()
-        setUpObservers()
-
-    }
-
-    private fun setUpObservers() {
-        GlobalVariables.stateVisibilityBottomNav.observe(this){
-            binding.bottomNav.isVisible = it
-
-        }
-
-        lifecycleScope.launch {
-            viewModel.totalCartCount.collect { count ->
-                updateCartBadge(count)
-            }
-        }
-    }
-
-    private fun setUpBottomNav() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.navContainerView) as NavHostFragment
-
         navController = navHostFragment.navController
 
-        NavigationUI.setupWithNavController(binding.bottomNav, navController)
-
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            val isHiddenScreen = destination.id in setOf(
-                R.id.filialScreen, R.id.notificationScreen, R.id.searchScreen,
-                R.id.registerScreen, R.id.verifyScreen, R.id.createUserScreen, R.id.addAddressScreen
-            )
-
-            val transition = Slide(Gravity.BOTTOM).apply {
-                duration = 200
-                addTarget(binding.bottomNav)
-            }
-
-            TransitionManager.beginDelayedTransition(binding.root as android.view.ViewGroup, transition)
-
-            binding.bottomNav.visibility = if (isHiddenScreen) View.GONE else View.VISIBLE
-        }
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
-
-        bottomNav.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.cartDialog -> {
-                    val bottomSheet = CartBottomSheet()
-                    bottomSheet.show(supportFragmentManager, "CustomBottomSheet")
-                    false
-                }
-                else -> {
-                    NavigationUI.onNavDestinationSelected(item, navController)
-                    true
-                }
-            }
-        }
+        networkMonitor = NetworkMonitor(this)
+        setupNetworkMonitoring()
     }
 
-    private fun networkMonitor() {
+    private fun setupNetworkMonitoring() {
         networkMonitor.startMonitoring(object : NetworkConnectionCallback {
             override fun onNetworkAvailable() {
                 runOnUiThread {
-                    if (navController.currentDestination?.id != R.id.splashFragment){
-                        GlobalVariables.stateVisibilityBottomNav.postValue(true)
-                    }
-
                     if (navController.currentDestination?.id == R.id.noConnectionFragment) {
                         showNotification("Internet tiklandi", NotificationType.SUCCESS)
 
-                        navController.popBackStack()
+                        navController.navigate(R.id.splashFragment2, null, navOptions {
+                            popUpTo(R.id.noConnectionFragment) { inclusive = true }
+                        })
                     }
                 }
             }
@@ -129,41 +50,17 @@ class MainActivity : AppCompatActivity() {
             override fun onNetworkLost() {
                 runOnUiThread {
                     showNotification("Internet yo'q", NotificationType.ERROR)
-                    navController.navigate(R.id.noConnectionFragment)
-                    GlobalVariables.stateVisibilityBottomNav.postValue(false)
-
+                    if (navController.currentDestination?.id != R.id.noConnectionFragment) {
+                        navController.navigate(R.id.noConnectionFragment)
+                    }
                 }
             }
 
-            override fun onNetworkLosing() {
-                runOnUiThread {
-                    showNotification("Internet signal yo'qolmoqda", NotificationType.WARNING)
-                }
-            }
-
+            override fun onNetworkLosing() {}
             override fun onNetworkUnavailable() {
-                runOnUiThread {
-                    showNotification("Internet mavjud emas", NotificationType.INFO)
-                    navController.navigate(R.id.noConnectionFragment)
-                    GlobalVariables.stateVisibilityBottomNav.postValue(false)
-
-                }
+                onNetworkLost()
             }
         })
-    }
-
-    private fun updateCartBadge(count: Int) {
-        val bottomNav = binding.bottomNav
-
-        if (count > 0) {
-            val badge = bottomNav.getOrCreateBadge(R.id.cartDialog)
-            badge.isVisible = true
-            badge.number = count
-            badge.backgroundColor = Color.RED
-            badge.badgeTextColor = Color.WHITE
-        } else {
-            bottomNav.removeBadge(R.id.cartDialog)
-        }
     }
 
     override fun onDestroy() {
