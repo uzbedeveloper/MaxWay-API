@@ -117,11 +117,11 @@ class ProductInfoBottomSheet : BottomSheetDialogFragment() {
 
         if (currentCount > 0) {
             val totalPrice = price * currentCount
-            binding.tvPrice.text = "$totalPrice сум"
+            binding.tvPrice.text = String.format("%,d сум", totalPrice)
             binding.tvPrice.visibility = View.VISIBLE
         } else {
             val totalPrice = price * 1
-            binding.tvPrice.text = "$totalPrice сум"
+            binding.tvPrice.text = String.format("%,d сум", totalPrice)
         }
 
         if (productId != -1) {
@@ -141,26 +141,19 @@ class ProductInfoBottomSheet : BottomSheetDialogFragment() {
         val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
         dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
         dialog.behavior.skipCollapsed = true
-        dialog.window?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-            ?.setBackgroundResource(android.R.color.transparent)
         return dialog
     }
-
     override fun onStart() {
         super.onStart()
+
         val dialog = dialog as? BottomSheetDialog
         val bottomSheet =
             dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
 
         bottomSheet?.let {
-            val displayMetrics = requireContext().resources.displayMetrics
-            val height70Percent = (displayMetrics.heightPixels * 0.7).toInt()
-
-            it.layoutParams.height = height70Percent
-
             val behavior = BottomSheetBehavior.from(it)
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
-            behavior.peekHeight = height70Percent
+            behavior.skipCollapsed = true
             behavior.isFitToContents = true
         }
     }

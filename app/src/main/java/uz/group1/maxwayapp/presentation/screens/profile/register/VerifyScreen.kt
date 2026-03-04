@@ -57,6 +57,7 @@ class VerifyScreen : BaseFragment(R.layout.screen_register_sms_code) {
 
         for (i in editTexts.indices) {
             editTexts[i].addTextChangedListener {
+                resetErrorState()
                 val text = it.toString()
                 if (text.length == 1 && i < editTexts.size - 1) {
                     editTexts[i + 1].requestFocus()
@@ -138,6 +139,7 @@ class VerifyScreen : BaseFragment(R.layout.screen_register_sms_code) {
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.errorFlow.collect { msg ->
+                showError()
                 requireActivity().showNotification(msg, NotificationType.ERROR)
 
             }
@@ -147,6 +149,12 @@ class VerifyScreen : BaseFragment(R.layout.screen_register_sms_code) {
         val editTexts = arrayOf(binding.etCode1, binding.etCode2, binding.etCode3, binding.etCode4)
         editTexts.forEach {
             it.setBackgroundResource(R.drawable.bg_code_input_error)
+        }
+    }
+    private fun resetErrorState() {
+        val editTexts = arrayOf(binding.etCode1, binding.etCode2, binding.etCode3, binding.etCode4)
+        editTexts.forEach {
+            it.setBackgroundResource(R.drawable.bg_code_input_normal)
         }
     }
 }

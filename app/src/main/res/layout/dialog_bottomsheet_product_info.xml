@@ -48,12 +48,12 @@
         android:visibility="visible"
         tools:visibility="visible">
 
-        <androidx.core.widget.NestedScrollView
+        <LinearLayout
             android:id="@+id/scrollContent"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:fillViewport="true"
+            android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@id/tvPriceTitle"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -98,7 +98,7 @@
                     android:textColor="@color/text_color"
                     android:textSize="16sp" />
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvPriceTitle"
