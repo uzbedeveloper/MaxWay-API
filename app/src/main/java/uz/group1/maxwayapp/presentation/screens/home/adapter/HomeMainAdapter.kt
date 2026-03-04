@@ -73,7 +73,7 @@ class HomeMainAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(pr: ProductUIData) {
             binding.textName.text = pr.name
-            binding.tvPrice.text = "${pr.cost} сум"
+            binding.tvPrice.text = String.format("%,d сум", pr.cost).replace(",", " ")
             binding.imgProduct.loadImage(pr.image) {}
 
             setupClickListeners()
