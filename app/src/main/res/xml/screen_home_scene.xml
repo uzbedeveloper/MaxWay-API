@@ -13,6 +13,7 @@
             motion:touchAnchorId="@id/products_recycler_vew"
             motion:touchAnchorSide="top"
             motion:dragScale="0.8"
+            motion:onTouchUp="stop"
             motion:moveWhenScrollAtTop="true" />
 
         <KeyFrameSet>
