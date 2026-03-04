@@ -3,6 +3,7 @@ package uz.group1.maxwayapp.presentation.screens.home
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -67,6 +68,24 @@ class HomeScreen: BaseFragment(R.layout.screen_home) {
 
     private fun setUpRefreshListener() {
 
+        binding.mainMotionLayout.setTransitionListener(object : MotionLayout.TransitionListener {
+            override fun onTransitionChange(motionLayout: MotionLayout?, startId: Int, endId: Int, progress: Float) {
+                binding.swipeRefresh.isEnabled = (progress <= 0.01f)
+            }
+
+            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+                binding.swipeRefresh.isEnabled = (currentId == R.id.expanded)
+
+                val isCollapsed = currentId == R.id.collapsed
+
+                binding.productsRecyclerVew.overScrollMode = if (isCollapsed)
+                    View.OVER_SCROLL_IF_CONTENT_SCROLLS else View.OVER_SCROLL_NEVER
+            }
+
+            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {}
+            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {}
+        })
+
         binding.productsRecyclerVew.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val isAtTop = !recyclerView.canScrollVertically(-1)
@@ -77,6 +96,10 @@ class HomeScreen: BaseFragment(R.layout.screen_home) {
         binding.swipeRefresh.setOnRefreshListener({
             loadImitation()
         })
+
+        binding.swipeRefresh.setOnChildScrollUpCallback { parent, child ->
+            binding.mainMotionLayout.progress > 0f
+        }
     }
 
     private fun setUpClick() {
