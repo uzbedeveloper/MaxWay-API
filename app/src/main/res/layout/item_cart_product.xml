@@ -4,55 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:paddingVertical="12dp"
+    android:paddingHorizontal="8dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/imgCard"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        app:cardCornerRadius="12dp">
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/img"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:src="@mipmap/ic_launcher" />
-
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="@mipmap/ic_launcher" />
     </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/textName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:maxLines="2"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="8dp"
         android:ellipsize="end"
-        android:layout_marginStart="10dp"
-        app:layout_constraintBottom_toTopOf="@id/textPrice"
+        android:maxLines="2"
+        android:textColor="#2D3436"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toStartOf="@+id/layoutControls"
         app:layout_constraintStart_toEndOf="@id/imgCard"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Чизбургер" />
+        app:layout_constraintTop_toTopOf="@id/imgCard"
+        tools:text="Чизбургер с очень длинным названием" />
 
     <TextView
         android:id="@+id/textPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:layout_marginTop="4dp"
-        android:textColor="#000"
+        android:textColor="#E74C3C"
         android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imgCard"
-        app:layout_constraintStart_toEndOf="@id/imgCard"
+        app:layout_constraintStart_toStartOf="@id/textName"
         app:layout_constraintTop_toBottomOf="@id/textName"
         tools:text="25,000 сум" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/layoutControls"
         android:layout_width="wrap_content"
-        android:layout_height="44dp"
+        android:layout_height="36dp"
         android:background="@drawable/round_bg"
         android:gravity="center"
         android:orientation="horizontal"
@@ -61,54 +65,40 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/btn_minus"
-            android:layout_width="50dp"
+            android:layout_width="32dp"
             android:layout_height="match_parent"
             android:background="?selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:scaleType="center"
             android:src="@drawable/minus_svgrepo_com"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/text_count"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:tint="#2D3436" />
 
         <TextView
             android:id="@+id/text_count"
-            android:layout_width="wrap_content"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="1"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textColor="#2D3436"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="1" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/btn_plus"
-            android:layout_width="50dp"
+            android:layout_width="32dp"
             android:layout_height="match_parent"
             android:background="?selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:scaleType="center"
             android:src="@drawable/plus_svgrepo_com"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/text_count"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:tint="#2D3436" />
+    </LinearLayout>
 
     <View
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:background="#F5F5F5"
+        android:layout_marginTop="12dp"
+        android:background="#F1F2F6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/textName"
         app:layout_constraintTop_toBottomOf="@id/imgCard" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

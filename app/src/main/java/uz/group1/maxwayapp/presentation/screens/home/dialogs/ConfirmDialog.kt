@@ -11,11 +11,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
+import uz.group1.maxwayapp.data.model.ProductUIData
 import uz.group1.maxwayapp.data.repository_impl.ProductRepositoryImpl
 import uz.group1.maxwayapp.data.sources.remote.request.orders.createOrder.CreateOrderRequest
 import uz.group1.maxwayapp.data.sources.remote.request.orders.createOrder.OrderItem
 import uz.group1.maxwayapp.databinding.DialogConfirmBinding
 import uz.group1.maxwayapp.presentation.screens.home.adapter.CartAdapter
+import uz.group1.maxwayapp.presentation.screens.home.adapter.ChequeAdapter
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
 
@@ -27,14 +29,14 @@ class ConfirmDialog : DialogFragment(R.layout.dialog_confirm) {
     private val repository = ProductRepositoryImpl.getInstance()
 
     private val adapter by lazy {
-        CartAdapter({ product, newCount ->
-            repository.updateProductCount(product.id, newCount)
-        })
+        ChequeAdapter()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = DialogConfirmBinding.bind(view)
+
+        isCancelable = true
 
         setupUI()
         loadData()
@@ -109,17 +111,33 @@ class ConfirmDialog : DialogFragment(R.layout.dialog_confirm) {
         viewLifecycleOwner.lifecycleScope.launch {
             repository.getMenu().collect { categories ->
                 val items = categories.flatMap { it.products }.filter { it.count > 0 }
+
+                if (items.isEmpty()) {
+                    dismiss()
+                    return@collect
+                }
+
                 adapter.submitList(items)
+                calculateTotal(items)
             }
         }
     }
 
+    private fun calculateTotal(items: List<ProductUIData>) {
+        val total = items.sumOf { it.cost * it.count }
+
+        binding.textTotalPrice.text = String.format("%,d сум", total).replace(",", " ")
+    }
+
     override fun onStart() {
         super.onStart()
-        dialog?.window?.setLayout(
-            (resources.displayMetrics.widthPixels * 0.95).toInt(),
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
+        val width = (resources.displayMetrics.widthPixels * 0.95).toInt()
+        val height = (resources.displayMetrics.heightPixels * 0.85).toInt()
+
+        dialog?.window?.apply {
+            setLayout(width, height)
+            setBackgroundDrawableResource(android.R.color.transparent)
+        }
     }
 
     override fun onDestroyView() {
