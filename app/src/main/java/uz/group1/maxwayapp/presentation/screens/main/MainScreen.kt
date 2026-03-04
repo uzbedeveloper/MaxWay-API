@@ -51,6 +51,11 @@ class MainScreen: Fragment(R.layout.screen_main) {
                 R.id.searchScreen,
                 R.id.notificationScreen,
                 R.id.storiesScreen,
+                R.id.registerScreen,
+                R.id.verifyScreen,
+                R.id.createUserScreen,
+                R.id.addAddressScreen,
+                R.id.filialScreen
                 )
             binding.bottomNav.isVisible = !isHidden
         }

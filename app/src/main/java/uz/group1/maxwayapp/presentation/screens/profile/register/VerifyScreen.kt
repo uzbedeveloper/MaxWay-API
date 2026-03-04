@@ -139,7 +139,14 @@ class VerifyScreen : BaseFragment(R.layout.screen_register_sms_code) {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.errorFlow.collect { msg ->
                 requireActivity().showNotification(msg, NotificationType.ERROR)
+
             }
+        }
+    }
+    private fun showError(){
+        val editTexts = arrayOf(binding.etCode1, binding.etCode2, binding.etCode3, binding.etCode4)
+        editTexts.forEach {
+            it.setBackgroundResource(R.drawable.bg_code_input_error)
         }
     }
 }

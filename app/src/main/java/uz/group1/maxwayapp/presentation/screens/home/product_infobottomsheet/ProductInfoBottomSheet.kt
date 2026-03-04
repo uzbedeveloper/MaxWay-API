@@ -67,7 +67,7 @@ class ProductInfoBottomSheet : BottomSheetDialogFragment() {
             binding.tvProduct.text = it.getString(ARG_PRODUCT_NAME)
             binding.tvDesc.text = it.getString(ARG_PRODUCT_DESC)
             price = it.getInt(ARG_PRODUCT_PRICE)
-            binding.tvPrice.text = "${price} сум"
+            binding.tvPrice.text = String.format("%,d сум", price).replace(",", " ")
             binding.imgProduct.loadImage(it.getString(ARG_PRODUCT_IMAGE) ?: "") {
             }
             fetchInitialCount()
