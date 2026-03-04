@@ -1,6 +1,7 @@
 package uz.group1.maxwayapp.presentation.screens.home
 
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -13,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -98,6 +100,28 @@ class HomeScreen: BaseFragment(R.layout.screen_home) {
     private fun setUpAdapters() {
         bannerAdapter = BannerAdapter(childFragmentManager, lifecycle)
         binding.viewPager.adapter = bannerAdapter
+
+        binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+
+            override fun onPageScrollStateChanged(state: Int) {
+                when (state) {
+                    ViewPager2.SCROLL_STATE_DRAGGING -> {
+                        binding.swipeRefresh.isEnabled = false
+                    }
+
+                    ViewPager2.SCROLL_STATE_IDLE -> {
+                        binding.swipeRefresh.isEnabled = true
+                    }
+                }
+            }
+        })
+
+        binding.viewPager.apply {
+            val marginPx = resources.getDimensionPixelOffset(R.dimen.banner_margin)
+            setPageTransformer(androidx.viewpager2.widget.MarginPageTransformer(marginPx))
+
+            offscreenPageLimit = 3
+        }
 
         categoryAdapter = CategoryAdapter()
 
@@ -255,6 +279,21 @@ class HomeScreen: BaseFragment(R.layout.screen_home) {
             val middlePosition = (Int.MAX_VALUE / 2) - ((Int.MAX_VALUE / 2) % size)
             binding.viewPager.setCurrentItem(middlePosition, false)
             startAutoScrooll()
+        }
+
+        binding.viewPager.getChildAt(0).setOnTouchListener { _, event ->
+            when (event.action) {
+                android.view.MotionEvent.ACTION_DOWN -> {
+                    binding.swipeRefresh.isEnabled = event.action != MotionEvent.ACTION_MOVE
+                    autoScJob?.cancel()
+                }
+                android.view.MotionEvent.ACTION_UP,
+                android.view.MotionEvent.ACTION_CANCEL -> {
+                    binding.swipeRefresh.isEnabled = true
+                    startAutoScrooll()
+                }
+            }
+            false
         }
     }
 
