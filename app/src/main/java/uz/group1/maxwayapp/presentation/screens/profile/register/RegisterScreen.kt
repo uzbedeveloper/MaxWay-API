@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenRegisterPhoneBinding
 import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
@@ -18,9 +19,10 @@ import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarIconStyle
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
 
+@AndroidEntryPoint
 class RegisterScreen: BaseFragment(R.layout.screen_register_phone) {
     private val binding by viewBinding(ScreenRegisterPhoneBinding::bind)
-    private val viewModel: RegisterViewModel by viewModels { RegisterViewModelFactory() }
+    private val viewModel: RegisterViewModel by viewModels()
     private var isPhoneReady = false
 
     override val systemBarConfig = SystemBarConfig(

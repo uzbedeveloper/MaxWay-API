@@ -8,15 +8,21 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.repository_impl.AuthRepositoryImpl
 import uz.group1.maxwayapp.databinding.ScreenRegisterNameBinding
+import uz.group1.maxwayapp.domain.repository.AuthRepository
 import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
 import java.util.Calendar
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class CreateUserScreen : BaseFragment(R.layout.screen_register_name) {
     private val binding by viewBinding(ScreenRegisterNameBinding::bind)
+    @Inject
+    lateinit var repo: AuthRepository
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,7 +67,7 @@ class CreateUserScreen : BaseFragment(R.layout.screen_register_name) {
     private fun saveAndContinue(name: String, birthday: String) {
         binding.btnContinue.isEnabled = false
         viewLifecycleOwner.lifecycleScope.launch {
-            val result = AuthRepositoryImpl.getInstance().updateUserInfo(name, birthday)
+            val result = repo.updateUserInfo(name, birthday)
             result.onSuccess {
                 findNavController().navigate(R.id.action_createUserScreen_to_profileScreen)
             }.onFailure { error ->

@@ -8,22 +8,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.PageCurrentOrdersBinding
 import uz.group1.maxwayapp.presentation.screens.cart.adapter.MyOrderAdapter
 import uz.group1.maxwayapp.presentation.screens.cart.pages.current_orders.CurrentOrdersPageContract
 import uz.group1.maxwayapp.presentation.screens.cart.pages.current_orders.CurrentOrdersPageViewModel
-import uz.group1.maxwayapp.presentation.screens.cart.pages.current_orders.CurrentOrdersPageViewModelFactory
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
 import kotlin.getValue
 
+@AndroidEntryPoint
 class HistoryOrdersPage: Fragment(R.layout.page_current_orders) {
 
     private val binding by viewBinding(PageCurrentOrdersBinding::bind)
-    private val viewModel: HistoryOrdersPageContract by viewModels<HistoryOrdersPageViewModel>{
-        HistoryOrdersPageViewModelFactory()
-    }
+    private val viewModel: HistoryOrdersPageContract by viewModels<HistoryOrdersPageViewModel>()
 
     private val adapter by lazy { MyOrderAdapter() }
 

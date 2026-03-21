@@ -28,17 +28,21 @@ import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.map.CameraUpdateReason
 import com.yandex.mapkit.map.Map
 import com.yandex.mapkit.user_location.UserLocationLayer
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.repository_impl.AddressRepositoryImpl
 import uz.group1.maxwayapp.databinding.ScreenAddAddressBinding
 import uz.group1.maxwayapp.domain.repository.AddressRepository
 import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class AddAddressScreen : BaseFragment(R.layout.screen_add_address), CameraListener {
 
     private val binding by viewBinding(ScreenAddAddressBinding::bind)
-    private val repository: AddressRepository = AddressRepositoryImpl.getInstance()
+    @Inject
+    lateinit var repository: AddressRepository
 
     private var currentLatitude = 41.311081
     private var currentLongitude = 69.240562

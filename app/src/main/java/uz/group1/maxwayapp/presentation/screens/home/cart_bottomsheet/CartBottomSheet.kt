@@ -9,6 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
@@ -21,11 +22,14 @@ import uz.group1.maxwayapp.domain.repository.ProductRepository
 import uz.group1.maxwayapp.presentation.screens.home.adapter.CartAdapter
 import uz.group1.maxwayapp.presentation.screens.home.adapter.CartRecommendAdapter
 import uz.group1.maxwayapp.presentation.screens.home.dialogs.ConfirmDialog
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class CartBottomSheet : BottomSheetDialogFragment(R.layout.dialog_bottomsheet_cart) {
     private val binding by viewBinding(DialogBottomsheetCartBinding::bind)
 
-    private val repository: ProductRepository = ProductRepositoryImpl.getInstance()
+    @Inject
+    lateinit var repository: ProductRepository
     private var currentIds: List<Int>? = null
 
     private val cartAdapter by lazy {

@@ -3,13 +3,16 @@ package uz.group1.maxwayapp.presentation.screens.test
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import uz.group1.maxwayapp.domain.usecase.RegisterUseCase
+import javax.inject.Inject
 
-class TestViewModelImpl (private val registerUseCase: RegisterUseCase) : ViewModel(), TestViewModel {
+@HiltViewModel
+class TestViewModelImpl @Inject constructor(private val registerUseCase: RegisterUseCase) : ViewModel(), TestViewModel {
     override val loadingLiveData = MutableLiveData<Boolean>()
     override val successLiveData = MutableLiveData<Unit>()
     override val errorMessageLiveData = MutableLiveData<String>()

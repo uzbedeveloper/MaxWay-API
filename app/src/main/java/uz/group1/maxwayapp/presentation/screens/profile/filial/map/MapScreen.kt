@@ -11,6 +11,7 @@ import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
 import com.yandex.runtime.image.ImageProvider
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
@@ -18,13 +19,13 @@ import uz.group1.maxwayapp.data.model.FilialMapUIData
 import uz.group1.maxwayapp.databinding.PageMapBinding
 import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
 import uz.group1.maxwayapp.presentation.screens.profile.filial.FilialViewModel
-import uz.group1.maxwayapp.presentation.screens.profile.filial.FilialViewModelFactory
 import uz.group1.maxwayapp.presentation.screens.profile.filial.FilialViewModelImpl
 
+@AndroidEntryPoint
 class MapScreen : Fragment(R.layout.page_map) {
     private val binding by viewBinding(PageMapBinding::bind)
 
-    private val viewModel: FilialViewModel by viewModels<FilialViewModelImpl> { FilialViewModelFactory() }
+    private val viewModel: FilialViewModel by viewModels<FilialViewModelImpl> ()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

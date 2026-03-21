@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenFilialBinding
 import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
@@ -15,6 +16,7 @@ import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarIconStyle
 import uz.group1.maxwayapp.presentation.screens.profile.filial.list.ListScreen
 import uz.group1.maxwayapp.presentation.screens.profile.filial.map.MapScreen
 
+@AndroidEntryPoint
 class FilialScreen : BaseFragment(R.layout.screen_filial) {
     private val binding by viewBinding(ScreenFilialBinding::bind)
 

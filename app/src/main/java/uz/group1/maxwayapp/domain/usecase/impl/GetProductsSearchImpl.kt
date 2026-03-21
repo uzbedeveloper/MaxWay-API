@@ -5,8 +5,9 @@ import kotlinx.coroutines.flow.flow
 import uz.group1.maxwayapp.data.model.ProductSearchUIData
 import uz.group1.maxwayapp.domain.repository.ProductRepository
 import uz.group1.maxwayapp.domain.usecase.GetProductsSearch
+import javax.inject.Inject
 
-class GetProductsSearchImpl(private val repo: ProductRepository): GetProductsSearch {
+class GetProductsSearchImpl @Inject constructor(private val repo: ProductRepository): GetProductsSearch {
     override fun invoke(query: String): Flow<Result<List<ProductSearchUIData>>> = flow{
         val res = repo.getSearchProducts(query)
         emit(res)

@@ -10,18 +10,22 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.repository_impl.ProductRepositoryImpl
 import uz.group1.maxwayapp.databinding.DialogBottomsheetProductInfoBinding
 import uz.group1.maxwayapp.domain.repository.ProductRepository
 import uz.group1.maxwayapp.utils.loadImage
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ProductInfoBottomSheet : BottomSheetDialogFragment() {
 
     private val binding by viewBinding(DialogBottomsheetProductInfoBinding::bind)
 
-    private val repository: ProductRepository = ProductRepositoryImpl.getInstance()
+    @Inject
+    lateinit var repository: ProductRepository
 
     private var currentCount = 0
     private var productId: Int = -1

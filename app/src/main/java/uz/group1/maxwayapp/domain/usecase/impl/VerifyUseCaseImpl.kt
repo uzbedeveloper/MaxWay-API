@@ -7,8 +7,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import uz.group1.maxwayapp.domain.repository.AuthRepository
 import uz.group1.maxwayapp.domain.usecase.VerifyUseCase
+import javax.inject.Inject
 
-class VerifyUseCaseImpl(private val repository: AuthRepository) : VerifyUseCase {
+class VerifyUseCaseImpl @Inject constructor(private val repository: AuthRepository) : VerifyUseCase {
 
     override fun invoke(phone: String, code: Int): Flow<Result<Boolean>> = flow {
         emit(repository.verify(phone, code))

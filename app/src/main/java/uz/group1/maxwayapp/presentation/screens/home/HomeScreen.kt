@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -31,10 +32,11 @@ import uz.group1.maxwayapp.presentation.screens.home.banner.BannerAdapter
 import uz.group1.maxwayapp.presentation.screens.home.product_infobottomsheet.ProductInfoBottomSheet
 import uz.group1.maxwayapp.utils.GlobalVariables
 
+@AndroidEntryPoint
 class HomeScreen: BaseFragment(R.layout.screen_home) {
 
     private val binding by viewBinding(ScreenHomeBinding::bind)
-    private val viewModel: HomeViewModel by viewModels<HomeViewModelImpl> { HomeViewModelFactory() }
+    private val viewModel: HomeViewModel by viewModels<HomeViewModelImpl> ()
 
     private lateinit var bannerAdapter: BannerAdapter
     private lateinit var categoryAdapter: CategoryAdapter

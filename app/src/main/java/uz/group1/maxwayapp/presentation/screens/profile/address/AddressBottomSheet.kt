@@ -13,6 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
@@ -22,7 +23,9 @@ import uz.group1.maxwayapp.domain.repository.AddressRepository
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.dpToPx
 import uz.group1.maxwayapp.utils.showNotification
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class AddressBottomSheet : BottomSheetDialogFragment() {
 
     companion object {
@@ -30,7 +33,9 @@ class AddressBottomSheet : BottomSheetDialogFragment() {
     }
 
     private val binding by viewBinding(DialogBottomsheetAddressBinding::bind)
-    private val repository: AddressRepository = AddressRepositoryImpl.getInstance()
+
+    @Inject
+    lateinit var repository: AddressRepository
 
     private val adapter by lazy {
         AddressAdapter { address ->

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
@@ -11,8 +12,10 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.data.model.MyOrdersUIData
 import uz.group1.maxwayapp.domain.usecase.GetMyOrdersUseCase
+import javax.inject.Inject
 
-class CurrentOrdersPageViewModel(
+@HiltViewModel
+class CurrentOrdersPageViewModel @Inject constructor(
     private val getMyOrdersUseCase: GetMyOrdersUseCase
 ): ViewModel(), CurrentOrdersPageContract {
     override val ordersLiveData = MutableLiveData<List<MyOrdersUIData>>()

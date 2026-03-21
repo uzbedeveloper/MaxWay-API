@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
@@ -18,9 +19,10 @@ import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
 import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarConfig
 import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarIconStyle
 
+@AndroidEntryPoint
 class SearchScreen : BaseFragment(R.layout.screen_search) {
     private val binding by viewBinding(ScreenSearchBinding::bind)
-    private val viewModel: SearchViewModel by viewModels { SearchViewModelFactory() }
+    private val viewModel: SearchViewModel by viewModels ()
     private val adapter by lazy { SearchAdapter() }
 
     override val systemBarConfig = SystemBarConfig(

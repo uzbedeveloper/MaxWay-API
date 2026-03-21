@@ -5,8 +5,9 @@ import kotlinx.coroutines.flow.flow
 import uz.group1.maxwayapp.data.model.FilialMapUIData
 import uz.group1.maxwayapp.domain.repository.BranchRepository
 import uz.group1.maxwayapp.domain.usecase.GetBranchMapData
+import javax.inject.Inject
 
-class GetBranchMapDataImpl(private val repo: BranchRepository): GetBranchMapData {
+class GetBranchMapDataImpl @Inject constructor(private val repo: BranchRepository): GetBranchMapData {
     override fun getBranchMaps(): Flow<Result<List<FilialMapUIData>>> = flow{
         emit(repo.getBranchMapData())
     }

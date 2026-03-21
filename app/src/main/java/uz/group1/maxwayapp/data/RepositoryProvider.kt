@@ -13,9 +13,9 @@ import kotlin.getValue
 @Deprecated("Har bir repo ni o'zida getInstance ni yozib ketdim, bu kerak emas endi")
 object RepositoryProvider {
 
-    val productRepository: ProductRepository by lazy { ProductRepositoryImpl.getInstance() }
-    val authRepository: AuthRepository by lazy { AuthRepositoryImpl.getInstance() }
-    val storyRepository: StoryRepository by lazy { StoryRepositoryImpl.getInstance() }
-    val notificationsRepository: NotificationsRepository by lazy { NotificationsRepositoryImpl.getInstance() }
+//    val productRepository: ProductRepository by lazy { ProductRepositoryImpl.getInstance() }
+//    val authRepository: AuthRepository by lazy { AuthRepositoryImpl.getInstance() }
+//    val storyRepository: StoryRepository by lazy { StoryRepositoryImpl.getInstance() }
+//    val notificationsRepository: NotificationsRepository by lazy { NotificationsRepositoryImpl.getInstance() }
 
 }

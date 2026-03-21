@@ -7,8 +7,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import uz.group1.maxwayapp.domain.repository.AuthRepository
 import uz.group1.maxwayapp.domain.usecase.RepeatUseCase
+import javax.inject.Inject
 
-class RepeatUseCaseImpl(private val repository: AuthRepository) : RepeatUseCase {
+class RepeatUseCaseImpl @Inject constructor(private val repository: AuthRepository) : RepeatUseCase {
 
     override fun invoke(phone: String): Flow<Result<String>> = flow {
         emit(repository.repeat(phone))

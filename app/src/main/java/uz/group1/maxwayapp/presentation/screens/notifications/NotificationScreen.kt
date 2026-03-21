@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import uz.gita.leeson_network.utils.NetworkMonitor
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenNotificationBinding
@@ -18,11 +19,12 @@ import uz.group1.maxwayapp.utils.GlobalVariables
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
 
+@AndroidEntryPoint
 class NotificationScreen: BaseFragment(R.layout.screen_notification) {
 
     private lateinit var networkMonitor: NetworkMonitor
     private val binding by viewBinding(ScreenNotificationBinding::bind)
-    private val viewModel: NotificationsViewModel by viewModels<NotificationsViewModelImpl>{NotificationsViewModelFactory()}
+    private val viewModel: NotificationsViewModel by viewModels<NotificationsViewModelImpl>()
 
     override val systemBarConfig = SystemBarConfig(
         statusBarIcons = SystemBarIconStyle.DARK_ICONS,

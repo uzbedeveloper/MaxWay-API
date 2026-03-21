@@ -2,6 +2,7 @@ package uz.group1.maxwayapp.presentation.screens.profile.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,8 +12,10 @@ import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.domain.usecase.RegisterUseCase
 import uz.group1.maxwayapp.domain.usecase.RepeatUseCase
 import uz.group1.maxwayapp.domain.usecase.VerifyUseCase
+import javax.inject.Inject
 
-class RegisterViewModel(
+@HiltViewModel
+class  RegisterViewModel @Inject constructor(
     private val registerUseCase: RegisterUseCase,
     private val verifyUseCase: VerifyUseCase,
     private val repeatUseCase: RepeatUseCase

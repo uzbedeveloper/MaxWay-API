@@ -7,8 +7,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import uz.group1.maxwayapp.domain.repository.AuthRepository
 import uz.group1.maxwayapp.domain.usecase.RegisterUseCase
+import javax.inject.Inject
 
-class RegisterUseCaseImpl (private val repository: AuthRepository) : RegisterUseCase {
+class RegisterUseCaseImpl @Inject constructor(private val repository: AuthRepository) : RegisterUseCase {
 
     override fun invoke(phone: String): Flow<Result<String>> = flow {
         emit(repository.register(phone))

@@ -3,14 +3,17 @@ package uz.group1.maxwayapp.presentation.screens.cart.pages.history_order
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import uz.group1.maxwayapp.data.model.MyOrdersUIData
 import uz.group1.maxwayapp.domain.usecase.GetMyOrdersUseCase
+import javax.inject.Inject
 
-class HistoryOrdersPageViewModel(
+@HiltViewModel
+class HistoryOrdersPageViewModel @Inject constructor(
     private val getMyOrdersUseCase: GetMyOrdersUseCase
 ): ViewModel(), HistoryOrdersPageContract {
     override val ordersLiveData = MutableLiveData<List<MyOrdersUIData>>()

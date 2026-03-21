@@ -2,6 +2,7 @@ package uz.group1.maxwayapp.presentation.screens.home.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,8 +13,10 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.data.model.ProductSearchUIData
 import uz.group1.maxwayapp.domain.usecase.GetProductsSearch
+import javax.inject.Inject
 
-class SearchViewModel(private val getSearchPrUseCase: GetProductsSearch) : ViewModel() {
+@HiltViewModel
+class SearchViewModel @Inject constructor(private val getSearchPrUseCase: GetProductsSearch) : ViewModel() {
     private val _products = MutableStateFlow<List<ProductSearchUIData>>(emptyList())
     val products: StateFlow<List<ProductSearchUIData>> = _products.asStateFlow()
     private val _isLoading = MutableStateFlow(false)

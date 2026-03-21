@@ -11,20 +11,25 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.repository_impl.ProductRepositoryImpl
 import uz.group1.maxwayapp.databinding.ScreenCartBinding
+import uz.group1.maxwayapp.domain.repository.ProductRepository
 import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
 import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarConfig
 import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarIconStyle
 import uz.group1.maxwayapp.presentation.screens.cart.adapter.ScreenSlidePagerAdapter
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class CartScreen : BaseFragment(R.layout.screen_cart) {
 
     private val binding by viewBinding(ScreenCartBinding::bind)
-    private val repository = ProductRepositoryImpl.getInstance()
+    @Inject
+    lateinit var repository: ProductRepository
 
     override val applyBottomInset = false
 

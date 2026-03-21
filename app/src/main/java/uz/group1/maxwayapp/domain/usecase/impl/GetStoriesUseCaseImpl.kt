@@ -8,8 +8,9 @@ import kotlinx.coroutines.flow.flowOn
 import uz.group1.maxwayapp.data.model.StoryUIData
 import uz.group1.maxwayapp.domain.repository.StoryRepository
 import uz.group1.maxwayapp.domain.usecase.GetStoriesUseCase
+import javax.inject.Inject
 
-class GetStoriesUseCaseImpl(private val repository: StoryRepository) : GetStoriesUseCase {
+class GetStoriesUseCaseImpl @Inject constructor(private val repository: StoryRepository) : GetStoriesUseCase {
     override operator fun invoke(): Flow<Result<List<StoryUIData>>> = flow{
         emit(repository.getStories())
     }.catch {

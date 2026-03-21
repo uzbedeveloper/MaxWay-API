@@ -2,19 +2,21 @@ package uz.group1.maxwayapp.data.sources.local
 
 import android.content.Context
 import android.content.SharedPreferences
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object TokenManager {
-    private const val PREF_NAME = "user_info"
-    private const val KEY_TOKEN = "auth_token"
-    private const val KEY_NAME = "user_name"
-    private const val KEY_PHONE = "user_phone"
-    private const val KEY_BIRTH_DATE = "user_birth_date"
+@Singleton
+class TokenManager @Inject constructor(@ApplicationContext context: Context){
+    private val PREF_NAME = "user_info"
+    private val KEY_TOKEN = "auth_token"
+    private val KEY_NAME = "user_name"
+    private val KEY_PHONE = "user_phone"
+    private val KEY_BIRTH_DATE = "user_birth_date"
 
-    private lateinit var prefs: SharedPreferences
+    private val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
 
-    fun init(context: Context) {
-        prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-    }
+
 
     fun saveUserData(token: String?, name: String?, phone: String?, birthDate: String?) {
         prefs.edit().apply {

@@ -8,8 +8,9 @@ import uz.group1.maxwayapp.data.mapper.toChipUI
 import uz.group1.maxwayapp.data.model.CategoryChipUI
 import uz.group1.maxwayapp.domain.repository.ProductRepository
 import uz.group1.maxwayapp.domain.usecase.GetCategoriesUseCase
+import javax.inject.Inject
 
-class GetCategoriesUseCaseImpl(private val repo: ProductRepository): GetCategoriesUseCase {
+class GetCategoriesUseCaseImpl @Inject constructor(private val repo: ProductRepository): GetCategoriesUseCase {
     override fun invoke(): Flow<Result<List<CategoryChipUI>>> = flow{
         val result= repo.getCategories()
         val chipResul = result.map { list ->

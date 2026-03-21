@@ -10,16 +10,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenRegisterSmsCodeBinding
 import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
 
+@AndroidEntryPoint
 class VerifyScreen : BaseFragment(R.layout.screen_register_sms_code) {
 
     private val binding by viewBinding(ScreenRegisterSmsCodeBinding::bind)
-    private val viewModel: RegisterViewModel by viewModels { RegisterViewModelFactory() }
+    private val viewModel: RegisterViewModel by viewModels()
     private var phone: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

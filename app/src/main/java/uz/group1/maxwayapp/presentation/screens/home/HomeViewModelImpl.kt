@@ -2,6 +2,7 @@ package uz.group1.maxwayapp.presentation.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,14 +14,17 @@ import uz.group1.maxwayapp.domain.usecase.BannerUseCase
 import uz.group1.maxwayapp.domain.usecase.GetCategoriesUseCase
 import uz.group1.maxwayapp.domain.usecase.GetMenuUseCase
 import uz.group1.maxwayapp.domain.usecase.GetStoriesUseCase
+import uz.group1.maxwayapp.domain.usecase.UpdateProductCountUseCase
 import uz.group1.maxwayapp.domain.usecase.impl.UpdateProductCountUseCaseImpl
+import javax.inject.Inject
 
 
-class HomeViewModelImpl(
+@HiltViewModel
+class HomeViewModelImpl @Inject constructor(
     private val bannerUseCase: BannerUseCase,
     private val categorysUseCase: GetCategoriesUseCase,
     private val menuProductUseCase: GetMenuUseCase,
-    private val updateProductCountUseCase: UpdateProductCountUseCaseImpl,
+    private val updateProductCountUseCase: UpdateProductCountUseCase,
     private val getStories: GetStoriesUseCase
 ) : ViewModel(), HomeViewModel{
 

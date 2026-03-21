@@ -7,12 +7,14 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.navOptions
+import dagger.hilt.android.AndroidEntryPoint
 import uz.gita.leeson_network.utils.NetworkConnectionCallback
 import uz.gita.leeson_network.utils.NetworkMonitor
 import uz.group1.maxwayapp.databinding.ActivityMainBinding
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var networkMonitor: NetworkMonitor

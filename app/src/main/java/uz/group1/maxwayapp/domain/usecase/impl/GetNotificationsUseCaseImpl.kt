@@ -8,8 +8,9 @@ import kotlinx.coroutines.flow.flowOn
 import uz.group1.maxwayapp.data.model.NotificationUiData
 import uz.group1.maxwayapp.domain.repository.NotificationsRepository
 import uz.group1.maxwayapp.domain.usecase.GetNotificationsUseCase
+import javax.inject.Inject
 
-class GetNotificationsUseCase(private val repository: NotificationsRepository) : GetNotificationsUseCase {
+class GetNotificationsUseCaseImpl @Inject constructor(private val repository: NotificationsRepository) : GetNotificationsUseCase {
     override operator fun invoke(): Flow<Result<List<NotificationUiData>>> = flow{
         emit(repository.getNotifications())
     }.catch {

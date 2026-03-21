@@ -7,8 +7,9 @@ import kotlinx.coroutines.flow.flowOn
 import uz.group1.maxwayapp.data.model.CategoryUIData
 import uz.group1.maxwayapp.domain.repository.ProductRepository
 import uz.group1.maxwayapp.domain.usecase.GetMenuUseCase
+import javax.inject.Inject
 
-class GetMenuUseCaseImpl(private val repo: ProductRepository) : GetMenuUseCase {
+class GetMenuUseCaseImpl @Inject constructor(private val repo: ProductRepository) : GetMenuUseCase {
     override fun invoke(): Flow<Result<List<CategoryUIData>>> = flow {
         val initial = repo.getCategoriesWithProducts()
         if (initial.isSuccess) {

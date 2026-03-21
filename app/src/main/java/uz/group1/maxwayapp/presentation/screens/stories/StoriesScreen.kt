@@ -14,6 +14,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import uz.gita.leeson_network.utils.NetworkConnectionCallback
@@ -28,10 +29,11 @@ import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarIconStyle
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
 
+@AndroidEntryPoint
 class StoriesScreen: BaseFragment(R.layout.screen_stories) {
 
     private val binding by viewBinding(ScreenStoriesBinding::bind)
-    private val viewModel by viewModels<StoriesViewModelImpl> { StoriesViewModelFactory() }
+    private val viewModel by viewModels<StoriesViewModelImpl> ()
 
     override val applyBottomInset: Boolean = true
     override val applyTopInset: Boolean = true

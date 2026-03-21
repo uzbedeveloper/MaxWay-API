@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("dagger.hilt.android.plugin")
+    id("com.google.devtools.ksp")
+
 }
 
 android {
@@ -97,4 +100,13 @@ dependencies {
     implementation("com.facebook.shimmer:shimmer:0.5.0")
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
+
+
+    //DI
+    implementation("com.google.dagger:hilt-android:2.56.2")
+
+    ksp("com.google.dagger:hilt-android-compiler:2.56.2")
+
+    implementation("androidx.hilt:hilt-navigation-fragment:1.2.0")
 }

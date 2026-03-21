@@ -4,7 +4,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import uz.group1.maxwayapp.data.ApiClient
 import uz.group1.maxwayapp.data.mapper.toBannerUIData
 import uz.group1.maxwayapp.data.mapper.toCategoryUIData
 import uz.group1.maxwayapp.data.mapper.toUIData
@@ -20,8 +19,12 @@ import uz.group1.maxwayapp.data.sources.remote.request.recomended_product.Recome
 import uz.group1.maxwayapp.data.sources.remote.response.order.createOrder.CreateOrderResponse
 import uz.group1.maxwayapp.data.sources.remote.response.recomended_product.RecomendedProductResponse
 import uz.group1.maxwayapp.domain.repository.ProductRepository
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ProductRepositoryImpl private constructor(private val productApi: ProductApi, private val tokenManager: TokenManager): ProductRepository {
+
+@Singleton
+class ProductRepositoryImpl @Inject constructor(private val productApi: ProductApi, private val tokenManager: TokenManager): ProductRepository {
 
     private val _menuFlow = MutableStateFlow<List<CategoryUIData>>(emptyList())
     val menuFlow: StateFlow<List<CategoryUIData>> = _menuFlow.asStateFlow()
@@ -39,16 +42,6 @@ class ProductRepositoryImpl private constructor(private val productApi: ProductA
         _menuFlow.value = currentMenu
     }
 
-    companion object{
-        private lateinit var instance: ProductRepository
-
-        fun getInstance(): ProductRepository {
-            if (!::instance.isInitialized) {
-                instance = ProductRepositoryImpl(ApiClient.productApi, TokenManager)
-            }
-            return instance
-        }
-    }
     override suspend fun getBanners(): Result<List<BannerUIData>> {
         return try {
             val response = productApi.getAllBanner()

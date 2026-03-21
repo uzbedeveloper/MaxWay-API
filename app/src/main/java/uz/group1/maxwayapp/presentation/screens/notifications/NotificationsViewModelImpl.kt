@@ -3,14 +3,17 @@ package uz.group1.maxwayapp.presentation.screens.notifications
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import uz.group1.maxwayapp.data.model.NotificationUiData
 import uz.group1.maxwayapp.domain.usecase.GetNotificationsUseCase
+import javax.inject.Inject
 
-class NotificationsViewModelImpl(
+@HiltViewModel
+class NotificationsViewModelImpl @Inject constructor(
     private val getNotifications: GetNotificationsUseCase
 ): ViewModel(),NotificationsViewModel {
 

@@ -11,16 +11,18 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.databinding.ScreenMainBinding
 import uz.group1.maxwayapp.presentation.screens.home.cart_bottomsheet.CartBottomSheet
 import kotlin.getValue
 
+@AndroidEntryPoint
 class MainScreen: Fragment(R.layout.screen_main) {
 
     private val binding by viewBinding(ScreenMainBinding::bind)
-    private val viewModel: MainViewModel by viewModels{ MainViewModelFactory() }
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

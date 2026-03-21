@@ -10,19 +10,22 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.sources.local.TokenManager
 import uz.group1.maxwayapp.databinding.PageCurrentOrdersBinding
 import uz.group1.maxwayapp.presentation.screens.cart.adapter.MyOrderAdapter
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class CurrentOrdersPage: Fragment(R.layout.page_current_orders) {
 
+    @Inject
+    lateinit var tokenManager: TokenManager
     private val binding by viewBinding(PageCurrentOrdersBinding::bind)
-    private val viewModel: CurrentOrdersPageContract by viewModels<CurrentOrdersPageViewModel>{
-        CurrentOrdersPageViewModelFactory()
-    }
+    private val viewModel: CurrentOrdersPageContract by viewModels<CurrentOrdersPageViewModel>()
 
     private val adapter by lazy { MyOrderAdapter() }
 
@@ -53,7 +56,7 @@ class CurrentOrdersPage: Fragment(R.layout.page_current_orders) {
         }
 
         viewModel.ordersLiveData.observe(viewLifecycleOwner) { orders ->
-            if (TokenManager.getToken() == null){
+            if (tokenManager.getToken() == null){
                 binding.emptyState.visibility = View.VISIBLE
                 binding.layoutMain.visibility = View.GONE
                 return@observe

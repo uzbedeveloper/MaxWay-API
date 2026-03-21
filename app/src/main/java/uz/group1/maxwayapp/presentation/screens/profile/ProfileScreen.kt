@@ -6,23 +6,33 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import uz.group1.maxwayapp.R
 import uz.group1.maxwayapp.data.repository_impl.AuthRepositoryImpl
 import uz.group1.maxwayapp.data.repository_impl.ProductRepositoryImpl
 import uz.group1.maxwayapp.data.sources.local.TokenManager
 import uz.group1.maxwayapp.databinding.ScreenProfileBinding
+import uz.group1.maxwayapp.domain.repository.AuthRepository
+import uz.group1.maxwayapp.domain.repository.ProductRepository
 import uz.group1.maxwayapp.presentation.screens.base_fragment.BaseFragment
 import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarConfig
 import uz.group1.maxwayapp.presentation.screens.base_fragment.SystemBarIconStyle
 import uz.group1.maxwayapp.presentation.screens.profile.address.AddressBottomSheet
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
+import javax.inject.Inject
 
-@Suppress("DEPRECATION")
+@AndroidEntryPoint
 class ProfileScreen: BaseFragment(R.layout.screen_profile) {
     private val binding by viewBinding(ScreenProfileBinding::bind)
-    private val repository = ProductRepositoryImpl.getInstance()
-    private val authRepository = AuthRepositoryImpl.getInstance()
+
+    @Inject
+    lateinit var repository: ProductRepository
+
+    @Inject
+    lateinit var token: TokenManager
+    @Inject
+    lateinit var authRepository: AuthRepository
     override val applyBottomInset: Boolean = false
     override val applyTopInset: Boolean = true
 
@@ -49,16 +59,15 @@ class ProfileScreen: BaseFragment(R.layout.screen_profile) {
         binding.btnMyAddresses.setOnClickListener {
             AddressBottomSheet().show(childFragmentManager, "address_bottom_sheet")
         }
-        val token = TokenManager.getToken()
-        val isAuthorized = !token.isNullOrEmpty()
+        val isAuthorized = !token.getToken().isNullOrEmpty()
 
         if (isAuthorized) {
             binding.cardUserInfo.visibility = View.VISIBLE
             binding.cardRegister.visibility = View.GONE
             binding.logout.visibility = View.VISIBLE
 
-            binding.textUsername.text = TokenManager.getName()
-            binding.textPhone.text = TokenManager.getPhone()
+            binding.textUsername.text = token.getName()
+            binding.textPhone.text = token.getPhone()
         } else {
             binding.cardUserInfo.visibility = View.GONE
             binding.cardRegister.visibility = View.VISIBLE

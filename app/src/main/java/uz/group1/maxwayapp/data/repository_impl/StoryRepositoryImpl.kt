@@ -1,26 +1,17 @@
 package uz.group1.maxwayapp.data.repository_impl
 
 import com.google.gson.Gson
-import uz.group1.maxwayapp.data.ApiClient
 import uz.group1.maxwayapp.data.mapper.toUiData
 import uz.group1.maxwayapp.data.model.StoryUIData
 import uz.group1.maxwayapp.data.sources.remote.api.StoriesApi
 import uz.group1.maxwayapp.domain.repository.StoryRepository
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class StoryRepositoryImpl(
+@Singleton
+class StoryRepositoryImpl @Inject constructor(
     private val storyApi: StoriesApi,
     private val gson: Gson) : StoryRepository {
-
-    companion object {
-        private lateinit var instance: StoryRepository
-
-        fun getInstance() : StoryRepository {
-            if (!(::instance.isInitialized)) {
-                instance = StoryRepositoryImpl(ApiClient.storiesApi, Gson())
-            }
-            return instance
-        }
-    }
 
     override suspend fun getStories(): Result<List<StoryUIData>> {
         return try {

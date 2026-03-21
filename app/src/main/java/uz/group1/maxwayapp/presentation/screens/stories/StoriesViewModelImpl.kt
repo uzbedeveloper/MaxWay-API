@@ -3,6 +3,7 @@ package uz.group1.maxwayapp.presentation.screens.stories
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -16,8 +17,10 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.data.model.StoryUIData
 import uz.group1.maxwayapp.domain.usecase.GetStoriesUseCase
+import javax.inject.Inject
 
-class StoriesViewModelImpl(
+@HiltViewModel
+class StoriesViewModelImpl @Inject constructor(
     private val getStoriesUseCase: GetStoriesUseCase
 ): ViewModel(),StoriesViewModel {
 

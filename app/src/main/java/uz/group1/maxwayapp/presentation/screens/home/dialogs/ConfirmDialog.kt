@@ -8,6 +8,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import uz.group1.maxwayapp.R
@@ -15,16 +16,20 @@ import uz.group1.maxwayapp.data.repository_impl.ProductRepositoryImpl
 import uz.group1.maxwayapp.data.sources.remote.request.orders.createOrder.CreateOrderRequest
 import uz.group1.maxwayapp.data.sources.remote.request.orders.createOrder.OrderItem
 import uz.group1.maxwayapp.databinding.DialogConfirmBinding
+import uz.group1.maxwayapp.domain.repository.ProductRepository
 import uz.group1.maxwayapp.presentation.screens.home.adapter.CartAdapter
 import uz.group1.maxwayapp.utils.NotificationType
 import uz.group1.maxwayapp.utils.showNotification
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ConfirmDialog : DialogFragment(R.layout.dialog_confirm) {
 
     private var _binding: DialogConfirmBinding? = null
     private val binding get() = _binding!!
 
-    private val repository = ProductRepositoryImpl.getInstance()
+    @Inject
+    lateinit var repository: ProductRepository
 
     private val adapter by lazy {
         CartAdapter({ product, newCount ->
